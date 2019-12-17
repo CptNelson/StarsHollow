@@ -1,0 +1,9 @@
+﻿{
+  "player": {
+    "components": {
+      "CmpHP": { "hp": "666" },
+      "CmpInput": {},
+      "CmpAction": {}
+    }
+  }
+}

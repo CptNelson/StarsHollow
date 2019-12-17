@@ -1,0 +1,154 @@
+{
+  "$type": "SadConsole.SerializedTypes.EntitySerialized, SadConsole",
+  "AnimationName": "default",
+  "Animations": {
+    "$type": "System.Collections.Generic.List`1[[SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole]], System.Private.CoreLib",
+    "$values": [
+      {
+        "$type": "SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole",
+        "Frames": {
+          "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized[], SadConsole",
+          "$values": [
+            {
+              "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized, SadConsole",
+              "Width": 1,
+              "Height": 1,
+              "DefaultForeground": {
+                "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 255
+              },
+              "DefaultBackground": {
+                "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                "R": 0,
+                "G": 0,
+                "B": 0,
+                "A": 0
+              },
+              "Cells": {
+                "$type": "SadConsole.SerializedTypes.CellSerialized[], SadConsole",
+                "$values": [
+                  {
+                    "$type": "SadConsole.SerializedTypes.CellSerialized, SadConsole",
+                    "Decorators": {
+                      "$type": "SadConsole.CellDecorator[], SadConsole",
+                      "$values": []
+                    },
+                    "Foreground": {
+                      "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "A": 255
+                    },
+                    "Background": {
+                      "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Glyph": 88,
+                    "Mirror": 0,
+                    "IsVisible": true,
+                    "CellState": null
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "AnimationDuration": 0.0,
+        "Name": "default",
+        "Repeat": false,
+        "Center": {
+          "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+          "X": 0,
+          "Y": 0
+        },
+        "Width": 1,
+        "Height": 1,
+        "IsVisible": true,
+        "IsPaused": false,
+        "UsePixelPositioning": false,
+        "UseMouse": true,
+        "UseKeyboard": true,
+        "Position": {
+          "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+          "X": 0,
+          "Y": 0
+        },
+        "Font": {
+          "$type": "SadConsole.SerializedTypes.FontSerialized, SadConsole",
+          "Name": "Bisasam-24x24",
+          "Size": 1
+        },
+        "Tint": {
+          "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultForeground": {
+          "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+          "R": 255,
+          "G": 255,
+          "B": 255,
+          "A": 255
+        },
+        "DefaultBackground": {
+          "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "Cells": null
+      }
+    ]
+  },
+  "IsVisible": true,
+  "Position": {
+    "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+    "X": 3,
+    "Y": 3
+  },
+  "PositionOffset": {
+    "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+    "X": 0,
+    "Y": 0
+  },
+  "UsePixelPositioning": false,
+  "Name": "name",
+  "Width": 0,
+  "Height": 0,
+  "IsPaused": false,
+  "UseMouse": false,
+  "UseKeyboard": false,
+  "Font": null,
+  "Tint": {
+    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+    "R": 0,
+    "G": 0,
+    "B": 0,
+    "A": 0
+  },
+  "DefaultForeground": {
+    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+    "R": 0,
+    "G": 0,
+    "B": 0,
+    "A": 0
+  },
+  "DefaultBackground": {
+    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+    "R": 0,
+    "G": 0,
+    "B": 0,
+    "A": 0
+  },
+  "Cells": null
+}

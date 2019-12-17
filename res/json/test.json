@@ -1,0 +1,13 @@
+﻿{
+ // "entity": {
+    "timer": {
+      "name": "timer",
+      "components": [ "CmpTimer" ]
+    },
+    "farm": {
+      "name": "farm",
+      "components": [ "CmpHealth", "CmpEnter" ]
+    }
+
+  //}
+}

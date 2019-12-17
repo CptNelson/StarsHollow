@@ -1,0 +1,10 @@
+﻿{
+  "farm": {
+    "components": {
+      "CmpHP": {
+        "hp": "50"
+      },
+      "CmpEnter": {}
+    }
+  }
+}

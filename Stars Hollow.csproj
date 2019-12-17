@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>StarsHollow</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="res\json\jsonfile.json" />
+    <None Remove="res\json\jsonfile2.json" />
+    <None Remove="res\json\test2.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GoRogue" Version="2.5.1" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="SadConsole" Version="8.99.0" />
+    <PackageReference Include="SimplexNoise" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="res\fonts\Anikki-square-16x16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\Anikki-square.font">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\Bisasam-24x24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\bisasam.font">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\cheepicus.font">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\Cheepicus_12x12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\lord.font">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="res\fonts\lord.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="res\xp\" />
+  </ItemGroup>
+
+</Project>

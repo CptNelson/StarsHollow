@@ -1,0 +1,13 @@
+{
+  "timer": {
+    "name": "timer",
+    "fg": "Color.Transparent",
+    "bg": "Color.Transparent",
+    "glyph": " ",
+    "nonBlocking": "false",
+   // "component": [ "CmpTimer" ],
+    "components": {
+      "CmpTimer": {}
+    }
+  }
+}
