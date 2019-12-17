@@ -46,6 +46,7 @@ namespace StarsHollow.UserInterface
             _messageConsole.Position = new Point(2, 1);
             _messageConsole.ViewPort = new Rectangle(0, 0, _logWidth - 1, _logHeight - _windowBorderThickness);
             _messageConsole.Font = Fonts.normalSizeFont;
+            _messageConsole.Cursor.PrintAppearance.Foreground = ColorScheme.Second;
             // create a scrollbar and attach it to an event handler, then add it to the Window
             _messageScrollBar = new SadConsole.Controls.ScrollBar(SadConsole.Orientation.Vertical, height - _windowBorderThickness);
             _messageScrollBar.Position = new Point(_messageConsole.Width, _messageConsole.Position.X);
@@ -86,6 +87,8 @@ namespace StarsHollow.UserInterface
             // Move the cursor to the last line and print the message.
             _messageConsole.Cursor.Position = new Point(1, _lines.Count);
             _messageConsole.Cursor.Print(message + "\n");
+            
+            
         }
 
         // Custom Update method which allows for a vertical scrollbar

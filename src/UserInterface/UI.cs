@@ -48,9 +48,9 @@ namespace StarsHollow.UserInterface
             SadConsole.Themes.WindowTheme windowTheme = new SadConsole.Themes.WindowTheme();
             windowTheme.BorderLineStyle = CellSurface.ConnectedLineThick;
             SadConsole.Themes.Library.Default.WindowTheme = windowTheme;
-            SadConsole.Themes.Library.Default.Colors.TitleText = ColorScheme.three;
-            SadConsole.Themes.Library.Default.Colors.Lines = ColorScheme.three;
-            SadConsole.Themes.Library.Default.Colors.ControlHostBack = ColorScheme.first;
+            SadConsole.Themes.Library.Default.Colors.TitleText = ColorScheme.Three;
+            SadConsole.Themes.Library.Default.Colors.Lines = ColorScheme.Three;
+            SadConsole.Themes.Library.Default.Colors.ControlHostBack = ColorScheme.First;
         }
     }
 
@@ -347,11 +347,11 @@ namespace StarsHollow.UserInterface
     }
     public static class ColorScheme
     {
-        public static Color first = Color.Black;
-        public static Color second = Color.AntiqueWhite;
-        public static Color three = Color.ForestGreen;
-        public static Color four = Color.LightGoldenrodYellow;
-        public static Color five = Color.Aquamarine;
+        public static Color First = Color.Black;
+        public static Color Second = new Color(138,247,228);// Color.AntiqueWhite;  //1,255,255
+        public static Color Three = new Color(157, 114, 255);//Color.ForestGreen;
+        public static Color Four = new Color(255, 179, 253);//Color.LightGoldenrodYellow);Color.LightGoldenrodYellow;
+        public static Color Five = new Color(1,255,195);//Color.Aquamarine;
     }
     public enum States
     {
