@@ -207,7 +207,7 @@ namespace StarsHollow.UserInterface
 
         private void DisplayFOV()
         {
-            _world.CurrentMap._tiles[_world.player.Position.ToIndex(_world.CurrentMap._width)].fovMap.Calculate(_world.player.Position, 55, Radius.SQUARE);
+            _world.CurrentMap._tiles[_world.Player.Position.ToIndex(_world.CurrentMap._width)].fovMap.Calculate(_world.Player.Position, 55, Radius.SQUARE);
             foreach (Point pos in _world.CurrentMap.goMap.Positions())
             {
                 if (_world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].IsExplored)
@@ -219,7 +219,7 @@ namespace StarsHollow.UserInterface
 
             // set all currently visible tiles to their normal color
             // and entities Visible
-            foreach (var pos in _world.CurrentMap._tiles[_world.player.Position.ToIndex(_world.CurrentMap._width)].fovMap.CurrentFOV)
+            foreach (var pos in _world.CurrentMap._tiles[_world.Player.Position.ToIndex(_world.CurrentMap._width)].fovMap.CurrentFOV)
             {
                 if (!_world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].IsExplored)
                 {
@@ -314,13 +314,13 @@ namespace StarsHollow.UserInterface
             if (Keyboard.GetState().GetPressedKeys().Length > 0)
             {
                 if (Global.KeyboardState.IsKeyPressed(Keys.Up))
-                    Commands.Command.Move(_world.player, Tools.Dirs.N);
+                    Commands.Command.Move(_world.Player, Tools.Dirs.N);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Down))
-                    Commands.Command.Move(_world.player, Tools.Dirs.S);
+                    Commands.Command.Move(_world.Player, Tools.Dirs.S);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Right))
-                    Commands.Command.Move(_world.player, Tools.Dirs.E);
+                    Commands.Command.Move(_world.Player, Tools.Dirs.E);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Left))
-                    Commands.Command.Move(_world.player, Tools.Dirs.W);
+                    Commands.Command.Move(_world.Player, Tools.Dirs.W);
                 DisplayFOV();
                 _gameState = States.Main;
 

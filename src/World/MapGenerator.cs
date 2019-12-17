@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using SimplexNoise;
 using Microsoft.Xna.Framework;
 using GoRogue.DiceNotation;
@@ -16,12 +17,34 @@ namespace StarsHollow.World
     {
         private static Map _map; // Temporarily store the map currently worked on
         private static ArrayMap<double> _goMap;
+        private static Map _mapLocal;
+        private static ArrayMap<double> _goMapLocal;
+
+        public static Tuple<Map, ArrayMap<double>> GenerateLocalMap(int mapWidth, int mapHeight)
+        {
+            _mapLocal = new Map(mapWidth, mapHeight);
+            _goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
+
+            ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
+            
+            foreach (var pos in _goMapLocal.Positions())
+            {
+                _goMapLocal[pos] = 0;
+                _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileFloor();
+                tempGoMap[pos] = true;
+                
+                _mapLocal._tiles[pos.ToIndex(mapWidth)].fovMap = new FOV(tempGoMap);
+            }
+            
+            return Tuple.Create(_mapLocal, _goMapLocal); 
+        }
+        
         public static Tuple<Map, ArrayMap<double>> GenerateWorld(int mapWidth, int mapHeight)
         {
             _map = new Map(mapWidth, mapHeight);
             _goMap = new ArrayMap<double>(mapWidth, mapHeight);
             GenerateTheValley();
-            GenerateLocalMaps();
+            //GenerateLocalMaps();
 
             void GenerateTheValley()
             {
@@ -278,10 +301,7 @@ namespace StarsHollow.World
                 //IMapView<double> senseMapView = new LambdaTranslationMap<bool, double>(_world.CurrentMap.goMap, val => val ? 0.0 : 1.0);
             }
 
-            void GenerateLocalMaps()
-            {
-
-            }
+//            void GenerateLocalMaps() { }
             return Tuple.Create(_map, _goMap);
         }
     }

@@ -15,31 +15,32 @@ namespace StarsHollow.World
 {
     public class WorldMap
     {
-        private int mapWidth, mapHeight;
+        private int _mapWidth, _mapHeight;
         private TileBase[] _worldMapTiles;
-        private Map overworldMap;
-        private Map currentMap;
-        private Entity turnTimer;
-        public Entity player;
-        public Map OverworldMap { get => overworldMap; }
-        public Map CurrentMap { get => currentMap; set => currentMap = value; }
+        private Map _overworldMap;
+        private Entity _turnTimer;
+        public Entity Player;
+        public Map OverworldMap { get => _overworldMap; }
+        public Map CurrentMap { get; set; }
+
         public WorldMap()
         {
         }
 
         public void CreateWorld(int width, int height)
         {
-            mapWidth = width;
-            mapHeight = height;
+            _mapWidth = width;
+            _mapHeight = height;
 
-            _worldMapTiles = new TileBase[mapWidth * mapHeight];
-            overworldMap = new Map(mapWidth, mapHeight);
+            _worldMapTiles = new TileBase[_mapWidth * _mapHeight];
+            _overworldMap = new Map(_mapWidth, _mapHeight);
             // map generator return both Map and GoRogue's ArrayMap. 
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateWorld(mapWidth, mapHeight);
-            overworldMap = maps.Item1;
-            overworldMap.goMap = maps.Item2;
+            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateWorld(_mapWidth, _mapHeight);
+            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(_mapWidth, _mapHeight);
+            _overworldMap = maps.Item1;
+            _overworldMap.goMap = maps.Item2;
             CreateHelperEntities();
-            AddWorldMapEntities();
+           // AddWorldMapEntities();
             AddPlayer();
 
         }
@@ -47,10 +48,10 @@ namespace StarsHollow.World
         private void CreateHelperEntities()
         {
             // First create the helper entities and then add them to a game loop.
-            turnTimer = EntityFactory("timer", "helpers.json");
-            turnTimer.GetComponents();
-            turnTimer.Actionable = true;
-            overworldMap.Add(turnTimer);
+            _turnTimer = EntityFactory("timer", "helpers.json");
+            _turnTimer.GetComponents();
+            _turnTimer.Actionable = true;
+            _overworldMap.Add(_turnTimer);
         }
 
         private Entity EntityFactory(string _name, string json)
@@ -70,18 +71,20 @@ namespace StarsHollow.World
 
         private void AddPlayer()
         {
-            if (player == null)
+            if (Player == null)
             {
-                player = EntityFactory("player", "player.json");
-                player.Animation.CurrentFrame[0].Glyph = '@';
-                player.Components.Add(new EntityViewSyncComponent());
-                player.Position = overworldMap.GetRandomEmptyPosition();
-                while (!overworldMap.IsSouthOfRiver(player.Position))
-                    player.Position = overworldMap.GetRandomEmptyPosition();
-                player.IsVisible = true;
-                Console.Write("Pos: " + player.Position);
-                player.Actionable = true;
-                overworldMap.Add(player);
+                Player = EntityFactory("player", "player.json");
+                Player.Animation.CurrentFrame[0].Glyph = '@';
+                Player.Components.Add(new EntityViewSyncComponent());
+                Player.Position = _overworldMap.GetRandomEmptyPosition();
+              //  while (!_overworldMap.IsSouthOfRiver(Player.Position))
+                //    Player.Position = _overworldMap.GetRandomEmptyPosition();
+                Player.IsVisible = true;
+                Console.Write("Pos: " + Player.Position);
+                Player.Actionable = true;
+                _overworldMap.Add(Player);
+                Console.Write("errrrrr");
+                //CurrentMap.Add(Player);
             }
 
         }
@@ -103,13 +106,13 @@ namespace StarsHollow.World
                     farm.Animation.CurrentFrame[0].Foreground = Color.RosyBrown;
                     //   farm.AddComponents(new List<IComponent> { new CmpHP(50) });
                     farm.Components.Add(new EntityViewSyncComponent());
-                    farm.Position = overworldMap.GetRandomEmptyPosition();
-                    while (!overworldMap.IsSouthOfRiver(farm.Position))
-                        farm.Position = overworldMap.GetRandomEmptyPosition();
+                    farm.Position = _overworldMap.GetRandomEmptyPosition();
+                    while (!_overworldMap.IsSouthOfRiver(farm.Position))
+                        farm.Position = _overworldMap.GetRandomEmptyPosition();
                     farm.IsVisible = false;
                     farm.Actionable = false;
                     farm.GetComponents();
-                    overworldMap.Add(farm);
+                    _overworldMap.Add(farm);
                 }
             }
         }
