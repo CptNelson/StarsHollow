@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SadConsole.Components;
-using StarsHollow.Components;
 using StarsHollow.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using StarsHollow.UserInterface;
 
 namespace StarsHollow.World
 {
@@ -42,6 +42,7 @@ namespace StarsHollow.World
             CreateHelperEntities();
            // AddWorldMapEntities();
             AddPlayer();
+            CreateGuard();
 
         }
 
@@ -71,50 +72,41 @@ namespace StarsHollow.World
 
         private void AddPlayer()
         {
-            if (Player == null)
-            {
-                Player = EntityFactory("player", "player.json");
-                Player.Animation.CurrentFrame[0].Glyph = '@';
-                Player.Components.Add(new EntityViewSyncComponent());
-                Player.Position = _overworldMap.GetRandomEmptyPosition();
-              //  while (!_overworldMap.IsSouthOfRiver(Player.Position))
-                //    Player.Position = _overworldMap.GetRandomEmptyPosition();
-                Player.IsVisible = true;
-                Console.Write("Pos: " + Player.Position);
-                Player.Actionable = true;
-                _overworldMap.Add(Player);
-                Console.Write("errrrrr");
-                //CurrentMap.Add(Player);
-            }
+            if (Player != null) return;
+            Player = EntityFactory("player", "player.json");
+            Player.Animation.CurrentFrame[0].Glyph = '@';
+            Player.Components.Add(new EntityViewSyncComponent());
+            Player.Position = _overworldMap.GetRandomEmptyPosition();
+            //  while (!_overworldMap.IsSouthOfRiver(Player.Position))
+            //    Player.Position = _overworldMap.GetRandomEmptyPosition();
+            Player.IsVisible = true;
+            Console.Write("Pos: " + Player.Position);
+            Player.Actionable = true;
+            _overworldMap.Add(Player);
+            Console.Write("errrrrr");
+            //CurrentMap.Add(Player);
 
         }
+        private void CreateGuard(int amount = 2)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                Entity guard = EntityFactory("guard", "level1.json");
+                guard.Animation.CurrentFrame[0].Glyph = '@';
+                guard.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
+                guard.Components.Add(new EntityViewSyncComponent());
+             //   int monsterPosition = rndNum.Next(0, CurrentMap.Width * CurrentMap.Height);
+                guard.Position = _overworldMap.GetRandomEmptyPosition();
+                guard.IsVisible = false;
+                guard.Actionable = true;
+              //  guard.Time = Game.World.turnTimer.Time;
+                _overworldMap.Add(guard);
+            }
+        }
+
 
         private void AddWorldMapEntities()
         {
-            GenerateFarms();
-
-
-            void GenerateFarms()
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    //Entity farm = new Entity("farm", Color.RosyBrown, Color.Yellow, 'O', 1, 1, "farm", false);
-                    // Entity farm = new Entity();
-
-                    Entity farm = EntityFactory("farm", "overworld.json");
-                    farm.Animation.CurrentFrame[0].Glyph = 15;
-                    farm.Animation.CurrentFrame[0].Foreground = Color.RosyBrown;
-                    //   farm.AddComponents(new List<IComponent> { new CmpHP(50) });
-                    farm.Components.Add(new EntityViewSyncComponent());
-                    farm.Position = _overworldMap.GetRandomEmptyPosition();
-                    while (!_overworldMap.IsSouthOfRiver(farm.Position))
-                        farm.Position = _overworldMap.GetRandomEmptyPosition();
-                    farm.IsVisible = false;
-                    farm.Actionable = false;
-                    farm.GetComponents();
-                    _overworldMap.Add(farm);
-                }
-            }
         }
     }
 }
