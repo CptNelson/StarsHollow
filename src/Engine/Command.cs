@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using StarsHollow.Components;
 using StarsHollow.World;
 
@@ -12,7 +13,6 @@ namespace StarsHollow.Engine
                 !Game.UI._world.CurrentMap.IsThereEntityAt(ent.Position + dir))
             {
                     ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
-                    Game.UI.AddMessage("asd");
             }
 
             // ent.GetComponent<CmpAction>().SetAction(new Actions.MoveBy(ent, dir));

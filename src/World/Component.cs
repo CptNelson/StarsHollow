@@ -109,9 +109,13 @@ namespace StarsHollow.Components
         public void SetAction(Action action)
         {
             _currentAction = action;
+            _currentAction._actor = Entity;
+            _currentAction.Time = Entity.Time;
+            Entity.Time += _currentAction.Cost + 1;
+            Game.UI.MainWindow.MainLoop.EventsList.Add(_currentAction);
             // _currentAction.Time = Entity.Time;
-       //     _currentAction.Execute();
-     //       Game.World.Gameloop.EventsList.Add(_currentAction);
+            //     _currentAction.Execute();
+            //       Game.World.Gameloop.EventsList.Add(_currentAction);
         }
 
         public override void UpdateComponent() { }
@@ -156,11 +160,11 @@ namespace StarsHollow.Components
         private int _attackStrength;
         public int _attackSkill;
         public int _defenceSkill;
-        public CmpMelee(int attackStrength = 1, int attackSkill = 10, int defenceSkill = 10)
+        public CmpMelee(params object[] args)
         {
-            _attackStrength = attackStrength;
-            _attackSkill = attackSkill;
-            _defenceSkill = defenceSkill;
+            _attackStrength = System.Convert.ToInt32(args[0]); 
+            _attackSkill = System.Convert.ToInt32(args[1]); 
+            _defenceSkill = System.Convert.ToInt32(args[2]); 
         }
 
         public int AttackStrength { get => _attackStrength; set => _attackStrength = value; }
@@ -184,6 +188,19 @@ namespace StarsHollow.Components
 
     public class CmpAI : Component
     {
+        public int Aggression { get; }
+
+        public CmpAI(params object[] args)
+        {
+            Aggression = System.Convert.ToInt32(args[0]);
+        }
+
+        public void GetGoal()
+        {
+            Entity.GetComponent<CmpAction>().SetAction(new WaitAction());
+
+        }
+
 
         public override void UpdateComponent() {}
     }

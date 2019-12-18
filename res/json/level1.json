@@ -1,0 +1,12 @@
+﻿{
+  "guard": {
+    "components": {
+      "CmpHP": {
+        "hp": "20"
+      },
+      "CmpAction": {},
+      "CmpMelee": {"attackStrength": 2, "attackSkill": 10, "defenceSkill":10}, 
+      "CmpAI": {"aggression": 3}
+    }
+  }
+}

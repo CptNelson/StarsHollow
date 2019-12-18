@@ -23,7 +23,7 @@ namespace StarsHollow.UserInterface
 
         private readonly int _width;
         private readonly int _height;
-        public readonly MainWindow MainWindow;
+        public MainWindow MainWindow;
         private Map _currentMap;
         private MessageLogWindow _messageLogWindow;
         public readonly WorldMap _world;
@@ -78,7 +78,7 @@ namespace StarsHollow.UserInterface
 
         private MessageLogWindow _messageLogWindow;
 
-        private readonly MainLoop _mainLoop;
+        public readonly MainLoop MainLoop;
 
         private FOV _fov;
 
@@ -99,7 +99,7 @@ namespace StarsHollow.UserInterface
             CreateWindowsAndConsoles(width, height);
             _menuWindow.Show();
 
-            _mainLoop = mainLoop;
+            MainLoop = mainLoop;
             MainLoop.onTurnChange += ChangeState;
 
             StartGame();
@@ -119,7 +119,7 @@ namespace StarsHollow.UserInterface
                 {
                     if (_iterator == null)
                     {
-                        _iterator = _mainLoop.Loop().GetEnumerator();
+                        _iterator = MainLoop.Loop().GetEnumerator();
                     }
                     _iterator.MoveNext();
                     break;
@@ -259,8 +259,8 @@ namespace StarsHollow.UserInterface
 
             _gameState = States.Main;
             DisplayFOV();
-            _mainLoop.Init(_world.OverworldMap);
-            _mainLoop.Loop();
+            MainLoop.Init(_world.OverworldMap);
+            MainLoop.Loop();
             //SyncMapEntities(_world.OverworldMap);
         }
 

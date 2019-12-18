@@ -211,7 +211,6 @@ namespace StarsHollow.Engine
             Cost = 100 * Game.UI._world.OverworldMap.GetTileAt(actor.Position + dir).MoveCostMod;
             _dir = dir;
             //System.Console.WriteLine("action!");
-            Execute();
 
         }
         public override bool Execute()

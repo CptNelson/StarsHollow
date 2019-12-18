@@ -140,10 +140,24 @@ namespace StarsHollow.Engine
                         if (ent.HasComponent<CmpAI>())
                         {
                               System.Console.WriteLine("AI turn");
+                              ent.GetComponent<CmpAI>().GetGoal();
+                              Console.WriteLine(ent.Time);
+                           //   ent.GetComponent<CmpAction>().NextAction
                             // currentEntity.GetComponent<CmpAction>().
                             // currentEntity.GetComponent<CmpAI>().GetGoal();
                         }
                     }
+                }
+                // if current event is Action
+                // execute the action and remove it from the loop.
+                else if (currentEntity is Action)
+                {
+
+                    var action = (Action)currentEntity;
+                    //System.Console.WriteLine("event: " + action);
+
+                    action.Execute();
+                    EventsList.Remove(action);
                 }
             }
         }
