@@ -1,11 +1,19 @@
 ﻿{
   "player": {
     "look": {
-      "glyph": 2,
+      "glyph": 1,
       "fg": "Color.White",
       "bg": "Color.Transparent"
     },
     "components": {
+      "CmpAttributes": {
+        "Strength": 11,
+        "Agility": 14,
+        "Vitality": 12,
+        "Charisma": 15,
+        "Hunch": 13,
+        "Smarts": 12
+      },
       "CmpHP": { "hp": "666" },
       "CmpInput": {},
       "CmpAction": {}

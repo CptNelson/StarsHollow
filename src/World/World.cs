@@ -20,7 +20,7 @@ namespace StarsHollow.World
         private int _mapWidth, _mapHeight;
         private TileBase[] _worldMapTiles;
         private Map _overworldMap;
-        private Entity _turnTimer;
+        public Entity TurnTimer;
         public Entity Player;
 
         public Map OverworldMap
@@ -55,10 +55,10 @@ namespace StarsHollow.World
         private void CreateHelperEntities()
         {
             // First create the helper entities and then add them to a game loop.
-            _turnTimer = EntityFactory("timer", "helpers.json");
-            _turnTimer.GetComponents();
-            _turnTimer.Actionable = true;
-            _overworldMap.Add(_turnTimer);
+            TurnTimer = EntityFactory("timer", "helpers.json");
+            TurnTimer.GetComponents();
+            TurnTimer.Actionable = true;
+            _overworldMap.Add(TurnTimer);
         }
 
         private Entity EntityFactory(string _name, string json)
