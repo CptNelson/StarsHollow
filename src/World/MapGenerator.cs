@@ -24,14 +24,27 @@ namespace StarsHollow.World
         {
             _mapLocal = new Map(mapWidth, mapHeight);
             _goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
+            var _goMapLocalBool = new ArrayMap<bool>(mapWidth, mapHeight);
 
+            GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(_goMapLocalBool, 8, 6, 12, 8);
+            
             ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
             
             foreach (var pos in _goMapLocal.Positions())
             {
-                _goMapLocal[pos] = 0;
-                _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileFloor();
-                tempGoMap[pos] = true;
+                if (_goMapLocalBool[pos]) // floor
+                {
+                    _goMapLocal[pos] = 0;
+                    _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileFloor();
+                    tempGoMap[pos] = true;
+                }
+
+                else
+                {
+                    _goMapLocal[pos] = 1;
+                    _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileWall();
+                    tempGoMap[pos] = false;
+                }
                 
                 _mapLocal._tiles[pos.ToIndex(mapWidth)].fovMap = new FOV(tempGoMap);
             }

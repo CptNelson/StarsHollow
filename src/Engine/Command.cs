@@ -1,12 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using StarsHollow.Components;
-using StarsHollow.Utils;
 using StarsHollow.World;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace StarsHollow.Commands
+namespace StarsHollow.Engine
 {
     static class Command
     {
@@ -15,7 +11,7 @@ namespace StarsHollow.Commands
             if (Game.UI._world.CurrentMap.IsTileWalkable(ent.Position + dir) &&
                 !Game.UI._world.CurrentMap.IsThereEntityAt(ent.Position + dir))
             {
-                    ent.GetComponent<CmpAction>().SetAction(new Actions.MoveBy(ent, dir));
+                    ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
                     Game.UI.AddMessage("asd");
             }
 

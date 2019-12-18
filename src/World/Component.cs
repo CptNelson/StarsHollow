@@ -1,8 +1,8 @@
-﻿using StarsHollow.Actions;
-using StarsHollow.World;
+﻿using StarsHollow.World;
 
 using System.Collections.Generic;
 using System.Text;
+using StarsHollow.Engine;
 
 namespace StarsHollow.Components
 {
@@ -41,7 +41,7 @@ namespace StarsHollow.Components
         {
             _turn += 1;
 
-            System.Console.WriteLine("turn: " + _turn.ToString());
+            //System.Console.WriteLine("turn: " + _turn.ToString());
             Entity.Time += 100;
 
             if (Entity.Time % 100 == 0)

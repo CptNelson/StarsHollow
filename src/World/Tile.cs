@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using SadConsole;
 using System;
+using StarsHollow.UserInterface;
 using System.Collections.Generic;
 using System.Text;
 
@@ -66,8 +67,31 @@ namespace StarsHollow.World
     }
     public class TileWall : TileBase
     {
-        public TileWall(bool blocksMovement = true, bool blocksLOS = true) : base(Color.AntiqueWhite, Color.Transparent, '#', blocksMovement, blocksLOS)
+        public TileWall(bool blocksMovement = true, bool blocksLOS = true) : base(UserInterface.ColorScheme.Four, new Color( 	23, 23, 23), '.', blocksMovement, blocksLOS)
         {
+            switch (GoRogue.DiceNotation.Dice.Roll("1d8"))
+            {
+                case 1:
+                    Foreground = ColorScheme.Second;
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    Foreground = ColorScheme.Three;
+                    break;
+                case 7:
+                    Foreground = ColorScheme.Four;
+                    break;
+                case 8:
+                    Foreground = ColorScheme.Five;
+                    break;
+                default:
+                    Foreground = ColorScheme.Three;
+                    break;
+
+            }
             Name = "wall";
             MoveCostMod = 50;
         }

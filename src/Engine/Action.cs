@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using StarsHollow.Components;
 using StarsHollow.World;
 
-namespace StarsHollow.Actions
+namespace StarsHollow.Engine
 {
 
     // Actions are executed after it's Time cost has passed

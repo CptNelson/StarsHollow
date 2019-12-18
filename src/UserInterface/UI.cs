@@ -4,11 +4,11 @@ using GoRogue.SenseMapping;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SadConsole;
-using StarsHollow.Systems;
 using StarsHollow.Utils;
 using StarsHollow.World;
 using System;
 using System.Collections;
+using StarsHollow.Engine;
 
 namespace StarsHollow.UserInterface
 {
@@ -23,7 +23,7 @@ namespace StarsHollow.UserInterface
 
         private readonly int _width;
         private readonly int _height;
-        private MainWindow _mainWindow;
+        public readonly MainWindow MainWindow;
         private Map _currentMap;
         private MessageLogWindow _messageLogWindow;
         public readonly WorldMap _world;
@@ -34,13 +34,13 @@ namespace StarsHollow.UserInterface
             _width = screenWidth;
             _height = screenHeight;
             SetupLook();
-            _mainWindow = new MainWindow(_width, _height, world, mainLoop, _messageLogWindow);
+            MainWindow = new MainWindow(_width, _height, world, mainLoop, _messageLogWindow);
             _world = world;
         }
 
         public void AddMessage(string message)
         {
-            _mainWindow.Message(message);
+            MainWindow.Message(message);
         }
         private void SetupLook()
         {
@@ -63,6 +63,12 @@ namespace StarsHollow.UserInterface
         private readonly WorldMap _world;
 
         private States _gameState = States.StartMenu;
+
+        public States GameState
+        {
+            get => _gameState;
+            set => _gameState = value;
+        }
 
         private Window _menuWindow;
         private ScrollingConsole _menuConsole;
@@ -314,13 +320,13 @@ namespace StarsHollow.UserInterface
             if (Keyboard.GetState().GetPressedKeys().Length > 0)
             {
                 if (Global.KeyboardState.IsKeyPressed(Keys.Up))
-                    Commands.Command.Move(_world.Player, Tools.Dirs.N);
+                    Command.Move(_world.Player, Tools.Dirs.N);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Down))
-                    Commands.Command.Move(_world.Player, Tools.Dirs.S);
+                    Command.Move(_world.Player, Tools.Dirs.S);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Right))
-                    Commands.Command.Move(_world.Player, Tools.Dirs.E);
+                    Command.Move(_world.Player, Tools.Dirs.E);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Left))
-                    Commands.Command.Move(_world.Player, Tools.Dirs.W);
+                    Command.Move(_world.Player, Tools.Dirs.W);
                 DisplayFOV();
                 _gameState = States.Main;
 
