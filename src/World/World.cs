@@ -61,7 +61,13 @@ namespace StarsHollow.World
             ent.Name = _name;
             JObject cmpList = JObject.Parse(Tools.LoadJson(json));
             //   ent.NonBlocking = (bool)cmpList[_name]["nonBlocking"];
+            
+            
             ent.AddComponentsFromFile(_name, json);
+           
+            
+            
+            
             // TODO: load whole entity  from file.
 
             //SadConsole.Serializer.Save<Entity>(ent, @"../../../res/json/test2.json", false);//JsonConvert.SerializeObject(ent);
@@ -69,6 +75,7 @@ namespace StarsHollow.World
             //Console.WriteLine(jsn2._components.Count);
             return ent;
         }
+        
 
         private void AddPlayer()
         {
@@ -92,6 +99,7 @@ namespace StarsHollow.World
             for (int i = 0; i < amount; i++)
             {
                 Entity guard = EntityFactory("guard", "level1.json");
+                //guard.GetComponent<CmpBody>().AddItem(EntityFactory("stun gun", "weapons.json"));
                 guard.Animation.CurrentFrame[0].Glyph = '@';
                 guard.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
                 guard.Components.Add(new EntityViewSyncComponent());

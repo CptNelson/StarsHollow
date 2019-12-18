@@ -1,0 +1,18 @@
+{
+  "stun gun": {
+    "components": {
+      "CmpItem": {
+        "weight": 1,
+        "description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
+      },
+      "CmpRanged": {
+        "damage": "1d2-1",
+        "range": 10,
+        "skill modifier": 5
+      },
+      "CmpEffectStun": {
+        "duration": "1d2+1"
+      }
+    }
+  }
+}

@@ -111,6 +111,7 @@ namespace StarsHollow.World
                 newComponent.Entity = this;
                 _components.Add(newComponent);
             }
+
             return this;
         }
         // get component by referencing its type/class

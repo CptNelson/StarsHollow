@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using StarsHollow.Engine;
+using Action = StarsHollow.Engine.Action;
 
 namespace StarsHollow.World
 {
@@ -85,7 +88,6 @@ namespace StarsHollow.World
         
         private int _strength;
         private int _agility;
-        private int _reflex;
         private int _vitality;
 
         private int _charisma;
@@ -94,7 +96,6 @@ namespace StarsHollow.World
         
         public int Strength => _strength;
         public int Agility => _agility;
-        public int Reflex => _reflex;
         public int Vitality => _vitality;
         public int Charisma => _charisma;
         public int Hunch => _hunch;
@@ -105,7 +106,6 @@ namespace StarsHollow.World
         {
          _strength = System.Convert.ToInt32(args[0]); 
          _agility = System.Convert.ToInt32(args[1]); 
-         _reflex = System.Convert.ToInt32(args[2]);
          _vitality = System.Convert.ToInt32(args[3]);
          
          _charisma = System.Convert.ToInt32(args[4]); 
@@ -117,6 +117,52 @@ namespace StarsHollow.World
         {
         } 
     }
+    
+    public class CmpBody : Component
+    {
+        public List<Entity> ItemList;
+        public readonly int ItemCapacity = 3;
+        public Entity Holding;
+        public CmpBody(params object[] args)
+        {
+            ItemCapacity = System.Convert.ToInt32(args[0]);
+            ItemList = new List<Entity>();
+        }
+
+        public void AddItem(Entity item)
+        {
+            // This should be action/event.
+            if (ItemList.Count <= ItemCapacity)
+            {
+                Game.UI.MainWindow.Message("You pick up the " + item.Name + ".");
+                ItemList.Add(item);
+                item.Position = new Point(-666, -666);
+            }
+            else
+                Game.UI.MainWindow.Message("You have no space for the " + item + ".");
+        }
+
+        public void AddItems(List<Entity> items)
+        {
+            foreach (Entity item in items)
+            {
+                AddItem(item);
+            }
+        }
+        
+        public void RemoveItem(Entity item)
+        {
+            // This should be action/event.
+            Game.UI.MainWindow.Message("You drop the " + item.Name + ".");
+            ItemList.Remove(item);
+            item.Position = Entity.Position;
+        }
+
+        public override void UpdateComponent()
+        {
+        }
+    }
+    
     
     public class CmpEnter : Component
     {
@@ -169,11 +215,11 @@ namespace StarsHollow.World
         public string Description;
         public Entity Holder;
 
-        public CmpItem(decimal weight = 1, bool onMap = true, string descp = " ")
+        public CmpItem(params object[] args)
         {
-            OnMap = onMap;
-            Weight = weight;
-            Description = descp;
+            OnMap = true;
+            Weight = Convert.ToInt32(args[0]);
+            Description = Convert.ToString(args[1]);
         }
         public override void UpdateComponent()
         {
@@ -199,31 +245,17 @@ namespace StarsHollow.World
     // Data for melee skills.
     public class CmpMelee : Component
     {
-        private int _attackStrength;
-        private int _attackSkill;
-        private int _defenceSkill;
         public CmpMelee(params object[] args)
         {
-            _attackStrength = System.Convert.ToInt32(args[0]); 
-            _attackSkill = System.Convert.ToInt32(args[1]); 
-            _defenceSkill = System.Convert.ToInt32(args[2]); 
         }
-
-        public int AttackStrength { get => _attackStrength; set => _attackStrength = value; }
-        public int AttackSkill { get => _attackSkill; set => _attackSkill = value; }
-        public int DefenceSkill { get => _defenceSkill; set => _defenceSkill = value; }
 
         public override void UpdateComponent() { }
     }
 
     public class CmpRanged : Component
     {
-        private int _attackStrength;
-        private int _attackSkill;
-        public CmpRanged(int attackStrength = 0, int attackSkill = 10)
+        public CmpRanged()
         {
-            _attackStrength = attackStrength;
-            _attackSkill = attackSkill;
         }
         public override void UpdateComponent() {}
     }
