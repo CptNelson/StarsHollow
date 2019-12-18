@@ -79,6 +79,45 @@ namespace StarsHollow.World
         {
         } 
     }
+
+    public class CmpAttributes : Component
+    {
+        
+        private int _strength;
+        private int _agility;
+        private int _reflex;
+        private int _vitality;
+
+        private int _charisma;
+        private int _hunch;
+        private int _smarts;
+        
+        public int Strength => _strength;
+        public int Agility => _agility;
+        public int Reflex => _reflex;
+        public int Vitality => _vitality;
+        public int Charisma => _charisma;
+        public int Hunch => _hunch;
+        public int Smarts => _smarts;
+
+
+        public CmpAttributes(params object[] args)
+        {
+         _strength = System.Convert.ToInt32(args[0]); 
+         _agility = System.Convert.ToInt32(args[1]); 
+         _reflex = System.Convert.ToInt32(args[2]);
+         _vitality = System.Convert.ToInt32(args[3]);
+         
+         _charisma = System.Convert.ToInt32(args[4]); 
+         _hunch = System.Convert.ToInt32(args[5]); 
+         _smarts = System.Convert.ToInt32(args[6]); 
+        }
+        
+        public override void UpdateComponent()
+        {
+        } 
+    }
+    
     public class CmpEnter : Component
     {
         // 0 = cave 1 = forest

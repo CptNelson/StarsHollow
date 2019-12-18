@@ -1,6 +1,15 @@
 ﻿{
   "guard": {
     "components": {
+      "CmpAttributes": {
+        "strength": 10,
+        "agility": 10,
+        "reflex": 10,
+        "vitality": 10,
+        "charisma": 10,
+        "hunch": 10,
+        "smarts": 10
+      },
       "CmpHP": {
         "hp": "20"
       },
