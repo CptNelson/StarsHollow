@@ -364,6 +364,7 @@ namespace StarsHollow.UserInterface
         public static Font normalSizeFont = font2.GetFont(Font.FontSizes.One);
         public static Font quarterSizeFont = font3.GetFont(Font.FontSizes.Quarter);
         public static Font squareHalfFont = font3.GetFont(Font.FontSizes.Half);
+        public static Font normalSizeAnikkiFont = font3.GetFont(Font.FontSizes.One);
     }
     public static class ColorScheme
     {

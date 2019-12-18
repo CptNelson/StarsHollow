@@ -38,7 +38,8 @@ namespace StarsHollow.UserInterface
             _statusConsole = new SadConsole.Console(width - _windowBorderThickness,height);
             _statusConsole.Position = new Point(1, 1);
             //_statusConsole.ViewPort = new Rectangle(0, 0, width - 1, height - _windowBorderThickness);
-            _statusConsole.Font = Fonts.normalSizeFont;
+            _statusConsole.Font = Fonts.normalSizeAnikkiFont;
+            
          //   WriteInformation();
             // enable mouse input
             UseMouse = true;
@@ -57,29 +58,29 @@ namespace StarsHollow.UserInterface
         {
             _statusConsole.Clear();
 
-            _statusConsole.Print(1, 3, "HP: ", ColorScheme.Second);
             //_statusConsole.Print(5, 3, _hpStatus.ToString(), ColorScheme.Second);
             Console.WriteLine(_map.TurnTimer);
             _statusConsole.Print(1, 5, (_map.TurnTimer.GetComponent<CmpTimer>().Hour + " : " + _map.TurnTimer.GetComponent<CmpTimer>().Minute), ColorScheme.Second);
             _statusConsole.Print(1, 6, ("Turn " + _map.TurnTimer.GetComponent<CmpTimer>().Turn), ColorScheme.Second);
             _statusConsole.Print(1, 7, _timeOfDay, ColorScheme.Second);
-            _statusConsole.Print(1, 9, ("Midsummer"), ColorScheme.Three);
+            _statusConsole.Print(1, 9, ("Midsummer"), ColorScheme.Five);
             _statusConsole.Print(1, 10, ("* Sunny *"), Color.Yellow);
             
-            _statusConsole.Print(1, 12, "Strength: ", ColorScheme.Five);
-            _statusConsole.Print(14, 12, _map.Player.GetComponent<CmpAttributes>().Strength.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 13, "Agility: ", ColorScheme.Second);
-            _statusConsole.Print(14, 13, _map.Player.GetComponent<CmpAttributes>().Agility.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 14, "Vitality: ", ColorScheme.Second);
-            _statusConsole.Print(14, 14, _map.Player.GetComponent<CmpAttributes>().Vitality.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 15, "Charisma ", ColorScheme.Second);
-            _statusConsole.Print(14, 15, _map.Player.GetComponent<CmpAttributes>().Charisma.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 16, "Guts: ", ColorScheme.Second);
-            _statusConsole.Print(14, 16, _map.Player.GetComponent<CmpAttributes>().Hunch.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 17, "Smarts: ", ColorScheme.Second);
-            _statusConsole.Print(14, 17, _map.Player.GetComponent<CmpAttributes>().Smarts.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 12, "Strength: ", ColorScheme.Three);
+            _statusConsole.Print(11, 12, _map.Player.GetComponent<CmpAttributes>().Strength.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 13, "Agility: ", ColorScheme.Three);
+            _statusConsole.Print(11, 13, _map.Player.GetComponent<CmpAttributes>().Agility.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 14, "Vitality: ", ColorScheme.Three);
+            _statusConsole.Print(11, 14, _map.Player.GetComponent<CmpAttributes>().Vitality.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 15, "Charisma ", ColorScheme.Three);
+            _statusConsole.Print(11, 15, _map.Player.GetComponent<CmpAttributes>().Charisma.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 16, "Guts: ", ColorScheme.Three);
+            _statusConsole.Print(11, 16, _map.Player.GetComponent<CmpAttributes>().Hunch.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 17, "Smarts: ", ColorScheme.Three);
+            _statusConsole.Print(11, 17, _map.Player.GetComponent<CmpAttributes>().Smarts.ToString(), ColorScheme.Second);
             
-
+            _statusConsole.Print(1, 19, "HP: ", ColorScheme.Three);
+            _statusConsole.Print(5, 19, _map.Player.GetComponent<CmpHP>().CurrentHp + "/" + _map.Player.GetComponent<CmpHP>().Hp, ColorScheme.Second);
         }
 
 

@@ -69,13 +69,15 @@ namespace StarsHollow.World
     public class CmpHP : Component
     {
         private int _hp = 10;
+        private int _currentHp = 10;
         private bool _alive = true;
 
         public CmpHP(params object[] args)
         {
-            _hp = System.Convert.ToInt32(args[0]); 
+            _hp = Convert.ToInt32(args[0]);// + ; 
         }
         public int Hp { get => _hp; set => _hp = value; }
+        public int CurrentHp { get => _currentHp; set => _currentHp = value; }
         public bool Alive { get => _alive; set => _alive = value; }
 
         public override void UpdateComponent()

@@ -81,6 +81,13 @@ namespace StarsHollow.World
             JObject components = (JObject) entityJSON[_name]["components"];
 
             ent.AddComponentsFromFile(components);
+
+            if (ent.HasComponent<CmpHP>())
+            {
+                ent.GetComponent<CmpHP>().Hp += ent.GetComponent<CmpAttributes>().Hunch / 2 + ent.GetComponent<CmpAttributes>().Vitality;
+                ent.GetComponent<CmpHP>().CurrentHp = ent.GetComponent<CmpHP>().Hp;
+            }
+            
             ent.Components.Add(new EntityViewSyncComponent());
 
             return ent;
