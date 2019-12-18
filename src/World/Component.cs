@@ -106,11 +106,11 @@ namespace StarsHollow.World
         {
          _strength = System.Convert.ToInt32(args[0]); 
          _agility = System.Convert.ToInt32(args[1]); 
-         _vitality = System.Convert.ToInt32(args[3]);
+         _vitality = System.Convert.ToInt32(args[2]);
          
-         _charisma = System.Convert.ToInt32(args[4]); 
-         _hunch = System.Convert.ToInt32(args[5]); 
-         _smarts = System.Convert.ToInt32(args[6]); 
+         _charisma = System.Convert.ToInt32(args[3]); 
+         _hunch = System.Convert.ToInt32(args[4]); 
+         _smarts = System.Convert.ToInt32(args[5]); 
         }
         
         public override void UpdateComponent()

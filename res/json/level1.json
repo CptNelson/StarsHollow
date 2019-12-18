@@ -1,8 +1,9 @@
 ﻿{
   "guard": {
     "look": {
-      "glyph": "@",
-      "fg": "ColorScheme.Four"
+      "glyph": 2,
+      "fg": "ColorScheme.Four",
+      "bg": "Color.Transparent"
     },
     "components": {
       "CmpAttributes": {

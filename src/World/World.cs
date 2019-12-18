@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 using StarsHollow.UserInterface;
 
 namespace StarsHollow.World
@@ -20,7 +22,12 @@ namespace StarsHollow.World
         private Map _overworldMap;
         private Entity _turnTimer;
         public Entity Player;
-        public Map OverworldMap { get => _overworldMap; }
+
+        public Map OverworldMap
+        {
+            get => _overworldMap;
+        }
+
         public Map CurrentMap { get; set; }
 
         public WorldMap()
@@ -40,10 +47,9 @@ namespace StarsHollow.World
             _overworldMap = maps.Item1;
             _overworldMap.goMap = maps.Item2;
             CreateHelperEntities();
-           // AddWorldMapEntities();
+            // AddWorldMapEntities();
             AddPlayer();
             CreateGuard();
-
         }
 
         private void CreateHelperEntities()
@@ -59,55 +65,49 @@ namespace StarsHollow.World
         {
             Entity ent = new Entity();
             ent.Name = _name;
-            JObject cmpList = JObject.Parse(Tools.LoadJson(json));
-            //   ent.NonBlocking = (bool)cmpList[_name]["nonBlocking"];
-            
-            
-            ent.AddComponentsFromFile(_name, json);
-           
-            
-            
-            
-            // TODO: load whole entity  from file.
 
-            //SadConsole.Serializer.Save<Entity>(ent, @"../../../res/json/test2.json", false);//JsonConvert.SerializeObject(ent);
-            //Entity jsn2 = SadConsole.Serializer.Load<Entity>(@"test2.json", false);
-            //Console.WriteLine(jsn2._components.Count);
+            JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
+
+            IDictionary<string, JToken> looks = (JObject) (entityJSON[_name]["look"]);
+            Dictionary<string, string> looksDictionary = looks.ToDictionary(pair => pair.Key, pair =>
+                (string) pair.Value);
+
+            ent.Animation.CurrentFrame[0].Glyph =
+                Convert.ToInt32(
+                    looksDictionary["glyph"]); //Convert.ToInt32((JObject)entityJSON[_name]["look"]["glyph"]);
+            ent.Animation.CurrentFrame[0].Foreground = Color.White;
+            ent.Animation.CurrentFrame[0].Background = Color.Transparent;
+
+            JObject components = (JObject) entityJSON[_name]["components"];
+
+            ent.AddComponentsFromFile(components);
+            ent.Components.Add(new EntityViewSyncComponent());
+
             return ent;
         }
-        
+
 
         private void AddPlayer()
         {
             if (Player != null) return;
             Player = EntityFactory("player", "player.json");
-            Player.Animation.CurrentFrame[0].Glyph = '@';
-            Player.Components.Add(new EntityViewSyncComponent());
+           // Player.Components.Add(new EntityViewSyncComponent());
             Player.Position = _overworldMap.GetRandomEmptyPosition();
-            //  while (!_overworldMap.IsSouthOfRiver(Player.Position))
-            //    Player.Position = _overworldMap.GetRandomEmptyPosition();
             Player.IsVisible = true;
             Console.Write("Pos: " + Player.Position);
             Player.Actionable = true;
             _overworldMap.Add(Player);
             Console.Write("errrrrr");
-            //CurrentMap.Add(Player);
-
         }
+
         private void CreateGuard(int amount = 2)
         {
             for (int i = 0; i < amount; i++)
             {
                 Entity guard = EntityFactory("guard", "level1.json");
-                //guard.GetComponent<CmpBody>().AddItem(EntityFactory("stun gun", "weapons.json"));
-                guard.Animation.CurrentFrame[0].Glyph = '@';
-                guard.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
-                guard.Components.Add(new EntityViewSyncComponent());
-             //   int monsterPosition = rndNum.Next(0, CurrentMap.Width * CurrentMap.Height);
                 guard.Position = _overworldMap.GetRandomEmptyPosition();
                 guard.IsVisible = false;
                 guard.Actionable = true;
-              //  guard.Time = Game.World.turnTimer.Time;
                 _overworldMap.Add(guard);
             }
         }

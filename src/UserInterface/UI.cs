@@ -359,6 +359,8 @@ namespace StarsHollow.UserInterface
         public static Color Four = new Color(255, 179, 253);//Color.LightGoldenrodYellow);Color.LightGoldenrodYellow;
         public static Color Five = new Color(1,255,195);//Color.Aquamarine;
     }
+    
+    
     public enum States
     {
         StartMenu,
