@@ -1,10 +1,7 @@
-﻿using StarsHollow.World;
-
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using StarsHollow.Engine;
 
-namespace StarsHollow.Components
+namespace StarsHollow.World
 {
     public interface IComponent
     {
@@ -12,13 +9,14 @@ namespace StarsHollow.Components
        // string Name { get; set; }
     }
 
-    abstract public class Component : IComponent
+    public abstract class Component : IComponent
     {
-        public List<IComponent> components = new List<IComponent>();
+        public List<IComponent> Components = new List<IComponent>();
         public Entity Entity { get; set; }
-        public string Name { get; set;  }
+
+        protected string Name { get; set;  }
         //Components are updated every turn. Override this if update is needed.
-        abstract public void UpdateComponent();
+        public abstract void UpdateComponent();
 
         public void GetComponentByName()
         {
@@ -28,10 +26,15 @@ namespace StarsHollow.Components
     public class CmpTimer : Component
     {       
         private int _turn = 0;
-        public int _minute = 0;
-        public int _hour = 6;
-        public int _day = 1;
+        
+        private int _minute = 0;
+        private int _hour = 6;
+        private int _day = 1;
 
+        public int Minute => _minute;
+        public int Hour => _hour;
+        public int Day => _day;
+        
         public int Turn { get => _turn;  }
         public CmpTimer()
         {
@@ -79,7 +82,7 @@ namespace StarsHollow.Components
     public class CmpEnter : Component
     {
         // 0 = cave 1 = forest
-        public int _type;
+        public int Type;
         public CmpEnter(params object[] args)
         {
             //_type = type;
@@ -109,7 +112,7 @@ namespace StarsHollow.Components
         public void SetAction(Action action)
         {
             _currentAction = action;
-            _currentAction._actor = Entity;
+            _currentAction.Actor = Entity;
             _currentAction.Time = Entity.Time;
             Entity.Time += _currentAction.Cost + 1;
             Game.UI.MainWindow.MainLoop.EventsList.Add(_currentAction);
@@ -122,16 +125,16 @@ namespace StarsHollow.Components
     }
     public class CmpItem : Component
     {
-        public decimal weight;
-        public bool _onMap;
-        public string description;
-        public Entity holder;
+        public decimal Weight;
+        public bool OnMap;
+        public string Description;
+        public Entity Holder;
 
-        public CmpItem(decimal wght = 1, bool onMap = true, string descp = " ")
+        public CmpItem(decimal weight = 1, bool onMap = true, string descp = " ")
         {
-            _onMap = onMap;
-            weight = wght;
-            description = descp;
+            OnMap = onMap;
+            Weight = weight;
+            Description = descp;
         }
         public override void UpdateComponent()
         {
@@ -144,12 +147,12 @@ namespace StarsHollow.Components
     }
     public class CmpWearableItem : CmpItem
     {
-        public int _itemCapacity;
+        public int ItemCapacity;
         public CmpWearableItem(int itemCap = 1, string descp = " ")
         {
-            description = descp;
-            _itemCapacity = itemCap;
-            if (holder != null) ;
+            Description = descp;
+            ItemCapacity = itemCap;
+            if (Holder != null) ;
               //  holder.GetComponent<CmpBody>().itemCapacity += _itemCapacity;
         }
     }
@@ -158,8 +161,8 @@ namespace StarsHollow.Components
     public class CmpMelee : Component
     {
         private int _attackStrength;
-        public int _attackSkill;
-        public int _defenceSkill;
+        private int _attackSkill;
+        private int _defenceSkill;
         public CmpMelee(params object[] args)
         {
             _attackStrength = System.Convert.ToInt32(args[0]); 
@@ -177,7 +180,7 @@ namespace StarsHollow.Components
     public class CmpRanged : Component
     {
         private int _attackStrength;
-        public int _attackSkill;
+        private int _attackSkill;
         public CmpRanged(int attackStrength = 0, int attackSkill = 10)
         {
             _attackStrength = attackStrength;

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SadConsole.Components;
-using StarsHollow.Components;
 using StarsHollow.Utils;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using StarsHollow.Components;
 using StarsHollow.World;
 
 namespace StarsHollow.Engine

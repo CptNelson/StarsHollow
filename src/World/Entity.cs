@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SadConsole.SerializedTypes;
-using StarsHollow.Components;
 using StarsHollow.UserInterface;
 using StarsHollow.Utils;
 using System;
@@ -101,7 +100,7 @@ namespace StarsHollow.World
                    args[i] = tag.Value.ElementAt(i).First;
                 }
                 
-                Type CmpType = Type.GetType("StarsHollow.Components." + property);
+                Type CmpType = Type.GetType("StarsHollow.World." + property);
                 var newComponent = (Component)Activator.CreateInstance(CmpType, args);
 
                 if (newComponent == null)
