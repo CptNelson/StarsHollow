@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
@@ -30,6 +31,12 @@ namespace StarsHollow.Engine
             }
 
             // ent.GetComponent<CmpAction>().SetAction(new Actions.MoveBy(ent, dir));
+        }
+
+        public static void Shoot(Entity ent, Point location)
+        {
+            ent.GetComponent<CmpAction>().SetAction(new Shoot(ent, location));
+            Console.WriteLine("shooting command");
         }
     }
 }

@@ -9,6 +9,7 @@ using StarsHollow.World;
 using System;
 using System.Collections;
 using StarsHollow.Engine;
+using Console = System.Console;
 
 namespace StarsHollow.UserInterface
 {
@@ -109,6 +110,7 @@ namespace StarsHollow.UserInterface
 
         public override void Update(TimeSpan timeElapsed)
         {
+            Console.WriteLine(_gameState);
             switch (_gameState)
             {
                 case States.StartMenu:
@@ -116,6 +118,10 @@ namespace StarsHollow.UserInterface
                     break;
                 case States.Input:
                     WorldMapKeyboard();
+                    break;
+                case States.Animation:
+                    base.Update(timeElapsed);
+                    //CenterOnActor(Game.World.player);
                     break;
                 case States.Main:
                 {
@@ -306,6 +312,7 @@ namespace StarsHollow.UserInterface
         // Remove an Entity from the MapConsole every time the Map's Entity collection changes 
         private void OnMapEntityRemoved(object sender, ItemEventArgs<Entity> args)
         {
+            System.Console.WriteLine("lolu remove");
             _mapConsole.Children.Remove(args.Item);
         }
 
@@ -341,6 +348,8 @@ namespace StarsHollow.UserInterface
                     Command.Move(_world.Player, Tools.Dirs.E);
                 if (Global.KeyboardState.IsKeyPressed(Keys.Left))
                     Command.Move(_world.Player, Tools.Dirs.W);
+                if (Global.KeyboardState.IsKeyPressed(Keys.S))
+                    Command.Shoot(_world.Player, Tools.Dirs.N);
                 DisplayFOV();
                 _gameState = States.Main;
 
@@ -348,7 +357,6 @@ namespace StarsHollow.UserInterface
         }
         private void CheckMouse()
         {
-
             if (Global.MouseState.LeftClicked)
                 System.Console.WriteLine(_world.OverworldMap.GetTileAt(Global.MouseState.ScreenPosition.PixelLocationToConsole(_mapWindow.Width, _mapWindow.Height)).Name);
         }

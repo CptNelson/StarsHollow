@@ -95,13 +95,15 @@ namespace StarsHollow.Engine
                 // after input Gameloop is continued.
                 
                 
+                Console.WriteLine(currentEntity);
+                
                 if (currentEntity is Animation)
                 {
-                    //System.Console.WriteLine("anim");
+                    System.Console.WriteLine("anim");
                     var animation = (Animation) currentEntity;
                     animation.Execute();
                     Game.UI.MainWindow.GameState = States.Animation;
-                    LevelEntityList.Remove(animation);
+                    _eventsList.Remove(animation);
                     yield return true;
                 }
 

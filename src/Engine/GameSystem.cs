@@ -123,8 +123,8 @@ namespace StarsHollow.Engine
             if (sender is MeleeAttack)
                 MeleeAttack();
             
-            //if (sender is Shoot)
-            //    RangedAttack();
+            if (sender is Shoot)
+                RangedAttack();
         }
 
         public void MeleeAttack()
@@ -161,18 +161,18 @@ namespace StarsHollow.Engine
                 
                 int attackRoll = Dice.Roll("1d100");
                 int defenceRoll = Dice.Roll("1d100");
-                int bonus = 0;
+                int damageBonus = 0;
                
                 
                 if(attackSkill + attackRoll > defenceSkill + defenceRoll)
                 {
                     if (attackRoll >= 95)
-                        bonus = Dice.Roll("1d4");
+                        damageBonus = Dice.Roll("1d4");
                     
                     // add damage bonus from weapon
-                    bonus += attackerWeaponDamage;
+                    damageBonus += attackerWeaponDamage;
                     
-                    int damage = Dice.Roll("1d" +  attributes.Strength/5) + bonus;
+                    int damage = Dice.Roll("1d" +  attributes.Strength/5) + damageBonus;
 
                     Game.UI.MainWindow.Message(attacker.Name + " hit " + target.Name + "!");
 
@@ -204,58 +204,69 @@ namespace StarsHollow.Engine
             else
                     Game.UI.MainWindow.Message(attacker.Name + " hits empty air!");
         }
-        /*
+        
         public void RangedAttack()
         {
+            Console.WriteLine("shooting");
             var _action = (Shoot)_sender;
-            Entity attacker = _action._actor;
+            Entity attacker = _action.Actor;
 
-            var line = Lines.Get(attacker.Position, _action.position, Lines.Algorithm.DDA);
+            var line = Lines.Get(attacker.Position, _action.Position, Lines.Algorithm.DDA);
             //System.Console.WriteLine(_action.position+" P0:"+attacker.Position); 
             //line.Reverse();
             //line.RemoveAt(0);
             foreach (Point pos in line.Skip(1))
             {
                 //System.Console.WriteLine(pos+ " P: " + attacker.Position); 
-                Entity target =  Game.World.CurrentMap.GetEntityAt<Entity>(pos);
+                Entity target =  Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(pos);
                 if (target != null)
                 {
+                    CmpAttributes attributes = attacker.GetComponent<CmpAttributes>();
+                    
                     int attackRoll = Dice.Roll("1d100");
-                    int bonus = 0;
-                    if(attacker.GetComponent<CmpRanged>()._attackSkill <= attackRoll)
+                    int damageBonus = 0;
+                
+                    int attackerWeaponSkill = 0;
+                    int attackerWeaponDamage = 0;
+                    
+                    attackerWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpRanged>().skillModifier;
+                    attackerWeaponDamage = Dice.Roll(attacker.GetComponent<CmpBody>().GetItemAtRightHand().GetComponent<CmpRanged>().damage); 
+                    
+                    int attackSkill = attributes.Agility + attributes.Guts / 4 + attributes.Smarts / 4 + attackerWeaponSkill;
+                    
+                    if(attackSkill <= attackRoll)
                     {
                         if (attackRoll <= 5)
-                            bonus = Dice.Roll("1d4");
-                        int damage = Dice.Roll("1d4") + bonus;
-                        Game.World.Gameloop.EventsList.Add(new ProjectileAnimation(attacker.Position, target.Position));
-                        Game.uiManager.MessageLog.Add(attacker.Name + " hit "+ target.Name + "!");
+                            damageBonus += Dice.Roll("1d4");
+                        int damage = Dice.Roll("1d4") + damageBonus;
+                        
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, target.Position));
+                        Game.UI.MainWindow.Message(attacker.Name + " hit "+ target.Name + "!");
                         DamageEvent damageEvent = new DamageEvent(target, damage);
-                        Game.World.systemDamage.Subscribe(damageEvent);
+                        Game.UI.world.SystemDamage.Subscribe(damageEvent);
                         damageEvent.NotifyObservers();
                         break;
                     }
-                    else 
-                    {
-                        Game.World.Gameloop.EventsList.Add(new ProjectileAnimation(attacker.Position, target.Position));
-                        Game.uiManager.MessageLog.Add(attacker.Name + " missed "+ target.Name + ".");
-                        ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpRanged>()._attackSkill, "attack skill");
-                    }
+
+                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, target.Position));
+                    Game.UI.MainWindow.Message(attacker.Name + " missed "+ target.Name + ".");
+                    //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpRanged>()._attackSkill, "attack skill");
                 }
 
-                if (!Game.World.CurrentMap.IsTileWalkable(pos))
+                if (!Game.UI.world.CurrentMap.IsTileWalkable(pos))
                 {
-                        Game.World.Gameloop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
-                   Game.uiManager.MessageLog.Add("You hit a wall!");
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
+                   Game.UI.MainWindow.Message("You hit a wall!");
                    break; 
                 }
-                else if (pos == _action.position)
+                else if (pos == _action.Position)
                 {
-                    Game.World.Gameloop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
+                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
                 }
 
             }
         }
-        */
+        
 
     }
 }

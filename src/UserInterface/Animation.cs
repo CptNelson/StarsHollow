@@ -41,28 +41,55 @@ namespace StarsHollow.UserInterface
         {
             _counter = 0;
             _line = Lines.Get(start, end, Lines.Algorithm.DDA).ToList();
-          //  _proj = new Entity("proj", Color.White, Color.Transparent, '*', 1, 1);
-            //Game.World.CurrentMap.Add(_proj);
+            _proj = new Entity {Name = "proj"};
+            _proj.Animation.CurrentFrame[0].Foreground = Color.White;
+            _proj.Animation.CurrentFrame[0].Background = Color.Transparent;
+            Game.UI.world.CurrentMap.Add(_proj);
         }
         public override void Execute()
         {
-            _timer = new System.Timers.Timer(50);
+            _timer = new Timer(50);
             _timer.Elapsed += OnTimedEvent;
             _timer.AutoReset = true;
             _timer.Enabled = true;
         }
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            //System.Console.WriteLine(counter);
             _proj.Position = new Point(_line[_counter].X, _line[_counter].Y);
+             
+            switch (GoRogue.DiceNotation.Dice.Roll("1d8"))
+            {
+                case 1:
+                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Second;
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
+                    break;
+                case 7:
+                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
+                    break;
+                case 8:
+                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Five;
+                    break;
+                default:
+                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
+                    break;
+
+            }
+            
             _counter++;
-            //Game.uiManager.gameState = States.player;
+          //  Game.UI.MainWindow.GameState = States.Input;
             if (_counter >= _line.Count)
             {
                 _counter = 0;
                 _line = null;
-              //  Game.World.CurrentMap.Remove(_proj);
-               // Game.uiManager.gameState = States.main;
+                Game.UI.world.CurrentMap.Remove(_proj);
+                Game.UI.MainWindow.GameState = States.Main;
+                Console.WriteLine("main state");
                 _timer.Stop();
                 _timer.Dispose();
             }

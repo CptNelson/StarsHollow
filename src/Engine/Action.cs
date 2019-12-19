@@ -88,20 +88,21 @@ namespace StarsHollow.Engine
 
     public class Shoot : Action
     {
-        private Point _position;
+        public Point Position;
 
         public Shoot(Entity actor, Point pos)
         {
             Cost = 100;
             Actor = actor;
-            _position = pos;
+            Position = pos;
         }
 
         public override bool Execute()
         {
+            Console.WriteLine("shooting action");
             if (!base.Execute())
                 return false;
-            //Game.World.systemSkills.Subscribe(this);
+            Game.UI.world.SystemSkills.Subscribe(this);
             NotifyObservers();
             return true;
         }
