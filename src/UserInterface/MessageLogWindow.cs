@@ -17,7 +17,7 @@ namespace StarsHollow.UserInterface
         private readonly Queue<string> _lines;
 
         // the messageConsole displays the active messages
-        private SadConsole.ScrollingConsole _messageConsole;
+        private ScrollingConsole _messageConsole;
         
         //scrollbar for message console
         private SadConsole.Controls.ScrollBar _messageScrollBar;

@@ -1,12 +1,31 @@
 ﻿{
   "guard": {
+    "look": {
+      "glyph": 2,
+      "fg": "ColorScheme.Four",
+      "bg": "Color.Transparent"
+    },
     "components": {
+      "CmpAttributes": {
+        "Strength": 10,
+        "Agility": 10,
+        "Vitality": 10,
+        "Charisma": 10,
+        "Hunch": 10,
+        "Smarts": 10
+      },
       "CmpHP": {
-        "hp": "20"
+        "HP": "2"
+      },
+      "CmpBody": {
+        "ItemCapacity": 3
       },
       "CmpAction": {},
-      "CmpMelee": {"attackStrength": 2, "attackSkill": 10, "defenceSkill":10}, 
+      "CmpMelee": {}, 
       "CmpAI": {"aggression": 3}
-    }
+    },
+    "items": [
+      "stun gun"
+    ]
   }
 }

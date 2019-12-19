@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using StarsHollow.Engine;
+using Action = StarsHollow.Engine.Action;
 
 namespace StarsHollow.World
 {
@@ -66,19 +69,103 @@ namespace StarsHollow.World
     public class CmpHP : Component
     {
         private int _hp = 10;
+        private int _currentHp = 10;
         private bool _alive = true;
 
         public CmpHP(params object[] args)
         {
-            _hp = System.Convert.ToInt32(args[0]); 
+            _hp = Convert.ToInt32(args[0]);// + ; 
         }
         public int Hp { get => _hp; set => _hp = value; }
+        public int CurrentHp { get => _currentHp; set => _currentHp = value; }
         public bool Alive { get => _alive; set => _alive = value; }
 
         public override void UpdateComponent()
         {
         } 
     }
+
+    public class CmpAttributes : Component
+    {
+        
+        private int _strength;
+        private int _agility;
+        private int _vitality;
+
+        private int _charisma;
+        private int _hunch;
+        private int _smarts;
+        
+        public int Strength => _strength;
+        public int Agility => _agility;
+        public int Vitality => _vitality;
+        public int Charisma => _charisma;
+        public int Hunch => _hunch;
+        public int Smarts => _smarts;
+
+
+        public CmpAttributes(params object[] args)
+        {
+         _strength = System.Convert.ToInt32(args[0]); 
+         _agility = System.Convert.ToInt32(args[1]); 
+         _vitality = System.Convert.ToInt32(args[2]);
+         
+         _charisma = System.Convert.ToInt32(args[3]); 
+         _hunch = System.Convert.ToInt32(args[4]); 
+         _smarts = System.Convert.ToInt32(args[5]); 
+        }
+        
+        public override void UpdateComponent()
+        {
+        } 
+    }
+    
+    public class CmpBody : Component
+    {
+        public List<Entity> ItemList;
+        public readonly int ItemCapacity = 3;
+        public Entity Holding;
+        public CmpBody(params object[] args)
+        {
+            ItemCapacity = System.Convert.ToInt32(args[0]);
+            ItemList = new List<Entity>();
+        }
+
+        public void AddItem(Entity item)
+        {
+            // This should be action/event.
+            if (ItemList.Count <= ItemCapacity)
+            {
+                Game.UI.MainWindow.Message("You pick up the " + item.Name + ".");
+                ItemList.Add(item);
+                item.Position = new Point(-666, -666);
+            }
+            else
+                Game.UI.MainWindow.Message("You have no space for the " + item + ".");
+        }
+
+        public void AddItems(List<Entity> items)
+        {
+            foreach (Entity item in items)
+            {
+                AddItem(item);
+            }
+        }
+        
+        public void RemoveItem(Entity item)
+        {
+            // This should be action/event.
+            Game.UI.MainWindow.Message("You drop the " + item.Name + ".");
+            ItemList.Remove(item);
+            item.Position = Entity.Position;
+        }
+
+        public override void UpdateComponent()
+        {
+        }
+    }
+    
+    
     public class CmpEnter : Component
     {
         // 0 = cave 1 = forest
@@ -130,11 +217,11 @@ namespace StarsHollow.World
         public string Description;
         public Entity Holder;
 
-        public CmpItem(decimal weight = 1, bool onMap = true, string descp = " ")
+        public CmpItem(params object[] args)
         {
-            OnMap = onMap;
-            Weight = weight;
-            Description = descp;
+            OnMap = true;
+            Weight = Convert.ToInt32(args[0]);
+            Description = Convert.ToString(args[1]);
         }
         public override void UpdateComponent()
         {
@@ -160,31 +247,17 @@ namespace StarsHollow.World
     // Data for melee skills.
     public class CmpMelee : Component
     {
-        private int _attackStrength;
-        private int _attackSkill;
-        private int _defenceSkill;
         public CmpMelee(params object[] args)
         {
-            _attackStrength = System.Convert.ToInt32(args[0]); 
-            _attackSkill = System.Convert.ToInt32(args[1]); 
-            _defenceSkill = System.Convert.ToInt32(args[2]); 
         }
-
-        public int AttackStrength { get => _attackStrength; set => _attackStrength = value; }
-        public int AttackSkill { get => _attackSkill; set => _attackSkill = value; }
-        public int DefenceSkill { get => _defenceSkill; set => _defenceSkill = value; }
 
         public override void UpdateComponent() { }
     }
 
     public class CmpRanged : Component
     {
-        private int _attackStrength;
-        private int _attackSkill;
-        public CmpRanged(int attackStrength = 0, int attackSkill = 10)
+        public CmpRanged()
         {
-            _attackStrength = attackStrength;
-            _attackSkill = attackSkill;
         }
         public override void UpdateComponent() {}
     }

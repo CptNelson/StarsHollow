@@ -1,9 +1,25 @@
 ﻿{
   "player": {
+    "look": {
+      "glyph": 1,
+      "fg": "Color.White",
+      "bg": "Color.Transparent"
+    },
     "components": {
-      "CmpHP": { "hp": "666" },
+      "CmpAttributes": {
+        "Strength": 11,
+        "Agility": 14,
+        "Vitality": 12,
+        "Charisma": 15,
+        "Hunch": 13,
+        "Smarts": 12
+      },
+      "CmpHP": { "hp": "2" },
       "CmpInput": {},
       "CmpAction": {}
-    }
+    },
+    "items": [
+      "stun gun"
+    ]
   }
 }

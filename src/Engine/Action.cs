@@ -224,7 +224,7 @@ namespace StarsHollow.Engine
         public MoveBy(Entity actor, Point dir)
         {
             Actor = actor;
-            Cost = 100 * Game.UI._world.OverworldMap.GetTileAt(actor.Position + dir).MoveCostMod;
+            Cost = 100 * Game.UI.world.OverworldMap.GetTileAt(actor.Position + dir).MoveCostMod;
             _dir = dir;
             //System.Console.WriteLine("action!");
         }

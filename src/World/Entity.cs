@@ -82,12 +82,13 @@ namespace StarsHollow.World
             return this;
         }
 
-        public Entity AddComponentsFromFile(string entity, string file)
+        public Entity AddComponentsFromFile(JObject components)
         {
-
+            /*
             JObject cmpList = JObject.Parse(Tools.LoadJson(file));
             JObject components = (JObject)cmpList[entity]["components"];
-            Console.WriteLine("1: " + entity);
+            Console.WriteLine("1: " + entity); 
+            */
 
 
             // Get the name of the Component
@@ -100,17 +101,18 @@ namespace StarsHollow.World
                    args[i] = tag.Value.ElementAt(i).First;
                 }
                 
-                Type CmpType = Type.GetType("StarsHollow.World." + property);
-                var newComponent = (Component)Activator.CreateInstance(CmpType, args);
+                Type cmpType = Type.GetType("StarsHollow.World." + property);
+                var newComponent = (Component)Activator.CreateInstance(cmpType, args);
 
                 if (newComponent == null)
                 {
-                    Console.WriteLine("Component that you intented to add is null, method will return void");
+                    Console.WriteLine("Component that you intended to add is null, method will return void");
                     return this;
                 }
                 newComponent.Entity = this;
                 _components.Add(newComponent);
             }
+
             return this;
         }
         // get component by referencing its type/class

@@ -26,7 +26,7 @@ namespace StarsHollow.UserInterface
         public MainWindow MainWindow;
         private Map _currentMap;
         private MessageLogWindow _messageLogWindow;
-        public readonly WorldMap _world;
+        public readonly WorldMap world;
 
 
         public UI(int screenWidth, int screenHeight, WorldMap world, MainLoop mainLoop)
@@ -35,7 +35,7 @@ namespace StarsHollow.UserInterface
             _height = screenHeight;
             SetupLook();
             MainWindow = new MainWindow(_width, _height, world, mainLoop, _messageLogWindow);
-            _world = world;
+            this.world = world;
         }
 
         public void AddMessage(string message)
@@ -77,6 +77,8 @@ namespace StarsHollow.UserInterface
         private ScrollingConsole _mapConsole;
 
         private MessageLogWindow _messageLogWindow;
+        
+        private StatusWindow _statusConsole;
 
         public readonly MainLoop MainLoop;
 
@@ -146,6 +148,7 @@ namespace StarsHollow.UserInterface
             CreateMenuWindow();
             CreateMapWindow(_mapWidth, _mapHeight, "*Stars Hollow*");
             CreateMessageLogWindow();
+            CreateStatusWindow(_world);
 
             // Creators for windows 
             void CreateMenuWindow()
@@ -206,6 +209,17 @@ namespace StarsHollow.UserInterface
                 _messageLogWindow.Position = new Point(0, _mapHeight);
                 _messageLogWindow.Show();
             }
+            
+            void CreateStatusWindow(WorldMap world)
+            {
+                _statusConsole = new StatusWindow(width - _mapWidth*2+5, height+15, "*Status*", world);
+                _statusConsole.Font = Fonts.halfSizeFont;
+                Children.Add(_statusConsole);
+
+                _statusConsole.Show();
+                _statusConsole.Position = new Point(_mapWidth, 0);
+
+            }
         }
 
 
@@ -255,8 +269,8 @@ namespace StarsHollow.UserInterface
             _world.CreateWorld(_mapWindow.Width, _mapWindow.Height);
             _world.CurrentMap = _world.OverworldMap;
             LoadMapToConsole(_world.OverworldMap);
-            System.Console.WriteLine(_world.OverworldMap);
-
+            System.Console.WriteLine(_world.TurnTimer);
+            _statusConsole.WriteInformation(); 
             _gameState = States.Main;
             DisplayFOV();
             MainLoop.Init(_world.OverworldMap);
@@ -350,6 +364,7 @@ namespace StarsHollow.UserInterface
         public static Font normalSizeFont = font2.GetFont(Font.FontSizes.One);
         public static Font quarterSizeFont = font3.GetFont(Font.FontSizes.Quarter);
         public static Font squareHalfFont = font3.GetFont(Font.FontSizes.Half);
+        public static Font normalSizeAnikkiFont = font3.GetFont(Font.FontSizes.One);
     }
     public static class ColorScheme
     {
@@ -359,6 +374,8 @@ namespace StarsHollow.UserInterface
         public static Color Four = new Color(255, 179, 253);//Color.LightGoldenrodYellow);Color.LightGoldenrodYellow;
         public static Color Five = new Color(1,255,195);//Color.Aquamarine;
     }
+    
+    
     public enum States
     {
         StartMenu,

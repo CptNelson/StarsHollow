@@ -8,8 +8,8 @@ namespace StarsHollow.Engine
     {
         public static void Move(Entity ent, Point dir)
         {
-            if (Game.UI._world.CurrentMap.IsTileWalkable(ent.Position + dir) &&
-                !Game.UI._world.CurrentMap.IsThereEntityAt(ent.Position + dir))
+            if (Game.UI.world.CurrentMap.IsTileWalkable(ent.Position + dir) &&
+                !Game.UI.world.CurrentMap.IsThereEntityAt(ent.Position + dir))
             {
                     ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
             }

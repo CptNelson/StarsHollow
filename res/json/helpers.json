@@ -1,11 +1,12 @@
 {
   "timer": {
+    "look":{
+      "glyph": 0,
+      "fg": "Color.Transparent",
+      "bg": "Color.Transparent"
+    },
     "name": "timer",
-    "fg": "Color.Transparent",
-    "bg": "Color.Transparent",
-    "glyph": " ",
     "nonBlocking": "false",
-   // "component": [ "CmpTimer" ],
     "components": {
       "CmpTimer": {}
     }
