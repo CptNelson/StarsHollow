@@ -92,15 +92,15 @@ namespace StarsHollow.World
         private int _agility;
         private int _vitality;
 
-        private int _charisma;
-        private int _hunch;
+        private int _looks;
+        private int _guts;
         private int _smarts;
         
         public int Strength => _strength;
         public int Agility => _agility;
         public int Vitality => _vitality;
-        public int Charisma => _charisma;
-        public int Hunch => _hunch;
+        public int Looks => _looks;
+        public int Guts => _guts;
         public int Smarts => _smarts;
 
 
@@ -110,8 +110,8 @@ namespace StarsHollow.World
          _agility = System.Convert.ToInt32(args[1]); 
          _vitality = System.Convert.ToInt32(args[2]);
          
-         _charisma = System.Convert.ToInt32(args[3]); 
-         _hunch = System.Convert.ToInt32(args[4]); 
+         _looks = System.Convert.ToInt32(args[3]); 
+         _guts = System.Convert.ToInt32(args[4]); 
          _smarts = System.Convert.ToInt32(args[5]); 
         }
         

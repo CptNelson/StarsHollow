@@ -84,7 +84,7 @@ namespace StarsHollow.World
 
             if (ent.HasComponent<CmpHP>())
             {
-                ent.GetComponent<CmpHP>().Hp += ent.GetComponent<CmpAttributes>().Hunch / 2 + ent.GetComponent<CmpAttributes>().Vitality;
+                ent.GetComponent<CmpHP>().Hp += ent.GetComponent<CmpAttributes>().Guts / 2 + ent.GetComponent<CmpAttributes>().Vitality;
                 ent.GetComponent<CmpHP>().CurrentHp = ent.GetComponent<CmpHP>().Hp;
             }
             

@@ -72,10 +72,10 @@ namespace StarsHollow.UserInterface
             _statusConsole.Print(11, 13, _map.Player.GetComponent<CmpAttributes>().Agility.ToString(), ColorScheme.Second);
             _statusConsole.Print(1, 14, "Vitality: ", ColorScheme.Three);
             _statusConsole.Print(11, 14, _map.Player.GetComponent<CmpAttributes>().Vitality.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 15, "Charisma ", ColorScheme.Three);
-            _statusConsole.Print(11, 15, _map.Player.GetComponent<CmpAttributes>().Charisma.ToString(), ColorScheme.Second);
+            _statusConsole.Print(1, 15, "Looks ", ColorScheme.Three);
+            _statusConsole.Print(11, 15, _map.Player.GetComponent<CmpAttributes>().Looks.ToString(), ColorScheme.Second);
             _statusConsole.Print(1, 16, "Guts: ", ColorScheme.Three);
-            _statusConsole.Print(11, 16, _map.Player.GetComponent<CmpAttributes>().Hunch.ToString(), ColorScheme.Second);
+            _statusConsole.Print(11, 16, _map.Player.GetComponent<CmpAttributes>().Guts.ToString(), ColorScheme.Second);
             _statusConsole.Print(1, 17, "Smarts: ", ColorScheme.Three);
             _statusConsole.Print(11, 17, _map.Player.GetComponent<CmpAttributes>().Smarts.ToString(), ColorScheme.Second);
             

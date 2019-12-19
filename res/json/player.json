@@ -7,12 +7,12 @@
     },
     "components": {
       "CmpAttributes": {
-        "Strength": 11,
-        "Agility": 14,
-        "Vitality": 12,
-        "Charisma": 15,
-        "Hunch": 13,
-        "Smarts": 12
+        "strength": 11,
+        "agility": 14,
+        "vitality": 12,
+        "looks": 15,
+        "guts": 13,
+        "smarts": 12
       },
       "CmpHP": { "hp": "2" },
       "CmpInput": {},
