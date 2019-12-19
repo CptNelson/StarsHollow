@@ -266,10 +266,8 @@ namespace StarsHollow.World
     public class CmpWearableItem : CmpItem
     {
         public int ItemCapacity;
-        public CmpWearableItem(int itemCap = 1, string descp = " ")
+        public CmpWearableItem(params object[] args)
         {
-            Description = descp;
-            ItemCapacity = itemCap;
             if (Holder != null) ;
               //  holder.GetComponent<CmpBody>().itemCapacity += _itemCapacity;
         }
@@ -324,4 +322,16 @@ namespace StarsHollow.World
 
         public override void UpdateComponent() {}
     }
+    
+    // ====== EFFECTS ===============================
+
+    public class CmpEffectStun : Component
+    {
+        
+        public CmpEffectStun(params object[] args){}
+       
+        public override void UpdateComponent() {}
+    }
+    
+    
 }

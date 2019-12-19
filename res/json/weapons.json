@@ -1,5 +1,10 @@
 {
   "stun gun": {
+    "look": {
+      "glyph": 31,
+      "fg": "ColorScheme.Four",
+      "bg": "Color.Transparent"
+    },
     "components": {
       "CmpItem": {
         "weight": 1,

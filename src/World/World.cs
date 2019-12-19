@@ -94,6 +94,8 @@ namespace StarsHollow.World
             ent.Animation.CurrentFrame[0].Background = Color.Transparent;
 
             JObject components = (JObject) entityJSON[_name]["components"];
+            
+            Console.WriteLine(entityJSON);
 
             ent.AddComponentsFromFile(components);
 
@@ -113,13 +115,12 @@ namespace StarsHollow.World
         {
             if (Player != null) return;
             Player = EntityFactory("player", "player.json");
-           // Player.Components.Add(new EntityViewSyncComponent());
+           Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
+            Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First()); 
             Player.Position = _overworldMap.GetRandomEmptyPosition();
             Player.IsVisible = true;
-            Console.Write("Pos: " + Player.Position);
             Player.Actionable = true;
             _overworldMap.Add(Player);
-            Console.Write("errrrrr");
         }
 
         private void CreateGuard(int amount = 2)
