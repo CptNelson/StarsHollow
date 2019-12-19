@@ -109,20 +109,20 @@ namespace StarsHollow.Engine
 
     public class MeleeAttack : Action
     {
-        private Point _dir;
+        public Point dir;
 
         public MeleeAttack(Entity actor, Point dir)
         {
             Cost = 100;
             Actor = actor;
-            _dir = dir;
+            dir = dir;
         }
 
         public override bool Execute()
         {
             if (!base.Execute())
                 return false;
-            //Game.World.systemSkills.Subscribe(this);
+            Game.UI.world.SystemSkills.Subscribe(this);
             NotifyObservers();
             return true;
         }
@@ -141,9 +141,9 @@ namespace StarsHollow.Engine
 
         public override bool Execute()
         {
-            //Game.World.systemDamage.Subscribe(this);
-            //NotifyObservers();
-            //  DamageEvent damageEvent = new DamageEvent(_actor, _damage);
+            //Game.UI.world.SystemDamage.Subscribe(this);
+            //NotifyObservers(); 
+            //DamageEvent damageEvent = new DamageEvent(Actor, _damage);
             //  Game.World.systemDamage.Subscribe(damageEvent);
             //  damageEvent.NotifyObservers();
             return true;
@@ -220,13 +220,13 @@ namespace StarsHollow.Engine
 
     public class MoveBy : Action
     {
-        public Point _dir;
+        public Point dir;
 
         public MoveBy(Entity actor, Point dir)
         {
             Actor = actor;
             Cost = 100 * Game.UI.world.OverworldMap.GetTileAt(actor.Position + dir).MoveCostMod;
-            _dir = dir;
+            this.dir = dir;
             //System.Console.WriteLine("action!");
         }
 

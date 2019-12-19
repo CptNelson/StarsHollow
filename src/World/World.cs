@@ -21,8 +21,8 @@ namespace StarsHollow.World
         private int _mapWidth, _mapHeight;
         private TileBase[] _worldMapTiles;
         public SystemMover SystemMover;
-        //public SystemSkills SystemSkills;
-        //public SystemDamage SystemDamage;
+        public SystemSkills SystemSkills;
+        public SystemDamage SystemDamage;
         
         private Map _overworldMap;
         public Entity TurnTimer;
@@ -42,8 +42,8 @@ namespace StarsHollow.World
         public void InitSystems()
         {
             SystemMover = new SystemMover();
-            //systemSkills = new SystemSkills();
-            //systemDamage = new SystemDamage();
+            SystemSkills = new SystemSkills();
+            SystemDamage = new SystemDamage();
         }
         
         public void CreateWorld(int width, int height)
