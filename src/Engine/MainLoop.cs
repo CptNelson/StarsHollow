@@ -43,6 +43,8 @@ namespace StarsHollow.Engine
             _eventsList = new List<IEntity>();
             _overworldEntityList = new List<IEntity>();
             AddEntitiesToLevelList();
+            
+            
 
             void AddEntitiesToLevelList()
             {

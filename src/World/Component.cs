@@ -125,10 +125,16 @@ namespace StarsHollow.World
         public List<Entity> ItemList;
         public readonly int ItemCapacity = 3;
         public Entity Holding;
+
+        public List<Entity> RightHand;
+        public List<Entity> LeftHand;
+        
         public CmpBody(params object[] args)
         {
             ItemCapacity = System.Convert.ToInt32(args[0]);
             ItemList = new List<Entity>();
+            RightHand = new List<Entity>(1);
+            LeftHand = new List<Entity>(1);
         }
 
         public void AddItem(Entity item)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
@@ -16,18 +17,18 @@ namespace StarsHollow.Engine
     // Action are Subjects, so they will raise Events
     public class Subject
     {
-        public event EventHandler EventHandler; //We can also consider
+        public event EventHandler eventHandler; //We can also consider
         //using an auto-implemented property instead of a public field
 
         public void NotifyObservers()
         {
-            if (EventHandler != null) //Ensures that if there are no handlers,
+            if (eventHandler != null)   //Ensures that if there are no handlers,
                 //the event won't be raised
             {
-                EventHandler(this, EventArgs.Empty); //We can also replace
+                eventHandler(this, EventArgs.Empty);    //We can also replace
                 //EventArgs.Empty with our own message
             }
-        }
+        }        
     }
 
     // Actions are IEntities so we can iterate them in the Gameloop
@@ -233,10 +234,10 @@ namespace StarsHollow.Engine
         {
             if (!base.Execute())
                 return false;
-            //Game.UI._world.systemMover.Subscribe(this);
-            //  NotifyObservers();
-            Actor.Position += _dir;
-            Actor.Time += Cost;
+            Game.UI.world.SystemMover.Subscribe(this);
+            NotifyObservers();
+           // Actor.Position += _dir;
+           // Actor.Time += Cost;
 
             return true;
         }

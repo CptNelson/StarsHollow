@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
+using StarsHollow.Engine;
 using StarsHollow.UserInterface;
 
 namespace StarsHollow.World
@@ -19,6 +20,10 @@ namespace StarsHollow.World
     {
         private int _mapWidth, _mapHeight;
         private TileBase[] _worldMapTiles;
+        public SystemMover SystemMover;
+        //public SystemSkills SystemSkills;
+        //public SystemDamage SystemDamage;
+        
         private Map _overworldMap;
         public Entity TurnTimer;
         public Entity Player;
@@ -34,6 +39,13 @@ namespace StarsHollow.World
         {
         }
 
+        public void InitSystems()
+        {
+            SystemMover = new SystemMover();
+            //systemSkills = new SystemSkills();
+            //systemDamage = new SystemDamage();
+        }
+        
         public void CreateWorld(int width, int height)
         {
             _mapWidth = width;
@@ -46,6 +58,9 @@ namespace StarsHollow.World
             Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(_mapWidth, _mapHeight);
             _overworldMap = maps.Item1;
             _overworldMap.goMap = maps.Item2;
+            
+            InitSystems();
+            
             CreateHelperEntities();
             // AddWorldMapEntities();
             AddPlayer();
