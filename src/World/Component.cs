@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using GoRogue.DiceNotation;
 using Microsoft.Xna.Framework;
 using StarsHollow.Engine;
 using Action = StarsHollow.Engine.Action;
@@ -137,6 +139,29 @@ namespace StarsHollow.World
             LeftHand = new List<Entity>(1);
         }
 
+        public Entity GetItemAtRightHand()
+        {
+            return RightHand.First();
+        }
+        public Entity GetItemAtLeftHand()
+        {
+            return LeftHand.First();
+        }
+
+        public bool IsHoldingItem()
+        {
+            return RightHand.Count > 0 || LeftHand.Count > 0;
+        }
+
+        public Entity GetHeldItem()
+        {
+            if (GetItemAtRightHand() != null)
+                return GetItemAtRightHand();
+            if (GetItemAtLeftHand() != null)
+                return GetItemAtLeftHand();
+            return null;
+        }
+
         public void AddItem(Entity item)
         {
             // This should be action/event.
@@ -253,8 +278,15 @@ namespace StarsHollow.World
     // Data for melee skills.
     public class CmpMelee : Component
     {
+        public string damage;
+        public int range;
+        public int skillModifier;
         public CmpMelee(params object[] args)
         {
+            Console.WriteLine("  a: "+ args.Length);
+            damage = Convert.ToString(args[0]);
+            range = Convert.ToInt32(args[1]);
+            skillModifier = Convert.ToInt32(args[2]);
         }
 
         public override void UpdateComponent() { }
@@ -262,8 +294,14 @@ namespace StarsHollow.World
 
     public class CmpRanged : Component
     {
-        public CmpRanged()
+        public string damage;
+        public int range;
+        public int skillModifier;
+        public CmpRanged(params object[] args)
         {
+            damage = Convert.ToString(args[0]);
+            range = Convert.ToInt32(args[1]);
+            skillModifier = Convert.ToInt32(args[2]);
         }
         public override void UpdateComponent() {}
     }

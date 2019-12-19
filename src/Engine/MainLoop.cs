@@ -117,7 +117,7 @@ namespace StarsHollow.Engine
                     // player's turn
                     if (ent.HasComponent<CmpInput>())
                     {
-                        System.Console.WriteLine("Player turn");
+                       // System.Console.WriteLine("Player turn");
                         onTurnChange(States.Input);
                         //  Game.UI.gameState = States.player;
                         yield return true;
@@ -142,7 +142,7 @@ namespace StarsHollow.Engine
                         {
                               System.Console.WriteLine("AI turn");
                               ent.GetComponent<CmpAI>().GetGoal();
-                              Console.WriteLine(ent.Time);
+                       //       Console.WriteLine(ent.Time);
                            //   ent.GetComponent<CmpAction>().NextAction
                             // currentEntity.GetComponent<CmpAction>().
                             // currentEntity.GetComponent<CmpAI>().GetGoal();

@@ -109,13 +109,13 @@ namespace StarsHollow.Engine
 
     public class MeleeAttack : Action
     {
-        public Point dir;
+        public Point Dir;
 
         public MeleeAttack(Entity actor, Point dir)
         {
             Cost = 100;
             Actor = actor;
-            dir = dir;
+            Dir = dir;
         }
 
         public override bool Execute()

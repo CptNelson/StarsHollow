@@ -10,6 +10,11 @@
         "range": 10,
         "skill modifier": 5
       },
+      "CmpMelee": {
+        "damage": "1d2",
+        "range": 0,
+        "skill modifier": 0
+      },
       "CmpEffectStun": {
         "duration": "1d2+1"
       }

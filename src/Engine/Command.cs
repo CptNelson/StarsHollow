@@ -14,6 +14,21 @@ namespace StarsHollow.Engine
                     ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
             }
 
+            else if (Game.UI.world.CurrentMap.IsThereEntityAt(ent.Position + dir))
+            {
+                Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(ent.Position + dir);      
+                
+                if (target.NonBlocking)
+                    ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
+                else
+                {
+                    if (target.HasComponent<CmpAI>() && target.GetComponent<CmpAI>().Aggression >= 2)
+                    {
+                        ent.GetComponent<CmpAction>().SetAction(new MeleeAttack(ent, dir));
+                    } 
+                }
+            }
+
             // ent.GetComponent<CmpAction>().SetAction(new Actions.MoveBy(ent, dir));
         }
     }

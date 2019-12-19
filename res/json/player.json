@@ -15,6 +15,9 @@
         "smarts": 12
       },
       "CmpHP": { "hp": "2" },
+      "CmpBody": {
+        "itemCapacity": 2
+      },
       "CmpInput": {},
       "CmpAction": {}
     },

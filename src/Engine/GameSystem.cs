@@ -135,49 +135,70 @@ namespace StarsHollow.Engine
             // Successfull hit raises DamageEvent.
             var _action = (MeleeAttack)_sender;
             Entity attacker = _action.Actor;
-            Entity target =  Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + _action.dir);
+            Entity target =  Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + _action.Dir);
             if (target != null)
             {
-                CmpMelee attackerMelee = attacker.GetComponent<CmpMelee>();
-                CmpMelee targetMelee = target.GetComponent<CmpMelee>();
+                CmpAttributes attributes = attacker.GetComponent<CmpAttributes>();
+                CmpAttributes targetAttributes = target.GetComponent<CmpAttributes>();
+
+                int attackerWeaponSkill = 0;
+                int attackerWeaponDamage = 0;
+                int targetWeaponSkill = 0;
+                int targetWeaponDamage = 0;
+                
+                if (attacker.GetComponent<CmpBody>().IsHoldingItem())
+                {
+                    attackerWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpMelee>().skillModifier;
+                    attackerWeaponDamage = Dice.Roll(attacker.GetComponent<CmpBody>().GetItemAtRightHand().GetComponent<CmpMelee>().damage); 
+                }
+                if (target.GetComponent<CmpBody>().IsHoldingItem())
+                {
+                    targetWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpMelee>().skillModifier;
+                }
+                
+                int attackSkill = attributes.Agility + attributes.Strength / 4 + attributes.Smarts / 4 + attackerWeaponSkill;
+                int defenceSkill = targetAttributes.Agility + attributes.Strength / 4 + attributes.Guts / 4 + targetWeaponSkill;
+                
                 int attackRoll = Dice.Roll("1d100");
                 int defenceRoll = Dice.Roll("1d100");
                 int bonus = 0;
                
-                DamageEvent damageEvent = new DamageEvent(target, 3);
-                Game.UI.world.SystemDamage.Subscribe(damageEvent);
-                damageEvent.NotifyObservers();
-                /*
-                if(attackerMelee.AttackSkill + attackRoll > targetMelee.DefenceSkill + defenceRoll)
+                
+                if(attackSkill + attackRoll > defenceSkill + defenceRoll)
                 {
                     if (attackRoll >= 95)
                         bonus = Dice.Roll("1d4");
-                    int damage = Dice.Roll("1d4") + attackerMelee.AttackStrength + bonus;
+                    
+                    // add damage bonus from weapon
+                    bonus += attackerWeaponDamage;
+                    
+                    int damage = Dice.Roll("1d" +  attributes.Strength/5) + bonus;
 
-                    Game.uiManager.MessageLog.Add(attacker.Name + " hit " + target.Name + "!");
+                    Game.UI.MainWindow.Message(attacker.Name + " hit " + target.Name + "!");
 
-                    ExperienceEvent experienceEvent = new ExperienceEvent(target, ref target.GetComponent<CmpMelee>()._defenceSkill, "defence skill");
+                    //ExperienceEvent experienceEvent = new ExperienceEvent(target, ref target.GetComponent<CmpMelee>()._defenceSkill, "defence skill");
                     DamageEvent damageEvent = new DamageEvent(target, damage);
-                    Game.World.systemDamage.Subscribe(damageEvent);
+                    Game.UI.world.SystemDamage.Subscribe(damageEvent);
                     damageEvent.NotifyObservers();
                 }
                 else
                 {
                     if (defenceRoll >= 95)
                     {
+                        // this needs to be changed
                         int damage = Dice.Roll("1d4");
-                        Game.uiManager.MessageLog.Add(target.Name + " evaded "+ attacker.Name + "'s attack and executed a counter-attack!");
+                        Game.UI.MainWindow.Message(target.Name + " evaded "+ attacker.Name + "'s attack and executed a counter-attack!");
                         DamageEvent damageEvent = new DamageEvent(attacker, damage);
-                        Game.World.systemDamage.Subscribe(damageEvent);
+                        Game.UI.world.SystemDamage.Subscribe(damageEvent);
                         damageEvent.NotifyObservers();
                     }
                     else
                     {
-                        Game.uiManager.MessageLog.Add(attacker.Name + " tried to hit "+ target.Name + " but failed.");
-                        ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpMelee>()._attackSkill, "attack skill");
+                        Game.UI.MainWindow.Message(attacker.Name + " tried to hit "+ target.Name + " but failed.");
+                        //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpMelee>()._attackSkill, "attack skill");
                     }
                 } 
-                */
+                
             }
             // If there is no entity at target position
             else
