@@ -54,9 +54,11 @@ namespace StarsHollow.Engine
                 var entitiesInMap = map.Entities.Items;
                 foreach (Entity ent in entitiesInMap)
                 {
+                    Console.WriteLine("1");
                     _levelEntityList.Add(ent);
                     if (ent.Actionable)
                     {
+                        Console.WriteLine("2");
                           Console.WriteLine(ent.Name);
                         _eventsList.Add(ent);
                     }
@@ -95,7 +97,7 @@ namespace StarsHollow.Engine
                 // after input Gameloop is continued.
                 
                 
-                Console.WriteLine(currentEntity);
+                Console.WriteLine(currentEntity.Actionable);
                 
                 if (currentEntity is Animation)
                 {
