@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
@@ -14,7 +15,28 @@ namespace StarsHollow.Engine
                     ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
             }
 
+            else if (Game.UI.world.CurrentMap.IsThereEntityAt(ent.Position + dir))
+            {
+                Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(ent.Position + dir);      
+                
+                if (target.NonBlocking)
+                    ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
+                else
+                {
+                    if (target.HasComponent<CmpAI>() && target.GetComponent<CmpAI>().Aggression >= 2)
+                    {
+                        ent.GetComponent<CmpAction>().SetAction(new MeleeAttack(ent, dir));
+                    } 
+                }
+            }
+
             // ent.GetComponent<CmpAction>().SetAction(new Actions.MoveBy(ent, dir));
+        }
+
+        public static void Shoot(Entity ent, Point location)
+        {
+            ent.GetComponent<CmpAction>().SetAction(new Shoot(ent, location));
+            Console.WriteLine("shooting command");
         }
     }
 }

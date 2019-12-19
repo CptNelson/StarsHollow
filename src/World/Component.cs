@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using GoRogue.DiceNotation;
 using Microsoft.Xna.Framework;
 using StarsHollow.Engine;
 using Action = StarsHollow.Engine.Action;
@@ -125,10 +127,39 @@ namespace StarsHollow.World
         public List<Entity> ItemList;
         public readonly int ItemCapacity = 3;
         public Entity Holding;
+
+        public List<Entity> RightHand;
+        public List<Entity> LeftHand;
+        
         public CmpBody(params object[] args)
         {
             ItemCapacity = System.Convert.ToInt32(args[0]);
             ItemList = new List<Entity>();
+            RightHand = new List<Entity>(1);
+            LeftHand = new List<Entity>(1);
+        }
+
+        public Entity GetItemAtRightHand()
+        {
+            return RightHand.First();
+        }
+        public Entity GetItemAtLeftHand()
+        {
+            return LeftHand.First();
+        }
+
+        public bool IsHoldingItem()
+        {
+            return RightHand.Count > 0 || LeftHand.Count > 0;
+        }
+
+        public Entity GetHeldItem()
+        {
+            if (GetItemAtRightHand() != null)
+                return GetItemAtRightHand();
+            if (GetItemAtLeftHand() != null)
+                return GetItemAtLeftHand();
+            return null;
         }
 
         public void AddItem(Entity item)
@@ -235,10 +266,8 @@ namespace StarsHollow.World
     public class CmpWearableItem : CmpItem
     {
         public int ItemCapacity;
-        public CmpWearableItem(int itemCap = 1, string descp = " ")
+        public CmpWearableItem(params object[] args)
         {
-            Description = descp;
-            ItemCapacity = itemCap;
             if (Holder != null) ;
               //  holder.GetComponent<CmpBody>().itemCapacity += _itemCapacity;
         }
@@ -247,8 +276,15 @@ namespace StarsHollow.World
     // Data for melee skills.
     public class CmpMelee : Component
     {
+        public string damage;
+        public int range;
+        public int skillModifier;
         public CmpMelee(params object[] args)
         {
+            Console.WriteLine("  a: "+ args.Length);
+            damage = Convert.ToString(args[0]);
+            range = Convert.ToInt32(args[1]);
+            skillModifier = Convert.ToInt32(args[2]);
         }
 
         public override void UpdateComponent() { }
@@ -256,8 +292,14 @@ namespace StarsHollow.World
 
     public class CmpRanged : Component
     {
-        public CmpRanged()
+        public string damage;
+        public int range;
+        public int skillModifier;
+        public CmpRanged(params object[] args)
         {
+            damage = Convert.ToString(args[0]);
+            range = Convert.ToInt32(args[1]);
+            skillModifier = Convert.ToInt32(args[2]);
         }
         public override void UpdateComponent() {}
     }
@@ -280,4 +322,16 @@ namespace StarsHollow.World
 
         public override void UpdateComponent() {}
     }
+    
+    // ====== EFFECTS ===============================
+
+    public class CmpEffectStun : Component
+    {
+        
+        public CmpEffectStun(params object[] args){}
+       
+        public override void UpdateComponent() {}
+    }
+    
+    
 }

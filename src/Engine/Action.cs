@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
@@ -16,18 +17,18 @@ namespace StarsHollow.Engine
     // Action are Subjects, so they will raise Events
     public class Subject
     {
-        public event EventHandler EventHandler; //We can also consider
+        public event EventHandler eventHandler; //We can also consider
         //using an auto-implemented property instead of a public field
 
         public void NotifyObservers()
         {
-            if (EventHandler != null) //Ensures that if there are no handlers,
+            if (eventHandler != null)   //Ensures that if there are no handlers,
                 //the event won't be raised
             {
-                EventHandler(this, EventArgs.Empty); //We can also replace
+                eventHandler(this, EventArgs.Empty);    //We can also replace
                 //EventArgs.Empty with our own message
             }
-        }
+        }        
     }
 
     // Actions are IEntities so we can iterate them in the Gameloop
@@ -87,20 +88,21 @@ namespace StarsHollow.Engine
 
     public class Shoot : Action
     {
-        private Point _position;
+        public Point Position;
 
         public Shoot(Entity actor, Point pos)
         {
             Cost = 100;
             Actor = actor;
-            _position = pos;
+            Position = pos;
         }
 
         public override bool Execute()
         {
+            Console.WriteLine("shooting action");
             if (!base.Execute())
                 return false;
-            //Game.World.systemSkills.Subscribe(this);
+            Game.UI.world.SystemSkills.Subscribe(this);
             NotifyObservers();
             return true;
         }
@@ -108,20 +110,20 @@ namespace StarsHollow.Engine
 
     public class MeleeAttack : Action
     {
-        private Point _dir;
+        public Point Dir;
 
         public MeleeAttack(Entity actor, Point dir)
         {
             Cost = 100;
             Actor = actor;
-            _dir = dir;
+            Dir = dir;
         }
 
         public override bool Execute()
         {
             if (!base.Execute())
                 return false;
-            //Game.World.systemSkills.Subscribe(this);
+            Game.UI.world.SystemSkills.Subscribe(this);
             NotifyObservers();
             return true;
         }
@@ -140,9 +142,9 @@ namespace StarsHollow.Engine
 
         public override bool Execute()
         {
-            //Game.World.systemDamage.Subscribe(this);
-            //NotifyObservers();
-            //  DamageEvent damageEvent = new DamageEvent(_actor, _damage);
+            //Game.UI.world.SystemDamage.Subscribe(this);
+            //NotifyObservers(); 
+            //DamageEvent damageEvent = new DamageEvent(Actor, _damage);
             //  Game.World.systemDamage.Subscribe(damageEvent);
             //  damageEvent.NotifyObservers();
             return true;
@@ -219,13 +221,13 @@ namespace StarsHollow.Engine
 
     public class MoveBy : Action
     {
-        public Point _dir;
+        public Point dir;
 
         public MoveBy(Entity actor, Point dir)
         {
             Actor = actor;
             Cost = 100 * Game.UI.world.OverworldMap.GetTileAt(actor.Position + dir).MoveCostMod;
-            _dir = dir;
+            this.dir = dir;
             //System.Console.WriteLine("action!");
         }
 
@@ -233,10 +235,10 @@ namespace StarsHollow.Engine
         {
             if (!base.Execute())
                 return false;
-            //Game.UI._world.systemMover.Subscribe(this);
-            //  NotifyObservers();
-            Actor.Position += _dir;
-            Actor.Time += Cost;
+            Game.UI.world.SystemMover.Subscribe(this);
+            NotifyObservers();
+           // Actor.Position += _dir;
+           // Actor.Time += Cost;
 
             return true;
         }

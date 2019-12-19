@@ -18,10 +18,9 @@
         "HP": "2"
       },
       "CmpBody": {
-        "ItemCapacity": 3
+        "ItemCapacity": 2
       },
       "CmpAction": {},
-      "CmpMelee": {}, 
       "CmpAI": {"aggression": 3}
     },
     "items": [

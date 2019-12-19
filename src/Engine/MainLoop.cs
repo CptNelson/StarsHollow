@@ -43,6 +43,8 @@ namespace StarsHollow.Engine
             _eventsList = new List<IEntity>();
             _overworldEntityList = new List<IEntity>();
             AddEntitiesToLevelList();
+            
+            
 
             void AddEntitiesToLevelList()
             {
@@ -52,9 +54,11 @@ namespace StarsHollow.Engine
                 var entitiesInMap = map.Entities.Items;
                 foreach (Entity ent in entitiesInMap)
                 {
+                    Console.WriteLine("1");
                     _levelEntityList.Add(ent);
                     if (ent.Actionable)
                     {
+                        Console.WriteLine("2");
                           Console.WriteLine(ent.Name);
                         _eventsList.Add(ent);
                     }
@@ -93,13 +97,15 @@ namespace StarsHollow.Engine
                 // after input Gameloop is continued.
                 
                 
+                Console.WriteLine(currentEntity.Actionable);
+                
                 if (currentEntity is Animation)
                 {
-                    //System.Console.WriteLine("anim");
+                    Console.WriteLine("anim");
                     var animation = (Animation) currentEntity;
                     animation.Execute();
                     Game.UI.MainWindow.GameState = States.Animation;
-                    LevelEntityList.Remove(animation);
+                    _eventsList.Remove(animation);
                     yield return true;
                 }
 
@@ -115,7 +121,7 @@ namespace StarsHollow.Engine
                     // player's turn
                     if (ent.HasComponent<CmpInput>())
                     {
-                        System.Console.WriteLine("Player turn");
+                       // System.Console.WriteLine("Player turn");
                         onTurnChange(States.Input);
                         //  Game.UI.gameState = States.player;
                         yield return true;
@@ -140,7 +146,7 @@ namespace StarsHollow.Engine
                         {
                               System.Console.WriteLine("AI turn");
                               ent.GetComponent<CmpAI>().GetGoal();
-                              Console.WriteLine(ent.Time);
+                       //       Console.WriteLine(ent.Time);
                            //   ent.GetComponent<CmpAction>().NextAction
                             // currentEntity.GetComponent<CmpAction>().
                             // currentEntity.GetComponent<CmpAI>().GetGoal();

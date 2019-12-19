@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
+using StarsHollow.Engine;
 using StarsHollow.UserInterface;
 
 namespace StarsHollow.World
@@ -19,6 +20,10 @@ namespace StarsHollow.World
     {
         private int _mapWidth, _mapHeight;
         private TileBase[] _worldMapTiles;
+        public SystemMover SystemMover;
+        public SystemSkills SystemSkills;
+        public SystemDamage SystemDamage;
+        
         private Map _overworldMap;
         public Entity TurnTimer;
         public Entity Player;
@@ -34,6 +39,13 @@ namespace StarsHollow.World
         {
         }
 
+        public void InitSystems()
+        {
+            SystemMover = new SystemMover();
+            SystemSkills = new SystemSkills();
+            SystemDamage = new SystemDamage();
+        }
+        
         public void CreateWorld(int width, int height)
         {
             _mapWidth = width;
@@ -46,6 +58,9 @@ namespace StarsHollow.World
             Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(_mapWidth, _mapHeight);
             _overworldMap = maps.Item1;
             _overworldMap.goMap = maps.Item2;
+            
+            InitSystems();
+            
             CreateHelperEntities();
             // AddWorldMapEntities();
             AddPlayer();
@@ -79,6 +94,8 @@ namespace StarsHollow.World
             ent.Animation.CurrentFrame[0].Background = Color.Transparent;
 
             JObject components = (JObject) entityJSON[_name]["components"];
+            
+            Console.WriteLine(entityJSON);
 
             ent.AddComponentsFromFile(components);
 
@@ -98,13 +115,12 @@ namespace StarsHollow.World
         {
             if (Player != null) return;
             Player = EntityFactory("player", "player.json");
-           // Player.Components.Add(new EntityViewSyncComponent());
+           Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
+            Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First()); 
             Player.Position = _overworldMap.GetRandomEmptyPosition();
             Player.IsVisible = true;
-            Console.Write("Pos: " + Player.Position);
             Player.Actionable = true;
             _overworldMap.Add(Player);
-            Console.Write("errrrrr");
         }
 
         private void CreateGuard(int amount = 2)

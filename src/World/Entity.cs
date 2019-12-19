@@ -100,7 +100,6 @@ namespace StarsHollow.World
                 {
                    args[i] = tag.Value.ElementAt(i).First;
                 }
-                
                 Type cmpType = Type.GetType("StarsHollow.World." + property);
                 var newComponent = (Component)Activator.CreateInstance(cmpType, args);
 
