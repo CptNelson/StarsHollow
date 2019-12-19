@@ -126,7 +126,7 @@ namespace StarsHollow.UserInterface
                     break;
                 case States.Animation:
                     base.Update(timeElapsed);
-                    //CenterOnActor(Game.World.player);
+                    //DisplayFOV();
                     break;
                 case States.Main:
                 {
@@ -245,7 +245,7 @@ namespace StarsHollow.UserInterface
 
         // ============WINDOW & CONSOLE MANAGEMENT==========================================
 
-        private void DisplayFOV()
+        public void DisplayFOV()
         {
             _world.CurrentMap._tiles[_world.Player.Position.ToIndex(_world.CurrentMap._width)].fovMap
                 .Calculate(_world.Player.Position, 55, Radius.SQUARE);
@@ -311,7 +311,7 @@ namespace StarsHollow.UserInterface
         private void CreateTarget()
         {
             target = new SadConsole.Entities.Entity(1, 1);
-            target.Animation.CurrentFrame[0].Glyph = 'X';
+            target.Animation.CurrentFrame[0].Glyph = 7;
             target.Animation.CurrentFrame[0].Foreground = Color.Red;
             target.IsVisible = false;
             target.Font = Fonts.halfSizeFont;
@@ -404,12 +404,13 @@ namespace StarsHollow.UserInterface
                     if (!target.IsVisible)
                         target.Position = _world.Player.Position;
                     target.IsVisible = true;
-                    if (Global.KeyboardState.IsKeyReleased(Keys.Enter))
+                    if (Global.KeyboardState.IsKeyPressed(Keys.Escape))
                     {
                         Console.WriteLine("exit");
                         ExitTargetting();
                     }
-
+                    
+                    
                     if (Global.KeyboardState.IsKeyPressed(Keys.Up))
                         MoveTarget(new Point(0, -1));
                     if (Global.KeyboardState.IsKeyPressed(Keys.Down))
@@ -454,7 +455,7 @@ namespace StarsHollow.UserInterface
                         line.RemoveAt(line.Count - 1);
                         foreach (Point pos in line)
                         {
-                            TargetConsole.Print(pos.X, pos.Y, "X");
+                            TargetConsole.Print(pos.X, pos.Y, ".", Color.Red);
                         }
                     }
                 }

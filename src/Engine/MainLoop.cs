@@ -101,7 +101,7 @@ namespace StarsHollow.Engine
                 
                 if (currentEntity is Animation)
                 {
-                    System.Console.WriteLine("anim");
+                    Console.WriteLine("anim");
                     var animation = (Animation) currentEntity;
                     animation.Execute();
                     Game.UI.MainWindow.GameState = States.Animation;
