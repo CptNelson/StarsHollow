@@ -338,14 +338,12 @@ namespace StarsHollow.UserInterface
         // Remove an Entity from the MapConsole every time the Map's Entity collection changes 
         private void OnMapEntityRemoved(object sender, ItemEventArgs<Entity> args)
         {
-            System.Console.WriteLine("lolu remove");
             _mapConsole.Children.Remove(args.Item);
         }
 
         // Add an Entity to the MapConsole every time the Map's Entity collection changes
         private void OnMapEntityAdded(object sender, ItemEventArgs<Entity> args)
         {
-            System.Console.WriteLine("lolu1");
             _mapConsole.Children.Add(args.Item);
         }
 

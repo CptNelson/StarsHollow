@@ -92,7 +92,11 @@ namespace StarsHollow.Engine
 
                 IEntity currentEntity = _eventsList.First();
 
-
+                foreach (IEntity ent in _eventsList)
+                {
+                    Console.WriteLine("entity: " + ent);
+                }
+                
                 // if the currentEvent is player, exit the loop and wait for input
                 // after input Gameloop is continued.
                 
@@ -103,9 +107,9 @@ namespace StarsHollow.Engine
                 {
                     Console.WriteLine("anim");
                     var animation = (Animation) currentEntity;
+                    _eventsList.Remove(animation);
                     animation.Execute();
                     Game.UI.MainWindow.GameState = States.Animation;
-                    _eventsList.Remove(animation);
                     yield return true;
                 }
 

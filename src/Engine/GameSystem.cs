@@ -103,7 +103,7 @@ namespace StarsHollow.Engine
             if (health.Hp < 0)
             {
                 health.Alive = false;
-               // DeathEvent destroyEvent = new DeathEvent(target);
+                DeathEvent destroyEvent = new DeathEvent(target);
             }
         }
     }
@@ -222,46 +222,60 @@ namespace StarsHollow.Engine
                 if (target != null)
                 {
                     CmpAttributes attributes = attacker.GetComponent<CmpAttributes>();
-                    
+
                     int attackRoll = Dice.Roll("1d100");
                     int damageBonus = 0;
-                
+
                     int attackerWeaponSkill = 0;
                     int attackerWeaponDamage = 0;
-                    
-                    attackerWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpRanged>().skillModifier;
-                    attackerWeaponDamage = Dice.Roll(attacker.GetComponent<CmpBody>().GetItemAtRightHand().GetComponent<CmpRanged>().damage); 
-                    
-                    int attackSkill = attributes.Agility + attributes.Guts / 4 + attributes.Smarts / 4 + attackerWeaponSkill;
-                    
-                    if(attackSkill <= attackRoll)
+
+                    attackerWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpRanged>()
+                        .skillModifier;
+                    attackerWeaponDamage = Dice.Roll(attacker.GetComponent<CmpBody>().GetItemAtRightHand()
+                        .GetComponent<CmpRanged>().damage);
+
+                    int attackSkill = attributes.Agility + attributes.Guts / 4 + attributes.Smarts / 4 +
+                                      attackerWeaponSkill;
+
+                    if (attackSkill <= attackRoll)
                     {
                         if (attackRoll <= 5)
                             damageBonus += Dice.Roll("1d4");
                         int damage = Dice.Roll("1d4") + damageBonus;
-                        
-                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, target.Position));
-                        Game.UI.MainWindow.Message(attacker.Name + " hit "+ target.Name + "!");
+
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
+                            target.Position));
+                        Console.WriteLine("first");
+                        Game.UI.MainWindow.Message(attacker.Name + " hit " + target.Name + "!");
                         DamageEvent damageEvent = new DamageEvent(target, damage);
                         Game.UI.world.SystemDamage.Subscribe(damageEvent);
                         damageEvent.NotifyObservers();
                         break;
                     }
+                    else
+                    {
 
-                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, target.Position));
-                    Game.UI.MainWindow.Message(attacker.Name + " missed "+ target.Name + ".");
-                    //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpRanged>()._attackSkill, "attack skill");
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
+                            target.Position));
+                        Console.WriteLine("second");
+                        Game.UI.MainWindow.Message(attacker.Name + " missed " + target.Name + ".");
+                        return;
+                        //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpRanged>()._attackSkill, "attack skill");
+                    }
                 }
 
                 if (!Game.UI.world.CurrentMap.IsTileWalkable(pos))
                 {
                         Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
+                        Console.WriteLine("third");
                    Game.UI.MainWindow.Message("You hit a wall!");
                    break; 
                 }
-                else if (pos == _action.Position)
+
+                if (pos == _action.Position)
                 {
                     Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
+                    Console.WriteLine("fourth");
                 }
 
             }

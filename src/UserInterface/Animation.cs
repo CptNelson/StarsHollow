@@ -65,26 +65,33 @@ namespace StarsHollow.UserInterface
                 case 2:
                     _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
                     break;
-                default:
+                case 3:
                     _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
+                    break;
+                case 4:
+                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Five;
                     break;
 
             }
+
+            _proj.Animation.IsDirty = true;
             
-            Console.WriteLine(_proj.Animation.CurrentFrame[0].Foreground);
+            //Console.WriteLine("counter: " + _counter + " Line: " + _line.Count);
             _proj.Position = new Point(_line[_counter].X, _line[_counter].Y);
             
             Game.UI.MainWindow.DisplayFOV();
             _counter++;
-          //  Game.UI.MainWindow.GameState = States.Input;
-          if (_counter < _line.Count) return;
-          System.Threading.Thread.Sleep(25); // TODO: Find a way to use Timer for this.
-            _counter = 0;
-            _line = null;
-            Game.UI.world.CurrentMap.Remove(_proj);
-            Game.UI.MainWindow.GameState = States.Main;
-            _timer.Stop();
-            _timer.Dispose();
+          if (_counter >= _line.Count)
+          {
+              System.Threading.Thread.Sleep(25); // TODO: Find a way to use Timer for this.
+              _counter = 0;
+              _line = null;
+              Game.UI.world.CurrentMap.Remove(_proj);
+              Game.UI.MainWindow.GameState = States.Main;
+            Console.WriteLine(Game.UI.MainWindow.GameState);
+              _timer.Stop();
+              _timer.Dispose();
+          }
         }
     }
 }

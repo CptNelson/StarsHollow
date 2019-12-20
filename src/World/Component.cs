@@ -259,9 +259,13 @@ namespace StarsHollow.World
 
         }
     }
-    public class CmpEdibleItem : CmpItem
+    public class CmpEdibleItem : Component
     {
 
+        public override void UpdateComponent()
+        {
+
+        }
     }
     public class CmpWearableItem : CmpItem
     {
