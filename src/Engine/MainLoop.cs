@@ -43,14 +43,11 @@ namespace StarsHollow.Engine
             _eventsList = new List<IEntity>();
             _overworldEntityList = new List<IEntity>();
             AddEntitiesToLevelList();
-            
-            
 
             void AddEntitiesToLevelList()
             {
                 // Loop all entities in Map's entitylist, and add them to entityLists 
                 // if they are flagged Actionable
-                // Console.WriteLine(map);
                 var entitiesInMap = map.Entities.Items;
                 foreach (Entity ent in entitiesInMap)
                 {
@@ -63,8 +60,6 @@ namespace StarsHollow.Engine
                         _eventsList.Add(ent);
                     }
                 }
-
-                //Game.UI.gameState = States.main;
             }
         }
 
@@ -97,9 +92,6 @@ namespace StarsHollow.Engine
                     Console.WriteLine("entity: " + ent);
                 }
                 
-                // if the currentEvent is player, exit the loop and wait for input
-                // after input Gameloop is continued.
-                
                 
                 Console.WriteLine(currentEntity.Actionable);
                 
@@ -122,6 +114,9 @@ namespace StarsHollow.Engine
                     var comp = (Component) component;
                     Console.WriteLine(comp.Name);
                 }*/
+                
+                    // if the currentEvent is player, exit the loop and wait for input
+                    // after input Gameloop is continued.
                     // player's turn
                     if (ent.HasComponent<CmpInput>())
                     {

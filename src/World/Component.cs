@@ -326,16 +326,54 @@ namespace StarsHollow.World
 
         public override void UpdateComponent() {}
     }
+
     
     // ====== EFFECTS ===============================
 
     public class CmpEffectStun : Component
     {
-        
-        public CmpEffectStun(params object[] args){}
+        private int _duration;
+        private bool _stunned;
+
+        public CmpEffectStun(params object[] args)
+        {
+             _duration = Convert.ToInt32(args[0]);
+             _stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.
+                                            // when the item is used to attack and the target receives this effect, then it will be true.
+        }
        
-        public override void UpdateComponent() {}
+        public override void UpdateComponent() 
+        {
+            if (!_stunned) return;
+            Entity.Actionable = false;
+            _duration -= 1; // TODO: make it so that different entities can have faster recovery.
+            if (_duration < 1) 
+            {
+                _stunned = false;
+                Entity.Actionable = true;
+                Entity._components.Remove(this);
+
+            }
+        }
     }
     
     
+    public class CmpEffectSleep : Component
+    {
+        
+        public CmpEffectSleep(params object[] args){}
+       
+        public override void UpdateComponent() {}
+    }
+
+
+    public class CmpEffectEnraged : Component
+    {
+        
+        public CmpEffectEnraged(params object[] args){}
+       
+        public override void UpdateComponent() {}
+    }
+
+
 }
