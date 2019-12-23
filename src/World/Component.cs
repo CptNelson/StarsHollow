@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GoRogue.DiceNotation;
@@ -250,9 +250,9 @@ namespace StarsHollow.World
 
         public CmpItem(params object[] args)
         {
-            OnMap = true;
-            Weight = Convert.ToInt32(args[0]);
-            Description = Convert.ToString(args[1]);
+            OnMap = Convert.ToBoolean(args[0]);
+            Weight = Convert.ToInt32(args[1]);
+            Description = Convert.ToString(args[2]);
         }
         public override void UpdateComponent()
         {
@@ -332,26 +332,51 @@ namespace StarsHollow.World
 
     public class CmpEffectStun : Component
     {
-        private int _duration;
+        private string _durationRoll;
+
+        public string DurationRoll
+        {
+            get => _durationRoll;
+            set => _durationRoll = value;
+        }
+
         private bool _stunned;
+        private int _duration;
+
+        public int Duration
+        {
+            get => _duration;
+            set => _duration = value;
+        }
 
         public CmpEffectStun(params object[] args)
         {
-             _duration = Convert.ToInt32(args[0]);
-             _stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.
-                                            // when the item is used to attack and the target receives this effect, then it will be true.
+             _durationRoll = Convert.ToString(args[0]);
+             _stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.// when the item is used to attack and the target receives this effect, then it will be true.
+             _duration = Convert.ToInt32(args[2]);
         }
        
         public override void UpdateComponent() 
         {
             if (!_stunned) return;
             Entity.Actionable = false;
+            Console.WriteLine(Entity.Name + " " + "before up d: " + _duration);
             _duration -= 1; // TODO: make it so that different entities can have faster recovery.
+           
+            // check if entity can resist effect 
+            if (Entity.GetComponent<CmpAttributes>().Guts + Entity.GetComponent<CmpAttributes>().Vitality  >=
+                Dice.Roll("1d100"))
+            {
+                _duration -= 1;
+            }
+            
+            Console.WriteLine("up d: " + _duration);
             if (_duration < 1) 
             {
                 _stunned = false;
                 Entity.Actionable = true;
                 Entity._components.Remove(this);
+                Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
 
             }
         }

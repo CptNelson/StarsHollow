@@ -62,8 +62,11 @@ namespace StarsHollow.Engine
                 }
             }
         }
-
-        private void UpdateEntities()
+        
+        
+        // foreach doesn't work when adding new components on the run.
+        // TODO: maybe some kind of queue of added elements that adds them when this is not running?
+        private void UpdateEntities2()
         {
             foreach (Entity ent in _levelEntityList)
             {
@@ -71,6 +74,20 @@ namespace StarsHollow.Engine
                 foreach (Component cmp in cmps)
                 {
                     cmp.UpdateComponent();
+                }
+            }
+        }
+
+        private void UpdateEntities()
+        {
+            for (int ent = 0; ent < _levelEntityList.Count; ent++)
+            {
+                Entity entity = (Entity)_levelEntityList[ent];
+                List<IComponent> cmps = entity.GetComponents();
+                for (int cmp = 0; cmp < cmps.Count; cmp++)
+                {
+                    Component component = (Component)cmps[cmp];
+                    component.UpdateComponent();
                 }
             }
         }
@@ -89,11 +106,11 @@ namespace StarsHollow.Engine
 
                 foreach (IEntity ent in _eventsList)
                 {
-                    Console.WriteLine("entity: " + ent);
+                 //   Console.WriteLine("entity: " + ent);
                 }
                 
                 
-                Console.WriteLine(currentEntity.Actionable);
+            //    Console.WriteLine(currentEntity.Actionable);
                 
                 if (currentEntity is Animation)
                 {

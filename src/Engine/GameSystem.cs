@@ -242,10 +242,11 @@ namespace StarsHollow.Engine
                         if (attackRoll <= 5)
                             damageBonus += Dice.Roll("1d4");
                         int damage = Dice.Roll("1d4") + damageBonus;
-
+                        
+                        CheckForStatusEffects(attacker, target);
+                        
                         Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
                             target.Position));
-                        Console.WriteLine("first");
                         Game.UI.MainWindow.Message(attacker.Name + " hit " + target.Name + "!");
                         DamageEvent damageEvent = new DamageEvent(target, damage);
                         Game.UI.world.SystemDamage.Subscribe(damageEvent);
@@ -257,7 +258,6 @@ namespace StarsHollow.Engine
 
                         Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
                             target.Position));
-                        Console.WriteLine("second");
                         Game.UI.MainWindow.Message(attacker.Name + " missed " + target.Name + ".");
                         return;
                         //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpRanged>()._attackSkill, "attack skill");
@@ -278,6 +278,36 @@ namespace StarsHollow.Engine
                     Console.WriteLine("fourth");
                 }
 
+            }
+        }
+
+
+        void CheckForStatusEffects(Entity attacker, Entity target)
+        {
+            if (attacker.GetComponent<CmpBody>().GetHeldItem().HasComponent<CmpEffectStun>())
+            {
+                int duration = Dice.Roll(attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpEffectStun>()
+                    .DurationRoll);
+                Console.WriteLine("d: " + duration);
+
+                if (target.GetComponent<CmpAttributes>().Guts / 2 + target.GetComponent<CmpAttributes>().Vitality / 2 >=
+                    Dice.Roll("1d100"))
+                {
+                    Game.UI.MainWindow.Message(target.Name + " resisted stun.");
+                    return;
+                }
+                
+                
+                // In case target is already stunned, don't add new one.
+                if (target.HasComponent<CmpEffectStun>())
+                {
+                    target.GetComponent<CmpEffectStun>().Duration += duration;
+                    Game.UI.MainWindow.Message(target.Name + " got stunned again!");
+                    return;
+                }
+                
+                target.AddComponent(new CmpEffectStun(new object[] {"", true, duration}));
+                Game.UI.MainWindow.Message(target.Name + " is stunned!");
             }
         }
         

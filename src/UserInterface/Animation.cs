@@ -88,7 +88,6 @@ namespace StarsHollow.UserInterface
               _line = null;
               Game.UI.world.CurrentMap.Remove(_proj);
               Game.UI.MainWindow.GameState = States.Main;
-            Console.WriteLine(Game.UI.MainWindow.GameState);
               _timer.Stop();
               _timer.Dispose();
           }

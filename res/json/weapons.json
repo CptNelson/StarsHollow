@@ -7,6 +7,7 @@
     },
     "components": {
       "CmpItem": {
+        "OnMap": "false",
         "weight": 1,
         "description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
       },
@@ -21,7 +22,9 @@
         "skill modifier": 0
       },
       "CmpEffectStun": {
-        "duration": "1d2+1"
+        "durationRoll": "1d2+1",
+        "stunned": "false",
+        "duration": "2"
       }
     }
   }
