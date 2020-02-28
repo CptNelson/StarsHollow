@@ -6,7 +6,7 @@ using StarsHollow.World;
 namespace StarsHollow.Engine
 {
     /*
-        Commands are called from player input. This way the Entity player is controlling
+        Commands are called from player input and AI. This way the Entity player is controlling
         is easy to swap. 
     */
     static class Command
@@ -39,13 +39,12 @@ namespace StarsHollow.Engine
 
                 if (target == null)
                     actor.GetComponent<CmpAction>().SetAction(new MoveBy(actor, dir));
-                //TODO: this probably should not check for AI at this point. Or make it so that "no component" returns false
+
                 else if (target.HasComponent<CmpAI>() && target.GetComponent<CmpAI>().Aggression >= 2)
                 {
                     actor.GetComponent<CmpAction>().SetAction(new MeleeAttack(actor, dir));
                 }
             }
-
         }
 
         public static void Shoot(Entity actor, Point location)
