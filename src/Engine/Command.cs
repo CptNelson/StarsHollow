@@ -1,42 +1,56 @@
 ﻿using System;
-using System.Threading;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
 namespace StarsHollow.Engine
 {
+    /*
+        Commands are called from player input. This way the Entity player is controlling
+        is easy to swap. 
+    */
     static class Command
     {
-        public static void Move(Entity ent, Point dir)
+        public static void Move(Entity actor, Point dir)
         {
-            if (Game.UI.world.CurrentMap.IsTileWalkable(ent.Position + dir) &&
-                !Game.UI.world.CurrentMap.IsThereEntityAt(ent.Position + dir))
+            Map map = Game.UI.world.CurrentMap;
+
+            if (map.IsTileWalkable(actor.Position + dir) &&
+                !map.IsThereEntityAt(actor.Position + dir))
             {
-                ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
+                actor.GetComponent<CmpAction>().SetAction(new MoveBy(actor, dir));
             }
 
-            else if (Game.UI.world.CurrentMap.IsThereEntityAt(ent.Position + dir))
+            else if (map.IsThereEntityAt(actor.Position + dir))
             {
-                Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(ent.Position + dir);
+                List<Entity> targets = map.GetEntitiesAt(actor.Position + dir);
 
-                if (target.NonBlocking)
-                    ent.GetComponent<CmpAction>().SetAction(new MoveBy(ent, dir));
-                else
+                // get all entities at position, and check if anyone is !NonBlocking
+
+                Entity target = null;
+
+                // TODO: make sure that the entity that is top on the tile gets chosen as target
+
+                foreach (Entity ent in targets)
                 {
-                    if (target.HasComponent<CmpAI>() && target.GetComponent<CmpAI>().Aggression >= 2)
-                    {
-                        ent.GetComponent<CmpAction>().SetAction(new MeleeAttack(ent, dir));
-                    }
+                    if (!ent.NonBlocking)
+                        target = ent;
+                }
+
+                if (target == null)
+                    actor.GetComponent<CmpAction>().SetAction(new MoveBy(actor, dir));
+                //TODO: this probably should not check for AI at this point. Or make it so that "no component" returns false
+                else if (target.HasComponent<CmpAI>() && target.GetComponent<CmpAI>().Aggression >= 2)
+                {
+                    actor.GetComponent<CmpAction>().SetAction(new MeleeAttack(actor, dir));
                 }
             }
 
-            // ent.GetComponent<CmpAction>().SetAction(new Actions.MoveBy(ent, dir));
         }
 
-        public static void Shoot(Entity ent, Point location)
+        public static void Shoot(Entity actor, Point location)
         {
-            ent.GetComponent<CmpAction>().SetAction(new Shoot(ent, location));
-            Console.WriteLine("shooting command");
+            actor.GetComponent<CmpAction>().SetAction(new Shoot(actor, location));
         }
     }
 }
