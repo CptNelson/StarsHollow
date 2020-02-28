@@ -37,7 +37,7 @@ namespace StarsHollow.Engine
             corpse.Animation.CurrentFrame[0].Background = Color.Transparent;
 
             corpse.AddComponents(new List<IComponent> { new CmpEdibleItem() }); ;
-            corpse.isActionable = false;
+            corpse.IsActionable = false;
             corpse.NonBlocking = true;
             corpse.Position = _entity.Position;
             Game.UI.world.CurrentMap.Add(corpse);

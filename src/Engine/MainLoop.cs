@@ -53,7 +53,7 @@ namespace StarsHollow.Engine
                 {
                     Console.WriteLine("1");
                     _levelEntityList.Add(ent);
-                    if (ent.isActionable)
+                    if (ent.IsActionable)
                     {
                         Console.WriteLine("2");
                         Console.WriteLine(ent.Name);
@@ -99,7 +99,7 @@ namespace StarsHollow.Engine
             {
                 //_levelEntityList.Sort((x, y) => x.Time.CompareTo(y.Time));
 
-                _eventsList.Sort((x, y) => x.entityTime.CompareTo(y.entityTime));
+                _eventsList.Sort((x, y) => x.EntityTime.CompareTo(y.EntityTime));
 
 
                 IEntity currentEntity = _eventsList.First();
@@ -143,10 +143,10 @@ namespace StarsHollow.Engine
                         yield return true;
                     }
 
-                    if (!currentEntity.isActionable)
+                    if (!currentEntity.IsActionable)
                     {
                         // this is to pass time on non-action entities. Change it later
-                        currentEntity.entityTime += 100;
+                        currentEntity.EntityTime += 100;
                     }
                     else
                     {

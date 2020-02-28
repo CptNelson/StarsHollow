@@ -15,14 +15,14 @@ namespace StarsHollow.UserInterface
     public class Animation : IAnimation, IEntity
     {
 
-        public bool isActionable { get; set; }
+        public bool IsActionable { get; set; }
         public uint ID { get; set; }
-        public uint entityTime { get; set; }
+        public uint EntityTime { get; set; }
 
         protected Animation()
         {
-            isActionable = true;
-            entityTime = 1;
+            IsActionable = true;
+            EntityTime = 1;
         }
         public virtual void Execute()
         {

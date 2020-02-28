@@ -72,7 +72,7 @@ namespace StarsHollow.World
             // First create the helper entities and then add them to a game loop.
             TurnTimer = EntityFactory("timer", "helpers.json");
             TurnTimer.GetComponents();
-            TurnTimer.isActionable = true;
+            TurnTimer.IsActionable = true;
             _overworldMap.Add(TurnTimer);
         }
 
@@ -119,7 +119,7 @@ namespace StarsHollow.World
             Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
             Player.Position = _overworldMap.GetRandomEmptyPosition();
             Player.IsVisible = true;
-            Player.isActionable = true;
+            Player.IsActionable = true;
             _overworldMap.Add(Player);
         }
 
@@ -130,7 +130,7 @@ namespace StarsHollow.World
                 Entity guard = EntityFactory("guard", "level1.json");
                 guard.Position = _overworldMap.GetRandomEmptyPosition();
                 guard.IsVisible = false;
-                guard.isActionable = true;
+                guard.IsActionable = true;
                 _overworldMap.Add(guard);
             }
         }

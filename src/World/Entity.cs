@@ -17,8 +17,8 @@ namespace StarsHollow.World
     // Actionable entities are looped in the main game loop.
     public interface IEntity : IHasID
     {
-        bool isActionable { get; set; }
-        uint entityTime { get; set; }
+        bool IsActionable { get; set; }
+        uint EntityTime { get; set; }
     }
 
 
@@ -27,10 +27,10 @@ namespace StarsHollow.World
     {
         // All the components entity has.
         public List<IComponent> _components;
-        public bool isActionable { get; set; }
+        public bool IsActionable { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
-        public uint entityTime { get; set; }
+        public uint EntityTime { get; set; }
         // name for checking what kind of entity it is.(TODO: make this a enum)
         public string TypeName { get; set; }
         // check if entity blocks movement
@@ -46,8 +46,8 @@ namespace StarsHollow.World
             Animation.IsVisible = false;
             Name = "name";
             TypeName = "type";
-            entityTime = 0;
-            isActionable = false;
+            EntityTime = 0;
+            IsActionable = false;
             _components = new List<IComponent>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;

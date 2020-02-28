@@ -52,7 +52,7 @@ namespace StarsHollow.Engine
             // If tile is walkable and there is no other entity, move it there.
             // Refresh the Player fov afterwards.
             _action = (MoveBy)sender;
-            Point pos = _action.actionActor.Position + _action.dir;
+            Point pos = _action.position;
             //System.Console.WriteLine("is local: " + ! Game.World.CurrentMap.IsMapWorld + " is walkable: " +  Game.World.CurrentMap.IsTileWalkable(pos));
             //if map is world
             //System.Console.WriteLine("World Map");
@@ -63,7 +63,7 @@ namespace StarsHollow.Engine
                 if (!Game.UI.world.CurrentMap.IsThereEntityAt(pos))
                 {
                     //System.Console.WriteLine("no one here. mover: " + _action._actor.Name);
-                    _action.actionActor.Position = pos;
+                    _action.ActionActor.Position = pos;
                     //  Game.UI.CenterOnActor(Game.UI.world.Player);
                 }
                 else if (Game.UI.world.CurrentMap.IsThereEntityAt(pos))
@@ -71,11 +71,11 @@ namespace StarsHollow.Engine
                     Entity entity = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(pos);
                     if (!entity.NonBlocking)
                     {
-                        Console.WriteLine("mover: " + _action.actionActor.Name + " blocker: " + entity.Name);
+                        Console.WriteLine("mover: " + _action.ActionActor.Name + " blocker: " + entity.Name);
                         return;
                     }
                     else
-                        _action.actionActor.Position = pos;
+                        _action.ActionActor.Position = pos;
                 }
             }
         }
@@ -134,7 +134,7 @@ namespace StarsHollow.Engine
             // If attacker throws 95+, they do Critical Hit.
             // Successfull hit raises DamageEvent.
             var _action = (MeleeAttack)_sender;
-            Entity attacker = _action.actionActor;
+            Entity attacker = _action.ActionActor;
             Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + _action.Dir);
             if (target != null)
             {
@@ -209,7 +209,7 @@ namespace StarsHollow.Engine
         {
             Console.WriteLine("shooting");
             var _action = (Shoot)_sender;
-            Entity attacker = _action.actionActor;
+            Entity attacker = _action.ActionActor;
 
             var line = Lines.Get(attacker.Position, _action.targetPosition, Lines.Algorithm.DDA);
             //System.Console.WriteLine(_action.position+" P0:"+attacker.Position); 

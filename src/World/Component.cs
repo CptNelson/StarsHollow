@@ -50,9 +50,9 @@ namespace StarsHollow.World
             _turn += 1;
 
             //System.Console.WriteLine("turn: " + _turn.ToString());
-            Entity.entityTime += 100;
+            Entity.EntityTime += 100;
 
-            if (Entity.entityTime % 100 == 0)
+            if (Entity.EntityTime % 100 == 0)
                 _minute++;
             if (_minute > 59)
             {
@@ -219,7 +219,7 @@ namespace StarsHollow.World
     public class CmpAction : Component
     {
 
-        private Action _currentAction = new WaitAction();
+        private Action _currentAction;
         private Action _nextAction;
         private bool _unableToAct = false;
         public Action NextAction { get => _nextAction; set => _nextAction = value; }
@@ -230,9 +230,9 @@ namespace StarsHollow.World
         public void SetAction(Action action)
         {
             _currentAction = action;
-            _currentAction.actionActor = Entity;
-            _currentAction.entityTime = Entity.entityTime;
-            Entity.entityTime += _currentAction.timeCost + 1;
+            //_currentAction.ActionActor = Entity;
+            _currentAction.EntityTime = Entity.EntityTime;
+            Entity.EntityTime += _currentAction.TimeCost + 1;
             Game.UI.MainWindow.MainLoop.EventsList.Add(_currentAction);
             // _currentAction.Time = Entity.Time;
             //     _currentAction.Execute();
@@ -319,7 +319,7 @@ namespace StarsHollow.World
 
         public void GetGoal()
         {
-            Entity.GetComponent<CmpAction>().SetAction(new WaitAction());
+            Entity.GetComponent<CmpAction>().SetAction(new WaitAction(Entity));
 
         }
 
@@ -359,7 +359,7 @@ namespace StarsHollow.World
         public override void UpdateComponent()
         {
             if (!_stunned) return;
-            Entity.isActionable = false;
+            Entity.IsActionable = false;
             _duration -= 1; // TODO: make it so that different entities can have faster recovery.
 
             // check if entity can resist effect 
@@ -372,7 +372,7 @@ namespace StarsHollow.World
             // when duration is 0 or less, change status and remove the component
             if (_duration >= 1) return;
             _stunned = false;
-            Entity.isActionable = true;
+            Entity.IsActionable = true;
             Entity._components.Remove(this);
             Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
         }
