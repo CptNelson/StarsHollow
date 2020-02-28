@@ -8,43 +8,12 @@ using StarsHollow.UserInterface;
 
 namespace StarsHollow.Engine
 {
-
-
     // All systems are Observers.
-    public abstract class Observer
-    {
-
-        // some helper fields
-        //protected Map  Game.World.CurrentMap = Game.World.CurrentMap;
-        protected object _sender;
-        protected EventArgs _args;
-
-        Subject _subject;
-        // Every time the event is raised
-        // (from eventHandler(this,EventArgs.Empty);), DoSomething(...) is called
-
-
-        public void Subscribe(Subject subject)
-        {
-            subject.eventHandler += DoSomething;
-        }
-        // Now, when the event is raised,
-        // DoSomething(...) is no longer called
-        public void UnSubscribe(Subject subject)
-        {
-            subject.eventHandler -= DoSomething;
-        }
-
-        public virtual void DoSomething(object sender, EventArgs e)
-        {
-
-            Console.WriteLine("Observer " + sender + " e: " + e);
-        }
-
-    }
 
     public class SystemMover : Observer
     {
+        //TODO: this needs to be either the the whole move-command, or somehow make them both 
+        // complement each other.
         private MoveBy _action;
         public override void DoSomething(object sender, System.EventArgs e)
         {
@@ -53,9 +22,6 @@ namespace StarsHollow.Engine
             // Refresh the Player fov afterwards.
             _action = (MoveBy)sender;
             Point pos = _action.position;
-            //System.Console.WriteLine("is local: " + ! Game.World.CurrentMap.IsMapWorld + " is walkable: " +  Game.World.CurrentMap.IsTileWalkable(pos));
-            //if map is world
-            //System.Console.WriteLine("World Map");
 
             // if map is local
             if (Game.UI.world.CurrentMap.IsTileWalkable(pos))
@@ -88,21 +54,21 @@ namespace StarsHollow.Engine
         // TODO: check for items, resistances etc damage modifiers before decreasing health.
         public override void DoSomething(object sender, EventArgs e)
         {
-            var _event = (DamageEvent)sender;
-            Entity target = _event.Target;
-            CmpHP health = target.GetComponent<CmpHP>();
-            int damage = _event.Damage;
+            var @event = (DamageEvent)sender;
+            Entity target = @event.Target;
+            CmpHP healthComponent = target.GetComponent<CmpHP>();
+            int damage = @event.Damage;
 
-            health.Hp -= damage;
+            healthComponent.Hp -= damage;
 
             //  Utils.StatusWindowUpdate(target);
 
 
             Game.UI.MainWindow.Message(target.Name + " took " + damage + " of damage.");
 
-            if (health.Hp < 0)
+            if (healthComponent.Hp < 0)
             {
-                health.Alive = false;
+                healthComponent.Alive = false;
                 DeathEvent destroyEvent = new DeathEvent(target);
             }
         }
@@ -118,8 +84,8 @@ namespace StarsHollow.Engine
         // Everytime skill check fails, it raises ExperienceEvent, which might rise the skill. 
         public override void DoSomething(object sender, System.EventArgs e)
         {
-            _sender = sender;
-            _args = e;
+            base.sender = sender;
+            args = e;
             if (sender is MeleeAttack)
                 MeleeAttack();
 
@@ -133,7 +99,7 @@ namespace StarsHollow.Engine
             // If target throws 95+, they get Attack of Opportunity.
             // If attacker throws 95+, they do Critical Hit.
             // Successfull hit raises DamageEvent.
-            var _action = (MeleeAttack)_sender;
+            var _action = (MeleeAttack)sender;
             Entity attacker = _action.ActionActor;
             Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + _action.Dir);
             if (target != null)
@@ -208,7 +174,7 @@ namespace StarsHollow.Engine
         public void RangedAttack()
         {
             Console.WriteLine("shooting");
-            var _action = (Shoot)_sender;
+            var _action = (Shoot)sender;
             Entity attacker = _action.ActionActor;
 
             var line = Lines.Get(attacker.Position, _action.targetPosition, Lines.Algorithm.DDA);
