@@ -89,9 +89,9 @@ namespace StarsHollow.Engine
         public override void DoSomething(object sender, EventArgs e)
         {
             var _event = (DamageEvent)sender;
-            Entity target = _event._target;
+            Entity target = _event.Target;
             CmpHP health = target.GetComponent<CmpHP>();
-            int damage = _event._damage;
+            int damage = _event.Damage;
 
             health.Hp -= damage;
 

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
@@ -7,41 +6,35 @@ namespace StarsHollow.Engine
 {
     public class DamageEvent : Subject
     {
-        public Entity _target;
-        public int _damage;
+        public Entity Target { get; private set; }
+        public int Damage { get; private set; }
         public DamageEvent(Entity target, int damage)
         {
-            _target = target;
-            _damage = damage;
+            Target = target;
+            Damage = damage;
         }
     }
 
     public class DeathEvent : Subject
     {
-        public Entity _entity;
+        public Entity Entity { get; private set; }
         public DeathEvent(Entity entity)
         {
-            _entity = entity;
-            Game.UI.MainWindow.Message(_entity.Name + " died!");
-            if (_entity.HasComponent<CmpInput>())
+            Entity = entity;
+            Game.UI.MainWindow.Message(Entity.Name + " died!");
+            if (Entity.HasComponent<CmpInput>())
             {
                 Game.UI.MainWindow.Message("Game over!");
                 Game.UI.MainWindow.MainLoop.playing = false;
             }
-            Game.UI.world.CurrentMap.Remove(_entity);
+            Game.UI.world.CurrentMap.Remove(Entity);
             Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
 
-            Entity corpse = new Entity(1, 1) { Name = "The corpse of " + _entity.Name };
-            corpse.Animation.CurrentFrame[0].Glyph = '%';
-            corpse.Animation.CurrentFrame[0].Foreground = Color.IndianRed;
-            corpse.Animation.CurrentFrame[0].Background = Color.Transparent;
-
-            corpse.AddComponents(new List<IComponent> { new CmpEdibleItem() }); ;
-            corpse.IsActionable = false;
+            Entity corpse = Game.UI.world.EntityFactory("corpse", "helpers.json");
+            corpse.Name = "The corpse of a " + Entity.Name;
             corpse.NonBlocking = true;
-            corpse.Position = _entity.Position;
+            corpse.Position = Entity.Position;
             Game.UI.world.CurrentMap.Add(corpse);
-
         }
     }
 

@@ -26,10 +26,10 @@ namespace StarsHollow.World
             _goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
             var _goMapLocalBool = new ArrayMap<bool>(mapWidth, mapHeight);
 
-            GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(_goMapLocalBool, 8, 6, 12, 8);
-            
+            //GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(_goMapLocalBool, 8, 6, 12, 8);
+            GoRogue.MapGeneration.QuickGenerators.GenerateRectangleMap(_goMapLocalBool);
             ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
-            
+
             foreach (var pos in _goMapLocal.Positions())
             {
                 if (_goMapLocalBool[pos]) // floor
@@ -45,13 +45,13 @@ namespace StarsHollow.World
                     _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileWall();
                     tempGoMap[pos] = false;
                 }
-                
+
                 _mapLocal._tiles[pos.ToIndex(mapWidth)].fovMap = new FOV(tempGoMap);
             }
-            
-            return Tuple.Create(_mapLocal, _goMapLocal); 
+
+            return Tuple.Create(_mapLocal, _goMapLocal);
         }
-        
+
         public static Tuple<Map, ArrayMap<double>> GenerateWorld(int mapWidth, int mapHeight)
         {
             _map = new Map(mapWidth, mapHeight);
@@ -299,7 +299,7 @@ namespace StarsHollow.World
                 //Console.WriteLine(" loc: " + _goMap[location]);
                 foreach (Point pos in _goMap.Positions())
                 {
-                   // Console.WriteLine("loc: "+ elevMap[location.X, location.Y] +  " pos:" + elevMap[pos.X, pos.Y]);
+                    // Console.WriteLine("loc: "+ elevMap[location.X, location.Y] +  " pos:" + elevMap[pos.X, pos.Y]);
                     if (elevMap[pos.X, pos.Y] <= elevMap[location.X, location.Y])
                     {
                         tempGoMap[pos] = true;
@@ -314,7 +314,7 @@ namespace StarsHollow.World
                 //IMapView<double> senseMapView = new LambdaTranslationMap<bool, double>(_world.CurrentMap.goMap, val => val ? 0.0 : 1.0);
             }
 
-//            void GenerateLocalMaps() { }
+            //            void GenerateLocalMaps() { }
             return Tuple.Create(_map, _goMap);
         }
     }

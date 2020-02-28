@@ -128,7 +128,7 @@ namespace StarsHollow.World
                 return null;
         }
 
-        public T GetComponent<T>() where T : class, IComponent
+        public new T GetComponent<T>() where T : class, IComponent
         {
             foreach (IComponent cmp in _components)
                 if (cmp is T)

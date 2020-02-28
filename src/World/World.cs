@@ -76,14 +76,14 @@ namespace StarsHollow.World
             _overworldMap.Add(TurnTimer);
         }
 
-        private Entity EntityFactory(string _name, string json)
+        public Entity EntityFactory(string name, string json)
         {
             Entity ent = new Entity();
-            ent.Name = _name;
+            ent.Name = name;
 
             JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
-
-            IDictionary<string, JToken> looks = (JObject)(entityJSON[_name]["look"]);
+            Console.WriteLine(entityJSON[name]["look"]);
+            IDictionary<string, JToken> looks = (JObject)(entityJSON[name]["look"]);
             Dictionary<string, string> looksDictionary = looks.ToDictionary(pair => pair.Key, pair =>
                 (string)pair.Value);
 
@@ -93,7 +93,7 @@ namespace StarsHollow.World
             ent.Animation.CurrentFrame[0].Foreground = Color.White;
             ent.Animation.CurrentFrame[0].Background = Color.Transparent;
 
-            JObject components = (JObject)entityJSON[_name]["components"];
+            JObject components = (JObject)entityJSON[name]["components"];
 
             Console.WriteLine(entityJSON);
 
