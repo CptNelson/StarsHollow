@@ -39,11 +39,8 @@ namespace StarsHollow.Engine
 
                 if (target == null)
                     actor.GetComponent<CmpAction>().SetAction(new MoveBy(actor, dir));
-
-                else if (target.HasComponent<CmpAI>() && target.GetComponent<CmpAI>().Aggression >= 2)
-                {
+                else 
                     actor.GetComponent<CmpAction>().SetAction(new MeleeAttack(actor, dir));
-                }
             }
         }
 

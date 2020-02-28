@@ -25,7 +25,7 @@ namespace StarsHollow.Engine
             if (Entity.HasComponent<CmpInput>())
             {
                 Game.UI.MainWindow.Message("Game over!");
-                Game.UI.MainWindow.MainLoop.playing = false;
+                Game.UI.MainWindow.MainLoop.Playing = false;
             }
             Game.UI.world.CurrentMap.Remove(Entity);
             Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);

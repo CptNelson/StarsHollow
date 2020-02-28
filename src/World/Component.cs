@@ -230,13 +230,9 @@ namespace StarsHollow.World
         public void SetAction(Action action)
         {
             _currentAction = action;
-            //_currentAction.ActionActor = Entity;
             _currentAction.EntityTime = Entity.EntityTime;
             Entity.EntityTime += _currentAction.TimeCost + 1;
             Game.UI.MainWindow.MainLoop.EventsList.Add(_currentAction);
-            // _currentAction.Time = Entity.Time;
-            //     _currentAction.Execute();
-            //       Game.World.Gameloop.EventsList.Add(_currentAction);
         }
 
         public override void UpdateComponent() { }
