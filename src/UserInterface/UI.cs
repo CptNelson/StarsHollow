@@ -129,15 +129,15 @@ namespace StarsHollow.UserInterface
                     //DisplayFOV();
                     break;
                 case States.Main:
-                {
-                    if (_iterator == null)
                     {
-                        _iterator = MainLoop.Loop().GetEnumerator();
-                    }
+                        if (_iterator == null)
+                        {
+                            _iterator = MainLoop.Loop().GetEnumerator();
+                        }
 
-                    _iterator.MoveNext();
-                    break;
-                }
+                        _iterator.MoveNext();
+                        break;
+                    }
             }
 
             CheckMouse();
@@ -173,7 +173,7 @@ namespace StarsHollow.UserInterface
                 // load image from REXpaint file.
                 ScrollingConsole rexConsole;
 
-                using (var rexStream = System.IO.File.OpenRead(@"../../../res/xp/metsa.xp"))
+                using (var rexStream = System.IO.File.OpenRead(@"./res/xp/metsa.xp"))
                 {
                     var rex = SadConsole.Readers.REXPaintImage.Load(rexStream);
                     rexConsole = rex.ToLayeredConsole();
@@ -192,7 +192,7 @@ namespace StarsHollow.UserInterface
                 _mapConsole = new ScrollingConsole(_mapWindow.Width, _mapWindow.Height, Fonts.halfSizeFont,
                     new Microsoft.Xna.Framework.Rectangle(0, 0, Width, Height));
                 TargetConsole = new ScrollingConsole(_mapWindow.Width, _mapWindow.Height, Fonts.halfSizeFont);
-                
+
                 //make console short enough to show the window title
                 //and borders, and position it away from borders
                 int mapConsoleWidth = mapWidth - 2;
@@ -207,7 +207,7 @@ namespace StarsHollow.UserInterface
                 TargetConsole.Position = new Point(1, 1);
 
                 // Centre the title text at the top of the window
-                _mapWindow.Title = title.Align(HorizontalAlignment.Center, mapConsoleWidth, (char) 205);
+                _mapWindow.Title = title.Align(HorizontalAlignment.Center, mapConsoleWidth, (char)205);
 
                 //add the map viewer to the window
                 _mapWindow.Children.Add(_mapConsole);
@@ -379,7 +379,7 @@ namespace StarsHollow.UserInterface
                         inputState = 2;
                         return;
                     }
-                    
+
                     if (Global.KeyboardState.IsKeyPressed(Keys.Up))
                         Command.Move(_world.Player, Tools.Dirs.N);
                     if (Global.KeyboardState.IsKeyPressed(Keys.Down))
@@ -391,10 +391,10 @@ namespace StarsHollow.UserInterface
 
                     _gameState = States.Main;
                     DisplayFOV();
-                    
+
                 }
 
-              //  _gameState = States.Main;
+                //  _gameState = States.Main;
 
                 // inputState 1: looking, inputState 2: shooting
                 if (inputState == 1 || inputState == 2)
@@ -407,8 +407,8 @@ namespace StarsHollow.UserInterface
                         Console.WriteLine("exit");
                         ExitTargetting();
                     }
-                    
-                    
+
+
                     if (Global.KeyboardState.IsKeyPressed(Keys.Up))
                         MoveTarget(new Point(0, -1));
                     if (Global.KeyboardState.IsKeyPressed(Keys.Down))

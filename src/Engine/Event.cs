@@ -15,7 +15,7 @@ namespace StarsHollow.Engine
             _damage = damage;
         }
     }
-    
+
     public class DeathEvent : Subject
     {
         public Entity _entity;
@@ -30,18 +30,18 @@ namespace StarsHollow.Engine
             }
             Game.UI.world.CurrentMap.Remove(_entity);
             Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
-            
-            Entity corpse = new Entity(1,1) { Name = "The corpse of " + _entity.Name};
+
+            Entity corpse = new Entity(1, 1) { Name = "The corpse of " + _entity.Name };
             corpse.Animation.CurrentFrame[0].Glyph = '%';
             corpse.Animation.CurrentFrame[0].Foreground = Color.IndianRed;
             corpse.Animation.CurrentFrame[0].Background = Color.Transparent;
-            
-            corpse.AddComponents(new List<IComponent> { new CmpEdibleItem() });;
-            corpse.Actionable = false;
+
+            corpse.AddComponents(new List<IComponent> { new CmpEdibleItem() }); ;
+            corpse.isActionable = false;
             corpse.NonBlocking = true;
             corpse.Position = _entity.Position;
             Game.UI.world.CurrentMap.Add(corpse);
-            
+
         }
     }
 

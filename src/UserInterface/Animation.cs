@@ -10,19 +10,19 @@ namespace StarsHollow.UserInterface
 {
     public class IAnimation
     {
-        
+
     }
     public class Animation : IAnimation, IEntity
     {
 
-        public bool Actionable { get; set; }
+        public bool isActionable { get; set; }
         public uint ID { get; set; }
-        public uint Time { get; set; }
+        public uint entityTime { get; set; }
 
         protected Animation()
         {
-            Actionable = true;
-            Time = 1;
+            isActionable = true;
+            entityTime = 1;
         }
         public virtual void Execute()
         {
@@ -41,7 +41,7 @@ namespace StarsHollow.UserInterface
         {
             _counter = 0;
             _line = Lines.Get(start, end, Lines.Algorithm.DDA).ToList();
-            _proj = new Entity {Name = "proj"};
+            _proj = new Entity { Name = "proj" };
             _proj.Animation.CurrentFrame[0].Foreground = Color.White;
             _proj.Animation.CurrentFrame[0].Background = Color.Transparent;
             _proj.Animation.CurrentFrame[0].Glyph = '*';
@@ -75,22 +75,22 @@ namespace StarsHollow.UserInterface
             }
 
             _proj.Animation.IsDirty = true;
-            
+
             //Console.WriteLine("counter: " + _counter + " Line: " + _line.Count);
             _proj.Position = new Point(_line[_counter].X, _line[_counter].Y);
-            
+
             Game.UI.MainWindow.DisplayFOV();
             _counter++;
-          if (_counter >= _line.Count)
-          {
-              System.Threading.Thread.Sleep(25); // TODO: Find a way to use Timer for this.
-              _counter = 0;
-              _line = null;
-              Game.UI.world.CurrentMap.Remove(_proj);
-              Game.UI.MainWindow.GameState = States.Main;
-              _timer.Stop();
-              _timer.Dispose();
-          }
+            if (_counter >= _line.Count)
+            {
+                System.Threading.Thread.Sleep(25); // TODO: Find a way to use Timer for this.
+                _counter = 0;
+                _line = null;
+                Game.UI.world.CurrentMap.Remove(_proj);
+                Game.UI.MainWindow.GameState = States.Main;
+                _timer.Stop();
+                _timer.Dispose();
+            }
         }
     }
 }

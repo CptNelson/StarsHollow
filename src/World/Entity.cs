@@ -17,8 +17,8 @@ namespace StarsHollow.World
     // Actionable entities are looped in the main game loop.
     public interface IEntity : IHasID
     {
-        bool Actionable { get; set; }
-        uint Time { get; set; }
+        bool isActionable { get; set; }
+        uint entityTime { get; set; }
     }
 
 
@@ -27,10 +27,10 @@ namespace StarsHollow.World
     {
         // All the components entity has.
         public List<IComponent> _components;
-        public bool Actionable { get; set; }
+        public bool isActionable { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
-        public uint Time { get; set; }
+        public uint entityTime { get; set; }
         // name for checking what kind of entity it is.(TODO: make this a enum)
         public string TypeName { get; set; }
         // check if entity blocks movement
@@ -46,8 +46,8 @@ namespace StarsHollow.World
             Animation.IsVisible = false;
             Name = "name";
             TypeName = "type";
-            Time = 0;
-            Actionable = false;
+            entityTime = 0;
+            isActionable = false;
             _components = new List<IComponent>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;
@@ -99,7 +99,7 @@ namespace StarsHollow.World
                 var args = new object[tag.Value.Count()];
                 for (int i = 0; i < tag.Value.Count(); i++)
                 {
-                   args[i] = tag.Value.ElementAt(i).First;
+                    args[i] = tag.Value.ElementAt(i).First;
                 }
                 Type cmpType = Type.GetType("StarsHollow.World." + property);
                 var newComponent = (Component)Activator.CreateInstance(cmpType, args);
@@ -120,8 +120,8 @@ namespace StarsHollow.World
         {
             if (_components.Count > 0)
             {
-               // foreach (Component cmp in _components)
-                   // Console.WriteLine(cmp);
+                // foreach (Component cmp in _components)
+                // Console.WriteLine(cmp);
                 return _components;
             }
             else

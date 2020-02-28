@@ -53,17 +53,17 @@ namespace StarsHollow.Engine
                 {
                     Console.WriteLine("1");
                     _levelEntityList.Add(ent);
-                    if (ent.Actionable)
+                    if (ent.isActionable)
                     {
                         Console.WriteLine("2");
-                          Console.WriteLine(ent.Name);
+                        Console.WriteLine(ent.Name);
                         _eventsList.Add(ent);
                     }
                 }
             }
         }
-        
-        
+
+
         // foreach doesn't work when adding new components on the run.
         // TODO: maybe some kind of queue of added elements that adds them when this is not running?
         private void UpdateEntities2()
@@ -99,23 +99,23 @@ namespace StarsHollow.Engine
             {
                 //_levelEntityList.Sort((x, y) => x.Time.CompareTo(y.Time));
 
-                _eventsList.Sort((x, y) => x.Time.CompareTo(y.Time));
+                _eventsList.Sort((x, y) => x.entityTime.CompareTo(y.entityTime));
 
 
                 IEntity currentEntity = _eventsList.First();
 
                 foreach (IEntity ent in _eventsList)
                 {
-                 //   Console.WriteLine("entity: " + ent);
+                    //   Console.WriteLine("entity: " + ent);
                 }
-                
-                
-            //    Console.WriteLine(currentEntity.Actionable);
-                
+
+
+                //    Console.WriteLine(currentEntity.Actionable);
+
                 if (currentEntity is Animation)
                 {
                     Console.WriteLine("anim");
-                    var animation = (Animation) currentEntity;
+                    var animation = (Animation)currentEntity;
                     _eventsList.Remove(animation);
                     animation.Execute();
                     Game.UI.MainWindow.GameState = States.Animation;
@@ -124,29 +124,29 @@ namespace StarsHollow.Engine
 
                 else if (currentEntity is Entity)
                 {
-                    var ent = (Entity) currentEntity;
+                    var ent = (Entity)currentEntity;
 
-                /*foreach (var component in ent.GetComponents())
-                {
-                    var comp = (Component) component;
-                    Console.WriteLine(comp.Name);
-                }*/
-                
+                    /*foreach (var component in ent.GetComponents())
+                    {
+                        var comp = (Component) component;
+                        Console.WriteLine(comp.Name);
+                    }*/
+
                     // if the currentEvent is player, exit the loop and wait for input
                     // after input Gameloop is continued.
                     // player's turn
                     if (ent.HasComponent<CmpInput>())
                     {
-                       // System.Console.WriteLine("Player turn");
+                        // System.Console.WriteLine("Player turn");
                         onTurnChange(States.Input);
                         //  Game.UI.gameState = States.player;
                         yield return true;
                     }
 
-                    if (!currentEntity.Actionable)
+                    if (!currentEntity.isActionable)
                     {
                         // this is to pass time on non-action entities. Change it later
-                        currentEntity.Time += 100;
+                        currentEntity.entityTime += 100;
                     }
                     else
                     {
@@ -160,10 +160,10 @@ namespace StarsHollow.Engine
 
                         if (ent.HasComponent<CmpAI>())
                         {
-                              System.Console.WriteLine("AI turn");
-                              ent.GetComponent<CmpAI>().GetGoal();
-                       //       Console.WriteLine(ent.Time);
-                           //   ent.GetComponent<CmpAction>().NextAction
+                            System.Console.WriteLine("AI turn");
+                            ent.GetComponent<CmpAI>().GetGoal();
+                            //       Console.WriteLine(ent.Time);
+                            //   ent.GetComponent<CmpAction>().NextAction
                             // currentEntity.GetComponent<CmpAction>().
                             // currentEntity.GetComponent<CmpAI>().GetGoal();
                         }

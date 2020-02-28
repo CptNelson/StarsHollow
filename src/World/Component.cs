@@ -11,7 +11,7 @@ namespace StarsHollow.World
     public interface IComponent
     {
         Entity Entity { get; set; }
-       // string Name { get; set; }
+        // string Name { get; set; }
     }
 
     public abstract class Component : IComponent
@@ -19,7 +19,7 @@ namespace StarsHollow.World
         public List<IComponent> Components = new List<IComponent>();
         public Entity Entity { get; set; }
 
-        protected string Name { get; set;  }
+        protected string Name { get; set; }
         //Components are updated every turn. Override this if update is needed.
         public abstract void UpdateComponent();
 
@@ -29,9 +29,9 @@ namespace StarsHollow.World
         }
     }
     public class CmpTimer : Component
-    {       
+    {
         private int _turn = 0;
-        
+
         private int _minute = 0;
         private int _hour = 6;
         private int _day = 1;
@@ -39,8 +39,8 @@ namespace StarsHollow.World
         public int Minute => _minute;
         public int Hour => _hour;
         public int Day => _day;
-        
-        public int Turn { get => _turn;  }
+
+        public int Turn { get => _turn; }
         public CmpTimer()
         {
             Name = "timer";
@@ -50,9 +50,9 @@ namespace StarsHollow.World
             _turn += 1;
 
             //System.Console.WriteLine("turn: " + _turn.ToString());
-            Entity.Time += 100;
+            Entity.entityTime += 100;
 
-            if (Entity.Time % 100 == 0)
+            if (Entity.entityTime % 100 == 0)
                 _minute++;
             if (_minute > 59)
             {
@@ -63,7 +63,7 @@ namespace StarsHollow.World
             if (_hour > 23)
             {
                 _hour = 0;
-                _day++; 
+                _day++;
             }
             //Tools.StatusWindowUpdate(Game.World.player);
         }
@@ -84,12 +84,12 @@ namespace StarsHollow.World
 
         public override void UpdateComponent()
         {
-        } 
+        }
     }
 
     public class CmpAttributes : Component
     {
-        
+
         private int _strength;
         private int _agility;
         private int _vitality;
@@ -97,7 +97,7 @@ namespace StarsHollow.World
         private int _looks;
         private int _guts;
         private int _smarts;
-        
+
         public int Strength => _strength;
         public int Agility => _agility;
         public int Vitality => _vitality;
@@ -108,20 +108,20 @@ namespace StarsHollow.World
 
         public CmpAttributes(params object[] args)
         {
-         _strength = System.Convert.ToInt32(args[0]); 
-         _agility = System.Convert.ToInt32(args[1]); 
-         _vitality = System.Convert.ToInt32(args[2]);
-         
-         _looks = System.Convert.ToInt32(args[3]); 
-         _guts = System.Convert.ToInt32(args[4]); 
-         _smarts = System.Convert.ToInt32(args[5]); 
+            _strength = System.Convert.ToInt32(args[0]);
+            _agility = System.Convert.ToInt32(args[1]);
+            _vitality = System.Convert.ToInt32(args[2]);
+
+            _looks = System.Convert.ToInt32(args[3]);
+            _guts = System.Convert.ToInt32(args[4]);
+            _smarts = System.Convert.ToInt32(args[5]);
         }
-        
+
         public override void UpdateComponent()
         {
-        } 
+        }
     }
-    
+
     public class CmpBody : Component
     {
         public List<Entity> ItemList;
@@ -130,7 +130,7 @@ namespace StarsHollow.World
 
         public List<Entity> RightHand;
         public List<Entity> LeftHand;
-        
+
         public CmpBody(params object[] args)
         {
             ItemCapacity = System.Convert.ToInt32(args[0]);
@@ -182,7 +182,7 @@ namespace StarsHollow.World
                 AddItem(item);
             }
         }
-        
+
         public void RemoveItem(Entity item)
         {
             // This should be action/event.
@@ -195,8 +195,8 @@ namespace StarsHollow.World
         {
         }
     }
-    
-    
+
+
     public class CmpEnter : Component
     {
         // 0 = cave 1 = forest
@@ -218,21 +218,21 @@ namespace StarsHollow.World
     }
     public class CmpAction : Component
     {
-        
+
         private Action _currentAction = new WaitAction();
         private Action _nextAction;
         private bool _unableToAct = false;
         public Action NextAction { get => _nextAction; set => _nextAction = value; }
-     //   public Action CurrentAction { get => _currentAction; set => _currentAction = value; }
+        //   public Action CurrentAction { get => _currentAction; set => _currentAction = value; }
         public bool UnableToAct { get => _unableToAct; set => _unableToAct = value; }
 
         // called by user input or AI component
         public void SetAction(Action action)
         {
             _currentAction = action;
-            _currentAction.Actor = Entity;
-            _currentAction.Time = Entity.Time;
-            Entity.Time += _currentAction.Cost + 1;
+            _currentAction.actionActor = Entity;
+            _currentAction.entityTime = Entity.entityTime;
+            Entity.entityTime += _currentAction.timeCost + 1;
             Game.UI.MainWindow.MainLoop.EventsList.Add(_currentAction);
             // _currentAction.Time = Entity.Time;
             //     _currentAction.Execute();
@@ -273,7 +273,7 @@ namespace StarsHollow.World
         public CmpWearableItem(params object[] args)
         {
             if (Holder != null) ;
-              //  holder.GetComponent<CmpBody>().itemCapacity += _itemCapacity;
+            //  holder.GetComponent<CmpBody>().itemCapacity += _itemCapacity;
         }
     }
 
@@ -285,7 +285,7 @@ namespace StarsHollow.World
         public int skillModifier;
         public CmpMelee(params object[] args)
         {
-            Console.WriteLine("  a: "+ args.Length);
+            Console.WriteLine("  a: " + args.Length);
             damage = Convert.ToString(args[0]);
             range = Convert.ToInt32(args[1]);
             skillModifier = Convert.ToInt32(args[2]);
@@ -305,7 +305,7 @@ namespace StarsHollow.World
             range = Convert.ToInt32(args[1]);
             skillModifier = Convert.ToInt32(args[2]);
         }
-        public override void UpdateComponent() {}
+        public override void UpdateComponent() { }
     }
 
     public class CmpAI : Component
@@ -324,10 +324,10 @@ namespace StarsHollow.World
         }
 
 
-        public override void UpdateComponent() {}
+        public override void UpdateComponent() { }
     }
 
-    
+
     // ====== EFFECTS ===============================
 
     public class CmpEffectStun : Component
@@ -351,53 +351,49 @@ namespace StarsHollow.World
 
         public CmpEffectStun(params object[] args)
         {
-             _durationRoll = Convert.ToString(args[0]);
-             _stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.// when the item is used to attack and the target receives this effect, then it will be true.
-             _duration = Convert.ToInt32(args[2]);
+            _durationRoll = Convert.ToString(args[0]);
+            _stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.// when the item is used to attack and the target receives this effect, then it will be true.
+            _duration = Convert.ToInt32(args[2]);
         }
-       
-        public override void UpdateComponent() 
+
+        public override void UpdateComponent()
         {
             if (!_stunned) return;
-            Entity.Actionable = false;
-            Console.WriteLine(Entity.Name + " " + "before up d: " + _duration);
+            Entity.isActionable = false;
             _duration -= 1; // TODO: make it so that different entities can have faster recovery.
-           
+
             // check if entity can resist effect 
-            if (Entity.GetComponent<CmpAttributes>().Guts + Entity.GetComponent<CmpAttributes>().Vitality  >=
+            if (Entity.GetComponent<CmpAttributes>().Guts + Entity.GetComponent<CmpAttributes>().Vitality >=
                 Dice.Roll("1d100"))
             {
                 _duration -= 1;
             }
-            
-            Console.WriteLine("up d: " + _duration);
-            if (_duration < 1) 
-            {
-                _stunned = false;
-                Entity.Actionable = true;
-                Entity._components.Remove(this);
-                Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
 
-            }
+            // when duration is 0 or less, change status and remove the component
+            if (_duration >= 1) return;
+            _stunned = false;
+            Entity.isActionable = true;
+            Entity._components.Remove(this);
+            Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
         }
     }
-    
-    
+
+
     public class CmpEffectSleep : Component
     {
-        
-        public CmpEffectSleep(params object[] args){}
-       
-        public override void UpdateComponent() {}
+
+        public CmpEffectSleep(params object[] args) { }
+
+        public override void UpdateComponent() { }
     }
 
 
     public class CmpEffectEnraged : Component
     {
-        
-        public CmpEffectEnraged(params object[] args){}
-       
-        public override void UpdateComponent() {}
+
+        public CmpEffectEnraged(params object[] args) { }
+
+        public override void UpdateComponent() { }
     }
 
 

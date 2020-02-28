@@ -23,7 +23,7 @@ namespace StarsHollow.World
         public SystemMover SystemMover;
         public SystemSkills SystemSkills;
         public SystemDamage SystemDamage;
-        
+
         private Map _overworldMap;
         public Entity TurnTimer;
         public Entity Player;
@@ -45,7 +45,7 @@ namespace StarsHollow.World
             SystemSkills = new SystemSkills();
             SystemDamage = new SystemDamage();
         }
-        
+
         public void CreateWorld(int width, int height)
         {
             _mapWidth = width;
@@ -58,9 +58,9 @@ namespace StarsHollow.World
             Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(_mapWidth, _mapHeight);
             _overworldMap = maps.Item1;
             _overworldMap.goMap = maps.Item2;
-            
+
             InitSystems();
-            
+
             CreateHelperEntities();
             // AddWorldMapEntities();
             AddPlayer();
@@ -72,7 +72,7 @@ namespace StarsHollow.World
             // First create the helper entities and then add them to a game loop.
             TurnTimer = EntityFactory("timer", "helpers.json");
             TurnTimer.GetComponents();
-            TurnTimer.Actionable = true;
+            TurnTimer.isActionable = true;
             _overworldMap.Add(TurnTimer);
         }
 
@@ -83,9 +83,9 @@ namespace StarsHollow.World
 
             JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
 
-            IDictionary<string, JToken> looks = (JObject) (entityJSON[_name]["look"]);
+            IDictionary<string, JToken> looks = (JObject)(entityJSON[_name]["look"]);
             Dictionary<string, string> looksDictionary = looks.ToDictionary(pair => pair.Key, pair =>
-                (string) pair.Value);
+                (string)pair.Value);
 
             ent.Animation.CurrentFrame[0].Glyph =
                 Convert.ToInt32(
@@ -93,8 +93,8 @@ namespace StarsHollow.World
             ent.Animation.CurrentFrame[0].Foreground = Color.White;
             ent.Animation.CurrentFrame[0].Background = Color.Transparent;
 
-            JObject components = (JObject) entityJSON[_name]["components"];
-            
+            JObject components = (JObject)entityJSON[_name]["components"];
+
             Console.WriteLine(entityJSON);
 
             ent.AddComponentsFromFile(components);
@@ -104,7 +104,7 @@ namespace StarsHollow.World
                 ent.GetComponent<CmpHP>().Hp += ent.GetComponent<CmpAttributes>().Guts / 2 + ent.GetComponent<CmpAttributes>().Vitality;
                 ent.GetComponent<CmpHP>().CurrentHp = ent.GetComponent<CmpHP>().Hp;
             }
-            
+
             ent.Components.Add(new EntityViewSyncComponent());
 
             return ent;
@@ -115,11 +115,11 @@ namespace StarsHollow.World
         {
             if (Player != null) return;
             Player = EntityFactory("player", "player.json");
-           Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
-            Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First()); 
+            Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
+            Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
             Player.Position = _overworldMap.GetRandomEmptyPosition();
             Player.IsVisible = true;
-            Player.Actionable = true;
+            Player.isActionable = true;
             _overworldMap.Add(Player);
         }
 
@@ -130,7 +130,7 @@ namespace StarsHollow.World
                 Entity guard = EntityFactory("guard", "level1.json");
                 guard.Position = _overworldMap.GetRandomEmptyPosition();
                 guard.IsVisible = false;
-                guard.Actionable = true;
+                guard.isActionable = true;
                 _overworldMap.Add(guard);
             }
         }
