@@ -1,6 +1,5 @@
 ﻿using GoRogue;
 using GoRogue.MapViews;
-using GoRogue.SenseMapping;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SadConsole;
@@ -15,28 +14,26 @@ using Console = System.Console;
 namespace StarsHollow.UserInterface
 {
     /* 
-    UIManager takes care of representing all things graphical. It's children
+    UIManager takes care of representing all things graphical and input. It's children
     are the MainWindow, and the consoles inside it: Map, Log, Status.
     Also includes color settings, themes, fonts and so on.
     */
     class UI
     {
-        //  public SadConsole.Themes.Library library;
-
-        private readonly int _width;
-        private readonly int _height;
-        public MainWindow MainWindow;
-        private Map _currentMap;
-        private MessageLogWindow _messageLogWindow;
         public readonly WorldMap world;
+        public MainWindow MainWindow;
+        private readonly int width;
+        private readonly int height;
+        private Map currentMap;
+        private MessageLogWindow messageLogWindow;
 
 
         public UI(int screenWidth, int screenHeight, WorldMap world, MainLoop mainLoop)
         {
-            _width = screenWidth;
-            _height = screenHeight;
+            width = screenWidth;
+            height = screenHeight;
             SetupLook();
-            MainWindow = new MainWindow(_width, _height, world, mainLoop, _messageLogWindow);
+            MainWindow = new MainWindow(width, height, world, mainLoop, messageLogWindow);
             this.world = world;
         }
 
@@ -47,7 +44,6 @@ namespace StarsHollow.UserInterface
 
         private void SetupLook()
         {
-            // Theme
             SadConsole.Themes.WindowTheme windowTheme = new SadConsole.Themes.WindowTheme();
             windowTheme.BorderLineStyle = CellSurface.ConnectedLineThick;
             SadConsole.Themes.Library.Default.WindowTheme = windowTheme;
@@ -57,66 +53,58 @@ namespace StarsHollow.UserInterface
         }
     }
 
+    // TODO: break this down to multiple classes, or make it a partial class in multiple files
+
     // MainWindow Creates and holds every other window inside it.
-    // 
     internal class MainWindow : ContainerConsole
     {
-        private IEnumerator _iterator;
-        private readonly WorldMap _world;
-
-        private States _gameState = States.StartMenu;
-
-        int inputState = 0;
-        private SadConsole.Entities.Entity target;
-
-        public States GameState
-        {
-            get => _gameState;
-            set => _gameState = value;
-        }
-
-        private Window _menuWindow;
-        private ScrollingConsole _menuConsole;
-
-        private Window _mapWindow;
-        private ScrollingConsole _mapConsole;
-
-        private MessageLogWindow _messageLogWindow;
-
-        private StatusWindow _statusConsole;
-
-        private ScrollingConsole TargetConsole;
-
         public readonly MainLoop MainLoop;
-
-        private FOV _fov;
+        public States GameState { get; set; }
+        private readonly WorldMap world;
+        private IEnumerator iterator;
+        private int inputState = 0;
+        private SadConsole.Entities.Entity target;
+        private Window menuWindow;
+        private Window mapWindow;
+        private ScrollingConsole menuConsole;
+        private ScrollingConsole mapConsole;
+        private ScrollingConsole TargetConsole;
+        private MessageLogWindow messageLogWindow;
+        private StatusWindow statusConsole;
+        private FOV fov;
 
         public void Message(string message)
         {
-            _messageLogWindow.Add(message);
+            messageLogWindow.Add(message);
         }
-
 
         public MainWindow(int width, int height, WorldMap world, MainLoop mainLoop, MessageLogWindow messageLogWindow)
         {
-            _world = world;
-            _messageLogWindow = messageLogWindow;
+            GameState = States.StartMenu;
+            this.world = world;
+            this.messageLogWindow = messageLogWindow;
+
             IsVisible = true;
             IsFocused = true;
 
             Parent = Global.CurrentScreen;
             CreateWindowsAndConsoles(width, height);
-            _menuWindow.Show();
+            menuWindow.Show();
 
             MainLoop = mainLoop;
             MainLoop.onTurnChange += ChangeState;
 
+            // FIXME: Should this be called somewhere else?
             StartGame();
         }
-
+        /* =========================================================
+            When Update is run, it checks what is the GameState,
+            and chooses the right input system if it's player's turn,
+            if not, it iterates over the EventList. 
+           ========================================================= */
         public override void Update(TimeSpan timeElapsed)
         {
-            switch (_gameState)
+            switch (GameState)
             {
                 case States.StartMenu:
                     StartMenuKeyboard();
@@ -130,12 +118,12 @@ namespace StarsHollow.UserInterface
                     break;
                 case States.Main:
                     {
-                        if (_iterator == null)
+                        if (iterator == null)
                         {
-                            _iterator = MainLoop.Loop().GetEnumerator();
+                            iterator = MainLoop.Loop().GetEnumerator();
                         }
 
-                        _iterator.MoveNext();
+                        iterator.MoveNext();
                         break;
                     }
             }
@@ -150,26 +138,27 @@ namespace StarsHollow.UserInterface
             // calculating sizes of the child windows and consoles
             double tempWidth = width / 1.5 / 1.618;
             double tempHeight = height * 1.5 / 1.618;
-            // but hardcoded values used here.
-            int _mapWidth = 72; //Convert.ToInt32(_tempWidth);
-            int _mapHeight = 40; //Convert.ToInt32(_tempHeight);
+            // but hardcoded values used here for now.
+            int mapWidth = 72; //Convert.ToInt32(_tempWidth);
+            int mapHeight = 40; //Convert.ToInt32(_tempHeight);
 
             // Consoles
-            _menuConsole = new ScrollingConsole(width, height, Fonts.quarterSizeFont);
-            _mapConsole = new ScrollingConsole(_mapWidth, _mapHeight, Fonts.halfSizeFont);
-            TargetConsole = new ScrollingConsole(_mapWidth, _mapHeight, Fonts.halfSizeFont);
+            menuConsole = new ScrollingConsole(width, height, Fonts.quarterSizeFont);
+            mapConsole = new ScrollingConsole(mapWidth, mapHeight, Fonts.halfSizeFont);
+            TargetConsole = new ScrollingConsole(mapWidth, mapHeight, Fonts.halfSizeFont);
 
             // Windows
             CreateMenuWindow();
-            CreateMapWindow(_mapWidth, _mapHeight, "*Stars Hollow*");
+            CreateMapWindow(mapWidth, mapHeight, "*Stars Hollow*");
             CreateMessageLogWindow();
-            CreateStatusWindow(_world);
+            CreateStatusWindow(world);
 
 
-            // Creators for windows 
+            // ===Creators for windows===
+
             void CreateMenuWindow()
             {
-                _menuWindow = new Window(width, height);
+                menuWindow = new Window(width, height);
                 // load image from REXpaint file.
                 ScrollingConsole rexConsole;
 
@@ -182,16 +171,16 @@ namespace StarsHollow.UserInterface
                 rexConsole.Position = new Point(0, 0);
                 rexConsole.Font = Fonts.quarterSizeFont;
 
-                _menuWindow.Children.Add(rexConsole);
-                Children.Add(_menuWindow);
+                menuWindow.Children.Add(rexConsole);
+                Children.Add(menuWindow);
             }
 
             void CreateMapWindow(int mapWidth, int mapHeight, string title)
             {
-                _mapWindow = new Window(mapWidth, mapHeight);
-                _mapConsole = new ScrollingConsole(_mapWindow.Width, _mapWindow.Height, Fonts.halfSizeFont,
+                mapWindow = new Window(mapWidth, mapHeight);
+                mapConsole = new ScrollingConsole(mapWindow.Width, mapWindow.Height, Fonts.halfSizeFont,
                     new Microsoft.Xna.Framework.Rectangle(0, 0, Width, Height));
-                TargetConsole = new ScrollingConsole(_mapWindow.Width, _mapWindow.Height, Fonts.halfSizeFont);
+                TargetConsole = new ScrollingConsole(mapWindow.Width, mapWindow.Height, Fonts.halfSizeFont);
 
                 //make console short enough to show the window title
                 //and borders, and position it away from borders
@@ -199,46 +188,46 @@ namespace StarsHollow.UserInterface
                 int mapConsoleHeight = mapHeight - 2;
 
                 // Resize the Map Console's ViewPort to fit inside of the window's borders
-                _mapConsole.ViewPort = new Microsoft.Xna.Framework.Rectangle(0, 0, mapConsoleWidth, mapConsoleHeight);
+                mapConsole.ViewPort = new Microsoft.Xna.Framework.Rectangle(0, 0, mapConsoleWidth, mapConsoleHeight);
                 TargetConsole.ViewPort = new Microsoft.Xna.Framework.Rectangle(0, 0, mapConsoleWidth, mapConsoleHeight);
 
                 //reposition the MapConsole so it doesnt overlap with the left/top window edges
-                _mapConsole.Position = new Point(1, 1);
+                mapConsole.Position = new Point(1, 1);
                 TargetConsole.Position = new Point(1, 1);
 
                 // Centre the title text at the top of the window
-                _mapWindow.Title = title.Align(HorizontalAlignment.Center, mapConsoleWidth, (char)205);
+                mapWindow.Title = title.Align(HorizontalAlignment.Center, mapConsoleWidth, (char)205);
 
                 //add the map viewer to the window
-                _mapWindow.Children.Add(_mapConsole);
-                _mapWindow.Children.Add(TargetConsole);
+                mapWindow.Children.Add(mapConsole);
+                mapWindow.Children.Add(TargetConsole);
 
                 // The MapWindow becomes a child console of the MainWindow
-                Children.Add(_mapWindow);
+                Children.Add(mapWindow);
 
-                _mapWindow.Font = Fonts.halfSizeFont;
-                _mapConsole.Font = Fonts.halfSizeFont;
+                mapWindow.Font = Fonts.halfSizeFont;
+                mapConsole.Font = Fonts.halfSizeFont;
             }
 
             void CreateMessageLogWindow()
             {
-                _messageLogWindow = new MessageLogWindow(_mapWidth, height - _mapHeight + 15, "*LOG*")
+                messageLogWindow = new MessageLogWindow(mapWidth, height - mapHeight + 15, "*LOG*")
                 {
                     Font = Fonts.halfSizeFont
                 };
-                Children.Add(_messageLogWindow);
-                _messageLogWindow.Position = new Point(0, _mapHeight);
-                _messageLogWindow.Show();
+                Children.Add(messageLogWindow);
+                messageLogWindow.Position = new Point(0, mapHeight);
+                messageLogWindow.Show();
             }
 
             void CreateStatusWindow(WorldMap world)
             {
-                _statusConsole = new StatusWindow(width - _mapWidth * 2 + 5, height + 15, "*Status*", world);
-                _statusConsole.Font = Fonts.halfSizeFont;
-                Children.Add(_statusConsole);
+                statusConsole = new StatusWindow(width - mapWidth * 2 + 5, height + 15, "*Status*", world);
+                statusConsole.Font = Fonts.halfSizeFont;
+                Children.Add(statusConsole);
 
-                _statusConsole.Show();
-                _statusConsole.Position = new Point(_mapWidth, 0);
+                statusConsole.Show();
+                statusConsole.Position = new Point(mapWidth, 0);
             }
         }
 
@@ -247,56 +236,56 @@ namespace StarsHollow.UserInterface
 
         public void DisplayFOV()
         {
-            _world.CurrentMap._tiles[_world.Player.Position.ToIndex(_world.CurrentMap._width)].fovMap
-                .Calculate(_world.Player.Position, 55, Radius.SQUARE);
-            foreach (Point pos in _world.CurrentMap.goMap.Positions())
+            world.CurrentMap.Tiles[world.Player.Position.ToIndex(world.CurrentMap.Width)].FovMap
+                .Calculate(world.Player.Position, 55, Radius.SQUARE);
+            foreach (Point pos in world.CurrentMap.GoMap.Positions())
             {
-                if (_world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].IsExplored)
+                if (world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].IsExplored)
                 {
-                    _world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].Foreground.A = 220;
+                    world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].Foreground.A = 220;
                 }
             }
 
             // set all currently visible tiles to their normal color
             // and entities Visible
-            foreach (var pos in _world.CurrentMap._tiles[_world.Player.Position.ToIndex(_world.CurrentMap._width)]
-                .fovMap.CurrentFOV)
+            foreach (var pos in world.CurrentMap.Tiles[world.Player.Position.ToIndex(world.CurrentMap.Width)]
+                .FovMap.CurrentFOV)
             {
-                if (!_world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].IsExplored)
+                if (!world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].IsExplored)
                 {
-                    _world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].IsExplored = true;
-                    _world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].IsVisible = true;
+                    world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].IsExplored = true;
+                    world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].IsVisible = true;
                 }
 
                 // System.Console.WriteLine(pos + "   p: " + _world.player.Position);
-                _world.CurrentMap._tiles[pos.ToIndex(_world.CurrentMap._width)].Foreground.A = 255;
+                world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].Foreground.A = 255;
 
-                if (_world.CurrentMap.Entities.Contains(pos))
-                    _world.CurrentMap.GetFirstEntityAt<Entity>(pos).Animation.IsVisible = true;
+                if (world.CurrentMap.Entities.Contains(pos))
+                    world.CurrentMap.GetFirstEntityAt<Entity>(pos).Animation.IsVisible = true;
             }
 
-            _mapConsole.IsDirty = true;
+            mapConsole.IsDirty = true;
         }
 
         private void ChangeState(States state)
         {
-            _gameState = state;
+            GameState = state;
         }
 
         private void StartGame()
         {
-            _menuWindow.Hide();
-            _mapWindow.Show();
+            menuWindow.Hide();
+            mapWindow.Show();
 
-            _world.CreateWorld(_mapWindow.Width, _mapWindow.Height);
-            _world.CurrentMap = _world.OverworldMap;
-            LoadMapToConsole(_world.OverworldMap);
-            Console.WriteLine(_world.TurnTimer);
-            _statusConsole.WriteInformation();
-            _gameState = States.Main;
+            world.CreateWorld(mapWindow.Width, mapWindow.Height);
+            world.CurrentMap = world.OverworldMap;
+            LoadMapToConsole(world.OverworldMap);
+            Console.WriteLine(world.TurnTimer);
+            statusConsole.WriteInformation();
+            GameState = States.Main;
             DisplayFOV();
             CreateTarget();
-            MainLoop.Init(_world.OverworldMap);
+            MainLoop.Init(world.OverworldMap);
             MainLoop.Loop();
             //SyncMapEntities(_world.OverworldMap);
         }
@@ -304,7 +293,7 @@ namespace StarsHollow.UserInterface
         private void LoadMapToConsole(Map map)
         {
             // Now Sync all of the map's entities
-            _mapConsole.SetSurface(map._tiles, _mapWindow.Width, _mapWindow.Height);
+            mapConsole.SetSurface(map.Tiles, mapWindow.Width, mapWindow.Height);
             SyncMapEntities(map);
         }
 
@@ -321,11 +310,11 @@ namespace StarsHollow.UserInterface
         private void SyncMapEntities(Map map)
         {
             // remove all Entities from the console first
-            _mapConsole.Children.Clear();
+            mapConsole.Children.Clear();
             // Now pull all of the entity sprites into the MapConsole in bulk
             foreach (Entity entity in map.Entities.Items)
             {
-                _mapConsole.Children.Add(entity);
+                mapConsole.Children.Add(entity);
             }
 
             // Subscribe to the Entities ItemAdded listener, so we can keep our MapConsole entities in sync
@@ -338,13 +327,13 @@ namespace StarsHollow.UserInterface
         // Remove an Entity from the MapConsole every time the Map's Entity collection changes 
         private void OnMapEntityRemoved(object sender, ItemEventArgs<Entity> args)
         {
-            _mapConsole.Children.Remove(args.Item);
+            mapConsole.Children.Remove(args.Item);
         }
 
         // Add an Entity to the MapConsole every time the Map's Entity collection changes
         private void OnMapEntityAdded(object sender, ItemEventArgs<Entity> args)
         {
-            _mapConsole.Children.Add(args.Item);
+            mapConsole.Children.Add(args.Item);
         }
 
         // ============INPUT===================================
@@ -361,7 +350,7 @@ namespace StarsHollow.UserInterface
         {
             if (Global.KeyboardState.IsKeyReleased(Keys.Enter))
             {
-                _gameState = States.Main;
+                GameState = States.Main;
             }
 
             if (Keyboard.GetState().GetPressedKeys().Length > 0)
@@ -381,15 +370,15 @@ namespace StarsHollow.UserInterface
                     }
 
                     if (Global.KeyboardState.IsKeyPressed(Keys.Up))
-                        Command.Move(_world.Player, Tools.Dirs.N);
+                        Command.Move(world.Player, Tools.Dirs.N);
                     if (Global.KeyboardState.IsKeyPressed(Keys.Down))
-                        Command.Move(_world.Player, Tools.Dirs.S);
+                        Command.Move(world.Player, Tools.Dirs.S);
                     if (Global.KeyboardState.IsKeyPressed(Keys.Right))
-                        Command.Move(_world.Player, Tools.Dirs.E);
+                        Command.Move(world.Player, Tools.Dirs.E);
                     if (Global.KeyboardState.IsKeyPressed(Keys.Left))
-                        Command.Move(_world.Player, Tools.Dirs.W);
+                        Command.Move(world.Player, Tools.Dirs.W);
 
-                    _gameState = States.Main;
+                    GameState = States.Main;
                     DisplayFOV();
 
                 }
@@ -400,7 +389,7 @@ namespace StarsHollow.UserInterface
                 if (inputState == 1 || inputState == 2)
                 {
                     if (!target.IsVisible)
-                        target.Position = _world.Player.Position;
+                        target.Position = world.Player.Position;
                     target.IsVisible = true;
                     if (Global.KeyboardState.IsKeyPressed(Keys.Escape))
                     {
@@ -463,9 +452,9 @@ namespace StarsHollow.UserInterface
         private void CheckMouse()
         {
             if (Global.MouseState.LeftClicked)
-                System.Console.WriteLine(_world.OverworldMap
-                    .GetTileAt(Global.MouseState.ScreenPosition.PixelLocationToConsole(_mapWindow.Width,
-                        _mapWindow.Height)).Name);
+                System.Console.WriteLine(world.OverworldMap
+                    .GetTileAt(Global.MouseState.ScreenPosition.PixelLocationToConsole(mapWindow.Width,
+                        mapWindow.Height)).Name);
         }
     }
 

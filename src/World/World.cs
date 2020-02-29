@@ -57,7 +57,7 @@ namespace StarsHollow.World
             //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateWorld(_mapWidth, _mapHeight);
             Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(_mapWidth, _mapHeight);
             _overworldMap = maps.Item1;
-            _overworldMap.goMap = maps.Item2;
+            _overworldMap.GoMap = maps.Item2;
 
             InitSystems();
 

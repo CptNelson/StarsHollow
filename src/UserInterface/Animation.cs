@@ -8,13 +8,9 @@ using StarsHollow.World;
 
 namespace StarsHollow.UserInterface
 {
-    public class IAnimation
-    {
-
-    }
+    public class IAnimation { }
     public class Animation : IAnimation, IEntity
     {
-
         public bool IsActionable { get; set; }
         public uint ID { get; set; }
         public uint EntityTime { get; set; }
@@ -24,72 +20,72 @@ namespace StarsHollow.UserInterface
             IsActionable = true;
             EntityTime = 1;
         }
-        public virtual void Execute()
-        {
-
-        }
+        public virtual void Execute() { }
     }
 
     public class ProjectileAnimation : Animation
     {
-        private static List<Coord> _line;
-        private int _len;
-        private static int _counter;
-        private static Entity _proj;
-        private static Timer _timer;
-        public ProjectileAnimation(Point start, Point end)
+        private static List<Coord> line;
+        private int length;
+        private static int counter;
+        private static Entity projectile;
+        private static Timer timer;
+        private int speed;
+        public ProjectileAnimation(Point start, Point end, int speed = 25)
         {
-            _counter = 0;
-            _line = Lines.Get(start, end, Lines.Algorithm.DDA).ToList();
-            _proj = new Entity { Name = "proj" };
-            _proj.Animation.CurrentFrame[0].Foreground = Color.White;
-            _proj.Animation.CurrentFrame[0].Background = Color.Transparent;
-            _proj.Animation.CurrentFrame[0].Glyph = '*';
-            Game.UI.world.CurrentMap.Add(_proj);
+            counter = 0;
+            this.speed = speed;
+            line = Lines.Get(start, end, Lines.Algorithm.DDA).ToList();
+            //TODO: get proj entity from json
+            projectile = new Entity { Name = "projectile" };
+            projectile.Animation.CurrentFrame[0].Foreground = Color.White;
+            projectile.Animation.CurrentFrame[0].Background = Color.Transparent;
+            projectile.Animation.CurrentFrame[0].Glyph = '*';
+            Game.UI.world.CurrentMap.Add(projectile);
         }
         public override void Execute()
         {
-            _timer = new Timer(25);
-            _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = true;
-            _timer.Enabled = true;
+            timer = new Timer(speed);
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
         }
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
+            //TODO: This should also come from the projectile json
             int roll = GoRogue.DiceNotation.Dice.Roll("1d4");
             switch (roll)
             {
                 case 1:
-                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Second;
+                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Second;
                     break;
                 case 2:
-                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
+                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
                     break;
                 case 3:
-                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
+                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
                     break;
                 case 4:
-                    _proj.Animation.CurrentFrame[0].Foreground = ColorScheme.Five;
+                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Five;
                     break;
-
             }
 
-            _proj.Animation.IsDirty = true;
+            projectile.Animation.IsDirty = true;
 
-            //Console.WriteLine("counter: " + _counter + " Line: " + _line.Count);
-            _proj.Position = new Point(_line[_counter].X, _line[_counter].Y);
+            projectile.Position = new Point(line[counter].X, line[counter].Y);
 
             Game.UI.MainWindow.DisplayFOV();
-            _counter++;
-            if (_counter >= _line.Count)
+
+            counter++;
+            if (counter >= line.Count)
             {
                 System.Threading.Thread.Sleep(25); // TODO: Find a way to use Timer for this.
-                _counter = 0;
-                _line = null;
-                Game.UI.world.CurrentMap.Remove(_proj);
+                counter = 0;
+                line = null;
+                Game.UI.world.CurrentMap.Remove(projectile);
                 Game.UI.MainWindow.GameState = States.Main;
-                _timer.Stop();
-                _timer.Dispose();
+                timer.Stop();
+                timer.Dispose();
             }
         }
     }

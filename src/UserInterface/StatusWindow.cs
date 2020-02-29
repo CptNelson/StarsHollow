@@ -1,54 +1,36 @@
-using System.Collections.Generic;
 using SadConsole;
 using System;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
-using StarsHollow.Engine;
-using StarsHollow.Utils;
 using Console = System.Console;
 
 namespace StarsHollow.UserInterface
 {
-
+    // TODO: system for updating statuses.
     public class StatusWindow : Window
     {
-        //public SystemStatusWindow statusWindowSystem = new SystemStatusWindow();
-        // the messageConsole displays the active messages
-        private SadConsole.Console _statusConsole;
+        private SadConsole.Console statusConsole;
 
-        private WorldMap _map;
-        // account for the thickness of the window border to prevent UI element spillover
-        private int _windowBorderThickness = 4;
+        private WorldMap map;
+        private int windowBorderThickness = 4;
 
-        //public int _hpStatus;
+        public string timeOfDay = "Noon";
+        public int daysGone = 0;
 
-        public string _timeOfDay = "Noon";
-        public int _daysGone = 0;
-        
-
-        // Create a new window with the title centered
-        // the window is draggable by default
         public StatusWindow(int width, int height, string title, WorldMap map) : base(width, height)
         {
-            // Ensure that the window background is the correct colour
-            //Theme.WindowTheme.FillStyle.Background = Color.Black;
             CanDrag = true;
             Title = title.Align(HorizontalAlignment.Center, Width, (char)205);
 
-            _statusConsole = new SadConsole.Console(width - _windowBorderThickness,height);
-            _statusConsole.Position = new Point(1, 1);
-            //_statusConsole.ViewPort = new Rectangle(0, 0, width - 1, height - _windowBorderThickness);
-            _statusConsole.Font = Fonts.normalSizeAnikkiFont;
-            
-         //   WriteInformation();
-            // enable mouse input
+            statusConsole = new SadConsole.Console(width - windowBorderThickness, height);
+            statusConsole.Position = new Point(1, 1);
+            statusConsole.Font = Fonts.normalSizeAnikkiFont;
+
             UseMouse = true;
-            _map = map;
-            // Add the child consoles to the window
-            Children.Add(_statusConsole);
+            this.map = map;
+            Children.Add(statusConsole);
         }
 
-        //Remember to draw the window!
         public override void Draw(TimeSpan drawTime)
         {
             base.Draw(drawTime);
@@ -56,36 +38,38 @@ namespace StarsHollow.UserInterface
 
         public void WriteInformation()
         {
-            _statusConsole.Clear();
+            var attributes = map.Player.GetComponent<CmpAttributes>();
+            var timer = map.TurnTimer.GetComponent<CmpTimer>();
 
-            //_statusConsole.Print(5, 3, _hpStatus.ToString(), ColorScheme.Second);
-            Console.WriteLine(_map.TurnTimer);
-            _statusConsole.Print(1, 5, (_map.TurnTimer.GetComponent<CmpTimer>().Hour + " : " + _map.TurnTimer.GetComponent<CmpTimer>().Minute), ColorScheme.Second);
-            _statusConsole.Print(1, 6, ("Turn " + _map.TurnTimer.GetComponent<CmpTimer>().Turn), ColorScheme.Second);
-            _statusConsole.Print(1, 7, _timeOfDay, ColorScheme.Second);
-            _statusConsole.Print(1, 9, ("Midsummer"), ColorScheme.Five);
-            _statusConsole.Print(1, 10, ("* Sunny *"), Color.Yellow);
-            
-            _statusConsole.Print(1, 12, "Strength: ", ColorScheme.Three);
-            _statusConsole.Print(11, 12, _map.Player.GetComponent<CmpAttributes>().Strength.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 13, "Agility: ", ColorScheme.Three);
-            _statusConsole.Print(11, 13, _map.Player.GetComponent<CmpAttributes>().Agility.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 14, "Vitality: ", ColorScheme.Three);
-            _statusConsole.Print(11, 14, _map.Player.GetComponent<CmpAttributes>().Vitality.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 15, "Looks ", ColorScheme.Three);
-            _statusConsole.Print(11, 15, _map.Player.GetComponent<CmpAttributes>().Looks.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 16, "Guts: ", ColorScheme.Three);
-            _statusConsole.Print(11, 16, _map.Player.GetComponent<CmpAttributes>().Guts.ToString(), ColorScheme.Second);
-            _statusConsole.Print(1, 17, "Smarts: ", ColorScheme.Three);
-            _statusConsole.Print(11, 17, _map.Player.GetComponent<CmpAttributes>().Smarts.ToString(), ColorScheme.Second);
-            
-            _statusConsole.Print(1, 19, "HP: ", ColorScheme.Three);
-            _statusConsole.Print(5, 19, _map.Player.GetComponent<CmpHP>().CurrentHp + "/" + _map.Player.GetComponent<CmpHP>().Hp, ColorScheme.Second);
+            statusConsole.Clear();
+
+            Console.WriteLine(map.TurnTimer);
+            statusConsole.Print(1, 5, (timer.Hour + " : " + timer.Minute), ColorScheme.Second);
+            statusConsole.Print(1, 6, ("Turn " + timer.Turn), ColorScheme.Second);
+            statusConsole.Print(1, 7, timeOfDay, ColorScheme.Second);
+            statusConsole.Print(1, 9, ("Midsummer"), ColorScheme.Five);
+            statusConsole.Print(1, 10, ("* Sunny *"), Color.Yellow);
+
+            statusConsole.Print(1, 12, "Strength: ", ColorScheme.Three);
+            statusConsole.Print(11, 12, attributes.Strength.ToString(), ColorScheme.Second);
+            statusConsole.Print(1, 13, "Agility: ", ColorScheme.Three);
+            statusConsole.Print(11, 13, attributes.Agility.ToString(), ColorScheme.Second);
+            statusConsole.Print(1, 14, "Vitality: ", ColorScheme.Three);
+            statusConsole.Print(11, 14, attributes.Vitality.ToString(), ColorScheme.Second);
+            statusConsole.Print(1, 15, "Looks ", ColorScheme.Three);
+            statusConsole.Print(11, 15, attributes.Looks.ToString(), ColorScheme.Second);
+            statusConsole.Print(1, 16, "Guts: ", ColorScheme.Three);
+            statusConsole.Print(11, 16, attributes.Guts.ToString(), ColorScheme.Second);
+            statusConsole.Print(1, 17, "Smarts: ", ColorScheme.Three);
+            statusConsole.Print(11, 17, attributes.Smarts.ToString(), ColorScheme.Second);
+
+            statusConsole.Print(1, 19, "HP: ", ColorScheme.Three);
+            statusConsole.Print(5, 19, map.Player.GetComponent<CmpHP>().CurrentHp + "/" + map.Player.GetComponent<CmpHP>().Hp, ColorScheme.Second);
         }
 
 
     }
-    
+
     /*
     public class SystemStatusWindow : Observer
     {

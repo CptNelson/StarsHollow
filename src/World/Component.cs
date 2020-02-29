@@ -369,7 +369,7 @@ namespace StarsHollow.World
             if (_duration >= 1) return;
             _stunned = false;
             Entity.IsActionable = true;
-            Entity._components.Remove(this);
+            Entity.EntComponents.Remove(this);
             Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
         }
     }

@@ -49,7 +49,6 @@ namespace StarsHollow.Engine
         }
     }
 
-
     public class SystemDamage : Observer
     {
         // decrease damage for target's health, and raise DestroyEvent if target dies.
@@ -74,8 +73,6 @@ namespace StarsHollow.Engine
             }
         }
     }
-
-
 
     public class SystemSkills : Observer
     {
@@ -185,7 +182,7 @@ namespace StarsHollow.Engine
             Entity attacker = action.ActionActor;
 
             var projectileLine = Lines.Get(attacker.Position, action.targetPosition, Lines.Algorithm.DDA);
-            
+
             foreach (Point pos in projectileLine.Skip(1))
             {
                 Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(pos);

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using GoRogue.DiceNotation;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 
 namespace StarsHollow.Utils
 {
     public static class Tools
     {
-
         public static class RandomNumber
         {
             static Random random = new Random();

@@ -1,50 +1,50 @@
-﻿using GoRogue;
-using GoRogue.MapViews;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using GoRogue;
+using GoRogue.MapViews;
 
 namespace StarsHollow.World
 {
     public class Map
     {
-        public TileBase[] _tiles;
-        public FOV Fov;
-        public readonly int _width;
-        public readonly int _height;
+        public readonly int Width;
+        public readonly int Height;
+        public TileBase[] Tiles { get; set; }
+        public FOV Fov { get; set; }
         // Keeps track of all the Entities on the map
-        public GoRogue.MultiSpatialMap<Entity> Entities;
+        public GoRogue.MultiSpatialMap<Entity> Entities { get; set; }
         // Creates unique ID's for all entities
         public static GoRogue.IDGenerator IDGenerator = new GoRogue.IDGenerator();
         //Build a new map with a specified width and height
-        public ArrayMap<double> goMap;
+        public ArrayMap<double> GoMap;
+
         public Map(int width, int height)
         {
-            _width = width;
-            _height = height;
-            _tiles = new TileBase[width * height];
+            Width = width;
+            Height = height;
+            Tiles = new TileBase[width * height];
             Entities = new GoRogue.MultiSpatialMap<Entity>();
         }
 
         // =============MAP METHODS====================================
-       
+
         public bool IsTileWalkable(Point location)
         {
             // first make sure that actor isn't trying to move
             // off the limits of the map
-            if (location.X < 0 || location.Y < 0 || location.X >= _width || location.Y >= _height)
+            if (location.X < 0 || location.Y < 0 || location.X >= Width || location.Y >= Height)
                 return false;
             // then return whether the tile is walkable
-            return !_tiles[location.Y * _width + location.X].IsBlockingMove;
+            return !Tiles[location.Y * Width + location.X].IsBlockingMove;
         }
         public TileBase GetTileAt(Point location)
         {
-            int index = location.Y * _width + location.X;
-            if (index >= 0 && index < _tiles.Length)
+            int index = location.Y * Width + location.X;
+            if (index >= 0 && index < Tiles.Length)
             {
-                return _tiles[location.Y * _width + location.X];
+                return Tiles[location.Y * Width + location.X];
             }
             else
                 return new TileNull();
@@ -66,48 +66,37 @@ namespace StarsHollow.World
                 return true;
             else return false;
         }
-        public bool IsSouthOfRiver(Point location)
-        {
-            for (int y = _height-1; y > location.Y; y--)
-            {
-                if (_tiles[y * _width + location.X].Name == "river")
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
         public bool CheckBounds(Point location)
         {
-            if (location.X < _width && location.Y < _height && location.X >= 0 && location.Y >= 0)
+            if (location.X < Width && location.Y < Height && location.X >= 0 && location.Y >= 0)
                 return true;
             else return false;
-       }
+        }
 
         public Point GetRandomEmptyPosition()
         {
             Random rndNum = new Random();
-            Point position = new Point(rndNum.Next(0, _width), rndNum.Next(0, _height));
+            Point position = new Point(rndNum.Next(0, Width), rndNum.Next(0, Height));
 
-            while (_tiles[position.Y * _width + position.X].IsBlockingMove || IsThereEntityAt(position))
+            while (Tiles[position.Y * Width + position.X].IsBlockingMove || IsThereEntityAt(position))
             {
-                position.X = rndNum.Next(0, _width);
-                position.Y = rndNum.Next(0, _height);
+                position.X = rndNum.Next(0, Width);
+                position.Y = rndNum.Next(0, Height);
             }
             return position;
         }
         public Point GetRandomWalkablePosition()
         {
             Random rndNum = new Random();
-            Point position = new Point(rndNum.Next(0, _width), rndNum.Next(0, _height));
-            while (_tiles[position.Y * _width + position.X].IsBlockingMove)
+            Point position = new Point(rndNum.Next(0, Width), rndNum.Next(0, Height));
+            while (Tiles[position.Y * Width + position.X].IsBlockingMove)
             {
-                position.X = rndNum.Next(0, _width);
-                position.Y = rndNum.Next(0, _height);
+                position.X = rndNum.Next(0, Width);
+                position.Y = rndNum.Next(0, Height);
             }
             return position;
         }
-        
+
         // Removes an Entity from the MultiSpatialMap
         public void Remove(Entity entity)
         {
@@ -136,7 +125,7 @@ namespace StarsHollow.World
     public class OverWorldMap : Map
     {
         public Map[,] localMaps;
-        public OverWorldMap(int width, int height):base(width, height)
+        public OverWorldMap(int width, int height) : base(width, height)
         {
             localMaps = new Map[width, height];
         }

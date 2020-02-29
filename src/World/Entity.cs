@@ -1,18 +1,16 @@
-﻿using GoRogue;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SadConsole.SerializedTypes;
+using GoRogue;
 using StarsHollow.UserInterface;
-using StarsHollow.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 
 namespace StarsHollow.World
 {
-
     // The most basic, IEntity. Time is entity's current time in timeline.
     // Actionable entities are looped in the main game loop.
     public interface IEntity : IHasID
@@ -26,7 +24,7 @@ namespace StarsHollow.World
     public class Entity : SadConsole.Entities.Entity, IEntity
     {
         // All the components entity has.
-        public List<IComponent> _components;
+        public List<IComponent> EntComponents { get; set; }
         public bool IsActionable { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
@@ -34,7 +32,7 @@ namespace StarsHollow.World
         // name for checking what kind of entity it is.(TODO: make this a enum)
         public string TypeName { get; set; }
         // check if entity blocks movement
-        public bool NonBlocking;
+        public bool NonBlocking { get; set; }
 
         public Entity(int width = 1, int height = 1) : base(width, height)
         {
@@ -48,10 +46,10 @@ namespace StarsHollow.World
             TypeName = "type";
             EntityTime = 0;
             IsActionable = false;
-            _components = new List<IComponent>();
+            EntComponents = new List<IComponent>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;
-            Position = new Point(3, 3);
+            Position = new Point(-1, -1);
         }
 
         // adds chosen component to the list of components, and makes the entity owner of the component.
@@ -63,7 +61,7 @@ namespace StarsHollow.World
                 return this;
             }
             newComponent.Entity = this;
-            _components.Add(newComponent);
+            EntComponents.Add(newComponent);
             return this;
         }
 
@@ -85,13 +83,6 @@ namespace StarsHollow.World
 
         public Entity AddComponentsFromFile(JObject components)
         {
-            /*
-            JObject cmpList = JObject.Parse(Tools.LoadJson(file));
-            JObject components = (JObject)cmpList[entity]["components"];
-            Console.WriteLine("1: " + entity); 
-            */
-
-
             // Get the name of the Component
             foreach (KeyValuePair<string, JToken> tag in components)
             {
@@ -110,19 +101,18 @@ namespace StarsHollow.World
                     return this;
                 }
                 newComponent.Entity = this;
-                _components.Add(newComponent);
+                EntComponents.Add(newComponent);
             }
-
             return this;
         }
         // get component by referencing its type/class
         public List<IComponent> GetComponents()
         {
-            if (_components.Count > 0)
+            if (EntComponents.Count > 0)
             {
                 // foreach (Component cmp in _components)
                 // Console.WriteLine(cmp);
-                return _components;
+                return EntComponents;
             }
             else
                 return null;
@@ -130,18 +120,16 @@ namespace StarsHollow.World
 
         public new T GetComponent<T>() where T : class, IComponent
         {
-            foreach (IComponent cmp in _components)
+            foreach (IComponent cmp in EntComponents)
                 if (cmp is T)
                     return (T)cmp;
 
             return null;
         }
 
-
-        // Check if entity has a component
         public bool HasComponent<T>() where T : class, IComponent
         {
-            foreach (IComponent cmp in _components)
+            foreach (IComponent cmp in EntComponents)
                 if (cmp is T) return true;
 
             return false;
@@ -180,7 +168,6 @@ namespace StarsHollow.World
                 UsePixelPositioning = entity.UsePixelPositioning,
                 Name = entity.Name,
                 NonBlocking = entity.NonBlocking,
-                //  _components = entity._components.ToList<IComponent>()
             };
 
             if (!entity.Animations.ContainsKey(serializedObject.AnimationName))
