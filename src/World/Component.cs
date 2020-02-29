@@ -11,79 +11,80 @@ namespace StarsHollow.World
     public interface IComponent
     {
         Entity Entity { get; set; }
-        // string Name { get; set; }
     }
 
     public abstract class Component : IComponent
     {
         public List<IComponent> Components = new List<IComponent>();
         public Entity Entity { get; set; }
-
         protected string Name { get; set; }
         //Components are updated every turn. Override this if update is needed.
         public abstract void UpdateComponent();
-
-        public void GetComponentByName()
-        {
-
-        }
     }
+
     public class CmpTimer : Component
     {
-        private int _turn = 0;
+        public int Turn { get; private set; }
 
-        private int _minute = 0;
-        private int _hour = 6;
-        private int _day = 1;
+        public int Minute { get; private set; }
+        public int Hour { get; private set; }
+        public int Day { get; private set; }
 
-        public int Minute => _minute;
-        public int Hour => _hour;
-        public int Day => _day;
-
-        public int Turn { get => _turn; }
         public CmpTimer()
         {
             Name = "timer";
         }
+
         public override void UpdateComponent()
         {
-            _turn += 1;
+            AdvanceTime();
+        }
 
-            //System.Console.WriteLine("turn: " + _turn.ToString());
+        private void AdvanceTime()
+        {
+            Turn += 1;
+
             Entity.EntityTime += 100;
 
             if (Entity.EntityTime % 100 == 0)
-                _minute++;
-            if (_minute > 59)
+                Minute++;
+            if (Minute > 59)
             {
-                _hour++;
-                _minute = 0;
+                Hour++;
+                Minute = 0;
             }
 
-            if (_hour > 23)
+            if (Hour > 23)
             {
-                _hour = 0;
-                _day++;
+                Hour = 0;
+                Day++;
             }
-            //Tools.StatusWindowUpdate(Game.World.player);
         }
     }
+
     public class CmpHP : Component
     {
-        private int _hp = 10;
-        private int _currentHp = 10;
-        private bool _alive = true;
+        public int Hp { get; set; }
+        public int CurrentHp { get; set; }
+        public bool Alive { get; set; }
 
         public CmpHP(params object[] args)
         {
-            _hp = Convert.ToInt32(args[0]);// + ; 
+            Hp = Convert.ToInt32(args[0]);
         }
-        public int Hp { get => _hp; set => _hp = value; }
-        public int CurrentHp { get => _currentHp; set => _currentHp = value; }
-        public bool Alive { get => _alive; set => _alive = value; }
 
         public override void UpdateComponent()
         {
+        }
+
+        public void ChangeCurrentHp(int amount)
+        {
+            CurrentHp += amount;
+        }
+
+        public void ChangeMaxHp(int amount)
+        {
+            Hp += amount;
         }
     }
 

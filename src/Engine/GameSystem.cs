@@ -222,7 +222,6 @@ namespace StarsHollow.Engine
                     }
                     else
                     {
-
                         Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
                             target.Position));
                         Game.UI.MainWindow.Message(attacker.Name + " missed " + target.Name + ".");
@@ -245,7 +244,6 @@ namespace StarsHollow.Engine
 
             }
         }
-
 
         void CheckForStatusEffects(Entity attacker, Entity target)
         {

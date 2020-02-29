@@ -1,15 +1,9 @@
-﻿using GoRogue.MapViews;
-using StarsHollow.Utils;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using SimplexNoise;
+﻿using System;
 using Microsoft.Xna.Framework;
-using GoRogue.DiceNotation;
+using SimplexNoise;
 using GoRogue;
+using GoRogue.MapViews;
+using StarsHollow.Utils;
 
 namespace StarsHollow.World
 {
