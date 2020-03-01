@@ -2,7 +2,7 @@
   "player": {
     "look": {
       "glyph": 1,
-      "fg": "Color.White",
+      "fg": "Color.Green",
       "bg": "Color.Transparent"
     },
     "components": {

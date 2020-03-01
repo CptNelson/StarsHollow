@@ -1,39 +1,28 @@
 ﻿using GoRogue.MapViews;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SadConsole.Components;
 using StarsHollow.Utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Xml.Linq;
 using StarsHollow.Engine;
-using StarsHollow.UserInterface;
 
 namespace StarsHollow.World
 {
     public class WorldMap
     {
-        private int _mapWidth, _mapHeight;
-        private TileBase[] _worldMapTiles;
         public SystemMover SystemMover;
         public SystemSkills SystemSkills;
         public SystemDamage SystemDamage;
 
-        private Map _overworldMap;
-        public Entity TurnTimer;
-        public Entity Player;
-
-        public Map OverworldMap
-        {
-            get => _overworldMap;
-        }
-
+        public Map OverworldMap {get; private set;}
+        public Entity TurnTimer {get; set;}
+        public Entity Player {get; set;}
         public Map CurrentMap { get; set; }
+
+        private int mapWidth, mapHeight;
+        private TileBase[] worldMapTiles;
 
         public WorldMap()
         {
@@ -48,21 +37,20 @@ namespace StarsHollow.World
 
         public void CreateWorld(int width, int height)
         {
-            _mapWidth = width;
-            _mapHeight = height;
+            mapWidth = width;
+            mapHeight = height;
 
-            _worldMapTiles = new TileBase[_mapWidth * _mapHeight];
-            _overworldMap = new Map(_mapWidth, _mapHeight);
+            worldMapTiles = new TileBase[mapWidth * mapHeight];
+            OverworldMap = new Map(mapWidth, mapHeight);
             // map generator return both Map and GoRogue's ArrayMap. 
             //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateWorld(_mapWidth, _mapHeight);
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(_mapWidth, _mapHeight);
-            _overworldMap = maps.Item1;
-            _overworldMap.GoMap = maps.Item2;
+            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            OverworldMap = maps.Item1;
+            OverworldMap.GoMap = maps.Item2;
 
             InitSystems();
 
             CreateHelperEntities();
-            // AddWorldMapEntities();
             AddPlayer();
             CreateGuard();
         }
@@ -73,7 +61,7 @@ namespace StarsHollow.World
             TurnTimer = EntityFactory("timer", "helpers.json");
             TurnTimer.GetComponents();
             TurnTimer.IsActionable = true;
-            _overworldMap.Add(TurnTimer);
+            OverworldMap.Add(TurnTimer);
         }
 
         public Entity EntityFactory(string name, string json)
@@ -81,24 +69,28 @@ namespace StarsHollow.World
             Entity ent = new Entity();
             ent.Name = name;
 
+            // get the entity's data from json file and make a JObject represeting the entity
             JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
-            Console.WriteLine(entityJSON[name]["look"]);
+
+            // TODO: create method for the graphical assingment.
+            // get glyph info from the entityJSON and make a dictionary out of them
             IDictionary<string, JToken> looks = (JObject)(entityJSON[name]["look"]);
             Dictionary<string, string> looksDictionary = looks.ToDictionary(pair => pair.Key, pair =>
                 (string)pair.Value);
 
+            // TODO: get colors from the json 
             ent.Animation.CurrentFrame[0].Glyph =
-                Convert.ToInt32(
-                    looksDictionary["glyph"]); //Convert.ToInt32((JObject)entityJSON[_name]["look"]["glyph"]);
+                Convert.ToInt32(looksDictionary["glyph"]);             
             ent.Animation.CurrentFrame[0].Foreground = Color.White;
             ent.Animation.CurrentFrame[0].Background = Color.Transparent;
 
+            
+            // TODO: create method for component attachments
             JObject components = (JObject)entityJSON[name]["components"];
-
-            Console.WriteLine(entityJSON);
 
             ent.AddComponentsFromFile(components);
 
+            // TODO: attribute and stats to their own method/class
             if (ent.HasComponent<CmpHP>())
             {
                 ent.GetComponent<CmpHP>().Hp += ent.GetComponent<CmpAttributes>().Guts / 2 + ent.GetComponent<CmpAttributes>().Vitality;
@@ -110,17 +102,16 @@ namespace StarsHollow.World
             return ent;
         }
 
-
         private void AddPlayer()
         {
             if (Player != null) return;
             Player = EntityFactory("player", "player.json");
             Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
             Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
-            Player.Position = _overworldMap.GetRandomEmptyPosition();
+            Player.Position = OverworldMap.GetRandomEmptyPosition();
             Player.IsVisible = true;
             Player.IsActionable = true;
-            _overworldMap.Add(Player);
+            OverworldMap.Add(Player);
         }
 
         private void CreateGuard(int amount = 2)
@@ -128,16 +119,11 @@ namespace StarsHollow.World
             for (int i = 0; i < amount; i++)
             {
                 Entity guard = EntityFactory("guard", "level1.json");
-                guard.Position = _overworldMap.GetRandomEmptyPosition();
+                guard.Position = OverworldMap.GetRandomEmptyPosition();
                 guard.IsVisible = false;
                 guard.IsActionable = true;
-                _overworldMap.Add(guard);
+                OverworldMap.Add(guard);
             }
-        }
-
-
-        private void AddWorldMapEntities()
-        {
         }
     }
 }

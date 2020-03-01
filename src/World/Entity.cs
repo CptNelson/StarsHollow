@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -19,13 +19,10 @@ namespace StarsHollow.World
         uint EntityTime { get; set; }
     }
 
-
-    [JsonConverter(typeof(StarEntityJsonConverter))]
     public class Entity : SadConsole.Entities.Entity, IEntity
     {
         // All the components entity has.
         public List<IComponent> EntComponents { get; set; }
-        public bool IsActionable { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
         public uint EntityTime { get; set; }
@@ -33,6 +30,7 @@ namespace StarsHollow.World
         public string TypeName { get; set; }
         // check if entity blocks movement
         public bool NonBlocking { get; set; }
+        public bool IsActionable { get; set; }
 
         public Entity(int width = 1, int height = 1) : base(width, height)
         {
@@ -136,67 +134,6 @@ namespace StarsHollow.World
         }
     }
 
-    public class StarEntityJsonConverter : JsonConverter<Entity>
-    {
-        public override void WriteJson(JsonWriter writer, Entity value, JsonSerializer serializer)
-        {
-            serializer.Serialize(writer, (StarsEntitySerialized)value);
-        }
-
-        public override Entity ReadJson(JsonReader reader, Type objectType, Entity existingValue,
-                                         bool hasExistingValue, JsonSerializer serializer)
-        {
-            return serializer.Deserialize<StarsEntitySerialized>(reader);
-        }
-    }
-
-    [DataContract]
-    public class StarsEntitySerialized : EntitySerialized
-    {
-        [DataMember] public bool NonBlocking;
-        [DataMember] public List<IComponent> _components;
-
-        public static implicit operator StarsEntitySerialized(Entity entity)
-        {
-            var serializedObject = new StarsEntitySerialized()
-            {
-                AnimationName = entity.Animation != null ? entity.Animation.Name : "",
-                Animations = entity.Animations.Values.Select(a => (AnimatedConsoleSerialized)a).ToList(),
-                IsVisible = entity.IsVisible,
-                Position = entity.Position,
-                PositionOffset = entity.PositionOffset,
-                UsePixelPositioning = entity.UsePixelPositioning,
-                Name = entity.Name,
-                NonBlocking = entity.NonBlocking,
-            };
-
-            if (!entity.Animations.ContainsKey(serializedObject.AnimationName))
-                serializedObject.Animations.Add(entity.Animation);
-
-            return serializedObject;
-        }
-
-        public static implicit operator Entity(StarsEntitySerialized serializedObject)
-        {
-            var entity = new Entity(1, 1);
-
-            foreach (var item in serializedObject.Animations)
-                entity.Animations[item.Name] = item;
-
-            if (entity.Animations.ContainsKey(serializedObject.AnimationName))
-                entity.Animation = entity.Animations[serializedObject.AnimationName];
-            else
-                entity.Animation = serializedObject.Animations[0];
-
-            entity.IsVisible = serializedObject.IsVisible;
-            entity.Position = serializedObject.Position;
-            entity.PositionOffset = serializedObject.PositionOffset;
-            entity.UsePixelPositioning = serializedObject.UsePixelPositioning;
-            entity.Name = serializedObject.Name;
-
-            return entity;
-        }
-    }
 }
 
 
