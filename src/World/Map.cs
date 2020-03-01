@@ -20,6 +20,7 @@ namespace StarsHollow.World
         [DataMember]
         public FOV Fov { get; set; }
         // Keeps track of all the Entities on the map
+        [DataMember]
         public GoRogue.MultiSpatialMap<Entity> Entities { get; set; }
         // Creates unique ID's for all entities
         public static GoRogue.IDGenerator IDGenerator = new GoRogue.IDGenerator();

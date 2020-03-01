@@ -8,8 +8,9 @@ using Newtonsoft.Json.Linq;
 using SadConsole.SerializedTypes;
 using GoRogue;
 using StarsHollow.UserInterface;
+using StarsHollow.World;
 
-namespace StarsHollow.World
+namespace StarsHollow.Worlds
 {
     // The most basic, IEntity. Time is entity's current time in timeline.
     // Actionable entities are looped in the main game loop.
@@ -19,11 +20,13 @@ namespace StarsHollow.World
         uint EntityTime { get; set; }
     }
     [DataContract]
-    public class Entity : SadConsole.Entities.Entity, IEntity
+    public class Entity : IEntity
     {
         // All the components entity has.
         [DataMember]
         public List<IComponent> EntComponents { get; set; }
+        [DataMember]
+        public SadConsole.Entities.Entity SadEntity { get; set; }
         [DataMember]
         // Every Entity has unique ID
         public uint ID { get; set; }
@@ -37,22 +40,23 @@ namespace StarsHollow.World
         [DataMember]
         public bool IsActionable { get; set; }
 
-        public Entity(int width = 1, int height = 1) : base(width, height)
+        public Entity(int width = 1, int height = 1)
         {
-            base.Font = Fonts.halfSizeFont;
-            Animation.CurrentFrame[0].Foreground = Color.White;
-            Animation.CurrentFrame[0].Background = Color.Transparent;
-            Animation.CurrentFrame[0].Glyph = 'X';
+            SadEntity = new SadConsole.Entities.Entity(width, height);
+            SadEntity.Font = Fonts.halfSizeFont;
+            SadEntity.Animation.CurrentFrame[0].Foreground = Color.White;
+            SadEntity.Animation.CurrentFrame[0].Background = Color.Transparent;
+            SadEntity.Animation.CurrentFrame[0].Glyph = 'X';
             // Animation is set to invisible in the beginning. FOV calculations will change this.
-            Animation.IsVisible = false;
-            Name = "name";
+            SadEntity.Animation.IsVisible = false;
+            SadEntity.Name = "name";
             TypeName = "type";
             EntityTime = 0;
             IsActionable = false;
             EntComponents = new List<IComponent>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;
-            Position = new Point(-1, -1);
+            SadEntity.Position = new Point(-1, -1);
         }
 
         // adds chosen component to the list of components, and makes the entity owner of the component.

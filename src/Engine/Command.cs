@@ -39,7 +39,7 @@ namespace StarsHollow.Engine
 
                 if (target == null)
                     actor.GetComponent<CmpAction>().SetAction(new MoveBy(actor, dir));
-                else 
+                else
                     actor.GetComponent<CmpAction>().SetAction(new MeleeAttack(actor, dir));
             }
         }

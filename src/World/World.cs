@@ -46,9 +46,36 @@ namespace StarsHollow.World
 
         public void SaveCurrentGame()
         {
+            SaveCurrentMap();
+        }
+        public void SaveCurrentMap()
+        {
+            double[,] tempMap = new double[LocalMap.Width, LocalMap.Height];
+
+            foreach (var pos in LocalMap.GoMap.Positions())
+            {
+
+                if (LocalMap.GoMap[pos] == 0) // floor
+                {
+                    tempMap[pos.X, pos.Y] = 0;
+                }
+                else
+                {
+                    tempMap[pos.X, pos.Y] = 1;
+                }
+            }
             //     SaveTiles
-            //File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(LocalMap.Fov, Formatting.Indented));
-            File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, Formatting.Indented));
+            File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(tempMap, Formatting.Indented));
+        }
+        public double[,] LoadCurrentMap()
+        {
+            double[,] tempMap;
+            using (StreamReader file = File.OpenText(@"./res/json/saves/map.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                tempMap = (double[,])serializer.Deserialize(file, typeof(double[,]));
+            }
+            return tempMap;
         }
 
         public void CreateWorld(int width, int height)
@@ -58,13 +85,12 @@ namespace StarsHollow.World
 
             LocalMap = new Map(mapWidth, mapHeight);
             // map generator returns both Map and GoRogue's ArrayMap. 
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            double[,] tempMap = LoadCurrentMap();
+
+            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap);
             LocalMap = maps.Item1;
             LocalMap.GoMap = maps.Item2;
-            string mapString = LocalMap.GoMap.ToString();
-            //ArrayMap map2 = new ArrayMap(mapString, 72);
-
-
 
             //Console.WriteLine(JsonConvert.DeserializeObject<Map>(Tools.LoadJson("saves/map.json")));
             //LocalMap = JsonConvert.DeserializeObject<Map>(Tools.LoadJson("saves/map.json"));

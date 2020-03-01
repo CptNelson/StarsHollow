@@ -8,13 +8,13 @@ namespace StarsHollow.Engine
 {
     public class MainLoop
     {
-        public bool Playing {get; set;}
+        public bool Playing { get; set; }
 
-        public List<IEntity> LevelEntityList {get; private set;}
+        public List<IEntity> LevelEntityList { get; private set; }
 
-        public List<IEntity> OverworldEntityList {get; private set;}
+        public List<IEntity> OverworldEntityList { get; private set; }
 
-        public List<IEntity> EventsList {get; private set;}
+        public List<IEntity> EventsList { get; private set; }
 
         public MainLoop()
         {
@@ -25,7 +25,7 @@ namespace StarsHollow.Engine
             LevelEntityList = new List<IEntity>();
             EventsList = new List<IEntity>();
             OverworldEntityList = new List<IEntity>();
-            
+
             AddEntitiesToLevelList();
 
             void AddEntitiesToLevelList()

@@ -22,8 +22,8 @@ namespace StarsHollow.World
             goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
             var goMapLocalBool = new ArrayMap<bool>(mapWidth, mapHeight);
 
-            //GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(goMapLocalBool, 8, 6, 12, 8);
-            GoRogue.MapGeneration.QuickGenerators.GenerateRectangleMap(goMapLocalBool);
+            GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(goMapLocalBool, 8, 6, 12, 8);
+            //GoRogue.MapGeneration.QuickGenerators.GenerateRectangleMap(goMapLocalBool);
             ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
 
             foreach (var pos in goMapLocal.Positions())
@@ -42,6 +42,32 @@ namespace StarsHollow.World
                     tempGoMap[pos] = false;
                 }
 
+                mapLocal.Tiles[pos.ToIndex(mapWidth)].FovMap = new FOV(tempGoMap);
+            }
+
+            return Tuple.Create(mapLocal, goMapLocal);
+        }
+
+        public static Tuple<Map, ArrayMap<double>> GenerateLoadedMap(int mapWidth, int mapHeight, double[,] loadedMap)
+        {
+            mapLocal = new Map(mapWidth, mapHeight);
+            goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
+            ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
+            foreach (var pos in goMapLocal.Positions())
+            {
+
+                if (loadedMap[pos.X, pos.Y] == 0) // floor
+                {
+                    goMapLocal[pos] = 0;
+                    mapLocal.Tiles[pos.ToIndex(mapWidth)] = new TileFloor();
+                    tempGoMap[pos] = true;
+                }
+                else
+                {
+                    goMapLocal[pos] = 1;
+                    mapLocal.Tiles[pos.ToIndex(mapWidth)] = new TileWall();
+                    tempGoMap[pos] = false;
+                }
                 mapLocal.Tiles[pos.ToIndex(mapWidth)].FovMap = new FOV(tempGoMap);
             }
 
