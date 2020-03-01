@@ -8,19 +8,13 @@ using System.Runtime.Serialization;
 
 namespace StarsHollow.World
 {
-    [DataContract]
     public class Map
     {
-        [DataMember]
         public readonly int Width;
-        [DataMember]
         public readonly int Height;
-        [DataMember]
         public TileBase[] Tiles { get; set; }
-        [DataMember]
         public FOV Fov { get; set; }
         // Keeps track of all the Entities on the map
-        [DataMember]
         public GoRogue.MultiSpatialMap<Entity> Entities { get; set; }
         // Creates unique ID's for all entities
         public static GoRogue.IDGenerator IDGenerator = new GoRogue.IDGenerator();
@@ -117,7 +111,7 @@ namespace StarsHollow.World
         public void Add(Entity entity)
         {
             // add entity to the SpatialMap
-            Entities.Add(entity, entity.Position);
+            Entities.Add(entity, entity.Sprite.Position);
             // Link up the entity's Moved event to a new handler
             entity.Moved += OnEntityMoved;
         }
@@ -126,7 +120,7 @@ namespace StarsHollow.World
         // which updates the Entity's current position in the SpatialMap
         private void OnEntityMoved(object sender, Entity.EntityMovedEventArgs args)
         {
-            Entities.Move(args.Entity as Entity, args.Entity.Position);
+            Entities.Move(args.Entity, args.Entity.Sprite.Position);
         }
     }
     public class OverWorldMap : Map

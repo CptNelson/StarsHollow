@@ -168,9 +168,9 @@ namespace StarsHollow.World
             // This should be action/event.
             if (ItemList.Count <= ItemCapacity)
             {
-                Game.UI.MainWindow.Message("You pick up the " + item.Name + ".");
+                Game.UI.MainWindow.Message("You pick up the " + item.Sprite.Name + ".");
                 ItemList.Add(item);
-                item.Position = new Point(-666, -666);
+                item.Sprite.Position = new Point(-666, -666);
             }
             else
                 Game.UI.MainWindow.Message("You have no space for the " + item + ".");
@@ -187,9 +187,9 @@ namespace StarsHollow.World
         public void RemoveItem(Entity item)
         {
             // This should be action/event.
-            Game.UI.MainWindow.Message("You drop the " + item.Name + ".");
+            Game.UI.MainWindow.Message("You drop the " + item.Sprite.Name + ".");
             ItemList.Remove(item);
-            item.Position = Entity.Position;
+            item.Sprite.Position = Entity.Sprite.Position;
         }
 
         public override void UpdateComponent()
@@ -269,7 +269,7 @@ namespace StarsHollow.World
         public int ItemCapacity;
         public CmpWearableItem(params object[] args)
         {
-            if (Holder != null) ;
+            //if (Holder != null) 
             //  holder.GetComponent<CmpBody>().itemCapacity += _itemCapacity;
         }
     }
@@ -371,7 +371,7 @@ namespace StarsHollow.World
             _stunned = false;
             Entity.IsActionable = true;
             Entity.EntComponents.Remove(this);
-            Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
+            Game.UI.MainWindow.Message(Entity.Sprite.Name + " is no longer stunned.");
         }
     }
 

@@ -15,15 +15,15 @@ namespace StarsHollow.Engine
         {
             Map map = Game.UI.world.CurrentMap;
 
-            if (map.IsTileWalkable(actor.Position + dir) &&
-                !map.IsThereEntityAt(actor.Position + dir))
+            if (map.IsTileWalkable(actor.Sprite.Position + dir) &&
+                !map.IsThereEntityAt(actor.Sprite.Position + dir))
             {
                 actor.GetComponent<CmpAction>().SetAction(new MoveBy(actor, dir));
             }
 
-            else if (map.IsThereEntityAt(actor.Position + dir))
+            else if (map.IsThereEntityAt(actor.Sprite.Position + dir))
             {
-                List<Entity> targets = map.GetEntitiesAt(actor.Position + dir);
+                List<Entity> targets = map.GetEntitiesAt(actor.Sprite.Position + dir);
 
                 // get all entities at position, and check if anyone is !NonBlocking
 

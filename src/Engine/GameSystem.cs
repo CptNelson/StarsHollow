@@ -31,7 +31,7 @@ namespace StarsHollow.Engine
                 if (!Game.UI.world.CurrentMap.IsThereEntityAt(pos))
                 {
                     //System.Console.WriteLine("no one here. mover: " + _action._actor.Name);
-                    _action.ActionActor.Position = pos;
+                    _action.ActionActor.Sprite.Position = pos;
                     //  Game.UI.CenterOnActor(Game.UI.world.Player);
                 }
                 else if (Game.UI.world.CurrentMap.IsThereEntityAt(pos))
@@ -39,11 +39,11 @@ namespace StarsHollow.Engine
                     Entity entity = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(pos);
                     if (!entity.NonBlocking)
                     {
-                        Console.WriteLine("mover: " + _action.ActionActor.Name + " blocker: " + entity.Name);
+                        Console.WriteLine("mover: " + _action.ActionActor.Sprite.Name + " blocker: " + entity.Sprite.Name);
                         return;
                     }
                     else
-                        _action.ActionActor.Position = pos;
+                        _action.ActionActor.Sprite.Position = pos;
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace StarsHollow.Engine
 
             //  Utils.StatusWindowUpdate(target);
 
-            Game.UI.MainWindow.Message(target.Name + " took " + damage + " points of damage.");
+            Game.UI.MainWindow.Message(target.Sprite.Name + " took " + damage + " points of damage.");
 
             if (healthCmp.Hp < 0)
             {
@@ -103,7 +103,7 @@ namespace StarsHollow.Engine
             // Successfull hit raises DamageEvent.
             var action = (MeleeAttack)sender;
             Entity attacker = action.ActionActor;
-            Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + action.Dir);
+            Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Sprite.Position + action.Dir);
 
             if (target != null)
             {
@@ -144,7 +144,7 @@ namespace StarsHollow.Engine
 
                     int damage = Dice.Roll("1d" + attributes.Strength / 5) + damageBonus;
 
-                    Game.UI.MainWindow.Message(attacker.Name + " hit " + target.Name + "!");
+                    Game.UI.MainWindow.Message(attacker.Sprite.Name + " hit " + target.Sprite.Name + "!");
 
                     //ExperienceEvent experienceEvent = new ExperienceEvent(target, ref target.GetComponent<CmpMelee>()._defenceSkill, "defence skill");
                     DamageEvent damageEvent = new DamageEvent(target, damage);
@@ -155,14 +155,14 @@ namespace StarsHollow.Engine
                 {
                     if (defenceRoll >= 95)
                     {
-                        var counterAttack = new MeleeAttack(target, attacker.Position - target.Position);
+                        var counterAttack = new MeleeAttack(target, attacker.Sprite.Position - target.Sprite.Position);
                         counterAttack.EntityTime = target.EntityTime - Convert.ToUInt32(Dice.Roll("15d5"));
                         Game.UI.MainWindow.MainLoop.EventsList.Add(counterAttack);
-                        Game.UI.MainWindow.Message(target.Name + " evaded " + attacker.Name + "'s attack and got a change for counter-attack!");
+                        Game.UI.MainWindow.Message(target.Sprite.Name + " evaded " + attacker.Sprite.Name + "'s attack and got a change for counter-attack!");
                     }
                     else
                     {
-                        Game.UI.MainWindow.Message(attacker.Name + " tried to hit " + target.Name + " but failed.");
+                        Game.UI.MainWindow.Message(attacker.Sprite.Name + " tried to hit " + target.Sprite.Name + " but failed.");
                         // TODO: ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpMelee>()._attackSkill, "attack skill");
                     }
                 }
@@ -170,7 +170,7 @@ namespace StarsHollow.Engine
             }
             // If there is no entity at target position
             else
-                Game.UI.MainWindow.Message(attacker.Name + " hits empty air!");
+                Game.UI.MainWindow.Message(attacker.Sprite.Name + " hits empty air!");
         }
 
         public void RangedAttack()
@@ -181,7 +181,7 @@ namespace StarsHollow.Engine
             var action = (Shoot)sender;
             Entity attacker = action.ActionActor;
 
-            var projectileLine = Lines.Get(attacker.Position, action.targetPosition, Lines.Algorithm.DDA);
+            var projectileLine = Lines.Get(attacker.Sprite.Position, action.targetPosition, Lines.Algorithm.DDA);
 
             foreach (Point pos in projectileLine.Skip(1))
             {
@@ -212,9 +212,9 @@ namespace StarsHollow.Engine
 
                         CheckForStatusEffects(attacker, target);
 
-                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
-                            target.Position));
-                        Game.UI.MainWindow.Message(attacker.Name + " hit " + target.Name + "!");
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Sprite.Position,
+                            target.Sprite.Position));
+                        Game.UI.MainWindow.Message(attacker.Sprite.Name + " hit " + target.Sprite.Name + "!");
                         DamageEvent damageEvent = new DamageEvent(target, damage);
                         Game.UI.world.SystemDamage.Subscribe(damageEvent);
                         damageEvent.NotifyObservers();
@@ -222,9 +222,9 @@ namespace StarsHollow.Engine
                     }
                     else
                     {
-                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
-                            target.Position));
-                        Game.UI.MainWindow.Message(attacker.Name + " missed " + target.Name + ".");
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Sprite.Position,
+                            target.Sprite.Position));
+                        Game.UI.MainWindow.Message(attacker.Sprite.Name + " missed " + target.Sprite.Name + ".");
                         return;
                         //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpRanged>()._attackSkill, "attack skill");
                     }
@@ -232,14 +232,14 @@ namespace StarsHollow.Engine
 
                 if (!Game.UI.world.CurrentMap.IsTileWalkable(pos))
                 {
-                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
+                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Sprite.Position, pos));
                     Game.UI.MainWindow.Message("You hit a wall!");
                     break;
                 }
 
                 if (pos == action.targetPosition)
                 {
-                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
+                    Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Sprite.Position, pos));
                 }
 
             }
@@ -256,7 +256,7 @@ namespace StarsHollow.Engine
                 if (target.GetComponent<CmpAttributes>().Guts / 2 + target.GetComponent<CmpAttributes>().Vitality / 2 >=
                     Dice.Roll("1d100"))
                 {
-                    Game.UI.MainWindow.Message(target.Name + " resisted stun.");
+                    Game.UI.MainWindow.Message(target.Sprite.Name + " resisted stun.");
                     return;
                 }
 
@@ -265,12 +265,12 @@ namespace StarsHollow.Engine
                 if (target.HasComponent<CmpEffectStun>())
                 {
                     target.GetComponent<CmpEffectStun>().Duration += duration;
-                    Game.UI.MainWindow.Message(target.Name + " got stunned again!");
+                    Game.UI.MainWindow.Message(target.Sprite.Name + " got stunned again!");
                     return;
                 }
 
                 target.AddComponent(new CmpEffectStun(new object[] { "", true, duration }));
-                Game.UI.MainWindow.Message(target.Name + " is stunned!");
+                Game.UI.MainWindow.Message(target.Sprite.Name + " is stunned!");
             }
         }
 

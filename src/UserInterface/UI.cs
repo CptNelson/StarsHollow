@@ -236,8 +236,8 @@ namespace StarsHollow.UserInterface
 
         public void DisplayFOV()
         {
-            world.CurrentMap.Tiles[world.Player.Position.ToIndex(world.CurrentMap.Width)].FovMap
-                .Calculate(world.Player.Position, 55, Radius.SQUARE);
+            world.CurrentMap.Tiles[world.Player.Sprite.Position.ToIndex(world.CurrentMap.Width)].FovMap
+                .Calculate(world.Player.Sprite.Position, 55, Radius.SQUARE);
             foreach (Point pos in world.CurrentMap.GoMap.Positions())
             {
                 if (world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].IsExplored)
@@ -248,7 +248,7 @@ namespace StarsHollow.UserInterface
 
             // set all currently visible tiles to their normal color
             // and entities Visible
-            foreach (var pos in world.CurrentMap.Tiles[world.Player.Position.ToIndex(world.CurrentMap.Width)]
+            foreach (var pos in world.CurrentMap.Tiles[world.Player.Sprite.Position.ToIndex(world.CurrentMap.Width)]
                 .FovMap.CurrentFOV)
             {
                 if (!world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].IsExplored)
@@ -261,7 +261,7 @@ namespace StarsHollow.UserInterface
                 world.CurrentMap.Tiles[pos.ToIndex(world.CurrentMap.Width)].Foreground.A = 255;
 
                 if (world.CurrentMap.Entities.Contains(pos))
-                    world.CurrentMap.GetFirstEntityAt<Entity>(pos).Animation.IsVisible = true;
+                    world.CurrentMap.GetFirstEntityAt<Entity>(pos).Sprite.Animation.IsVisible = true;
             }
 
             mapConsole.IsDirty = true;
@@ -314,7 +314,7 @@ namespace StarsHollow.UserInterface
             // Now pull all of the entity sprites into the MapConsole in bulk
             foreach (Entity entity in map.Entities.Items)
             {
-                mapConsole.Children.Add(entity);
+                mapConsole.Children.Add(entity.Sprite);
             }
 
             // Subscribe to the Entities ItemAdded listener, so we can keep our MapConsole entities in sync
@@ -327,13 +327,13 @@ namespace StarsHollow.UserInterface
         // Remove an Entity from the MapConsole every time the Map's Entity collection changes 
         private void OnMapEntityRemoved(object sender, ItemEventArgs<Entity> args)
         {
-            mapConsole.Children.Remove(args.Item);
+            mapConsole.Children.Remove(args.Item.Sprite);
         }
 
         // Add an Entity to the MapConsole every time the Map's Entity collection changes
         private void OnMapEntityAdded(object sender, ItemEventArgs<Entity> args)
         {
-            mapConsole.Children.Add(args.Item);
+            mapConsole.Children.Add(args.Item.Sprite);
         }
 
         // ============INPUT===================================
@@ -394,7 +394,7 @@ namespace StarsHollow.UserInterface
                 if (inputState == 1 || inputState == 2)
                 {
                     if (!target.IsVisible)
-                        target.Position = world.Player.Position;
+                        target.Position = world.Player.Sprite.Position;
                     target.IsVisible = true;
                     if (Global.KeyboardState.IsKeyPressed(Keys.Escape))
                     {
@@ -438,11 +438,11 @@ namespace StarsHollow.UserInterface
                 {
                     target.Position += dir;
                     if (Game.UI.world.CurrentMap.IsThereEntityAt(target.Position))
-                        Message(Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(target.Position).Name);
+                        Message(Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(target.Position).Sprite.Name);
                     if (inputState == 2)
                     {
                         TargetConsole.Clear();
-                        var line = Lines.Get(Game.UI.world.Player.Position, target.Position).ToList();
+                        var line = Lines.Get(Game.UI.world.Player.Sprite.Position, target.Position).ToList();
                         line.RemoveAt(0);
                         line.RemoveAt(line.Count - 1);
                         foreach (Point pos in line)

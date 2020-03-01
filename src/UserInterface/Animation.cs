@@ -37,10 +37,11 @@ namespace StarsHollow.UserInterface
             this.speed = speed;
             line = Lines.Get(start, end, Lines.Algorithm.DDA).ToList();
             //TODO: get proj entity from json
-            projectile = new Entity { Name = "projectile" };
-            projectile.Animation.CurrentFrame[0].Foreground = Color.White;
-            projectile.Animation.CurrentFrame[0].Background = Color.Transparent;
-            projectile.Animation.CurrentFrame[0].Glyph = '*';
+            projectile = new Entity();
+            projectile.Sprite.Name = "projectile";
+            projectile.Sprite.Animation.CurrentFrame[0].Foreground = Color.White;
+            projectile.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
+            projectile.Sprite.Animation.CurrentFrame[0].Glyph = '*';
             Game.UI.world.CurrentMap.Add(projectile);
         }
         public override void Execute()
@@ -57,22 +58,22 @@ namespace StarsHollow.UserInterface
             switch (roll)
             {
                 case 1:
-                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Second;
+                    projectile.Sprite.Animation.CurrentFrame[0].Foreground = ColorScheme.Second;
                     break;
                 case 2:
-                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
+                    projectile.Sprite.Animation.CurrentFrame[0].Foreground = ColorScheme.Three;
                     break;
                 case 3:
-                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
+                    projectile.Sprite.Animation.CurrentFrame[0].Foreground = ColorScheme.Four;
                     break;
                 case 4:
-                    projectile.Animation.CurrentFrame[0].Foreground = ColorScheme.Five;
+                    projectile.Sprite.Animation.CurrentFrame[0].Foreground = ColorScheme.Five;
                     break;
             }
 
-            projectile.Animation.IsDirty = true;
+            projectile.Sprite.Animation.IsDirty = true;
 
-            projectile.Position = new Point(line[counter].X, line[counter].Y);
+            projectile.Sprite.Position = new Point(line[counter].X, line[counter].Y);
 
             Game.UI.MainWindow.DisplayFOV();
 

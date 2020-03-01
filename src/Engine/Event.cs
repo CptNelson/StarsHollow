@@ -21,7 +21,7 @@ namespace StarsHollow.Engine
         public DeathEvent(Entity entity)
         {
             Entity = entity;
-            Game.UI.MainWindow.Message(Entity.Name + " died!");
+            Game.UI.MainWindow.Message(Entity.Sprite.Name + " died!");
             if (Entity.HasComponent<CmpInput>())
             {
                 Game.UI.MainWindow.Message("Game over!");
@@ -31,9 +31,9 @@ namespace StarsHollow.Engine
             Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
 
             Entity corpse = Game.UI.world.EntityFactory("corpse", "helpers.json");
-            corpse.Name = "The corpse of a " + Entity.Name;
+            corpse.Sprite.Name = "The corpse of a " + Entity.Sprite.Name;
             corpse.NonBlocking = true;
-            corpse.Position = Entity.Position;
+            corpse.Sprite.Position = Entity.Sprite.Position;
             Game.UI.world.CurrentMap.Add(corpse);
         }
     }

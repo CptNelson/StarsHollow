@@ -113,8 +113,8 @@ namespace StarsHollow.Engine
         public MoveBy(Entity actor, Point dir) : base(actor)
         {
             ActionActor = actor;
-            TimeCost = 100 * Game.UI.world.LocalMap.GetTileAt(actor.Position + dir).MoveCostMod;
-            position = actor.Position + dir;
+            TimeCost = 100 * Game.UI.world.LocalMap.GetTileAt(actor.Sprite.Position + dir).MoveCostMod;
+            position = actor.Sprite.Position + dir;
         }
 
         public override bool Execute()

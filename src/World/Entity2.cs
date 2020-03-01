@@ -3,14 +3,12 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SadConsole.SerializedTypes;
 using GoRogue;
 using StarsHollow.UserInterface;
 using StarsHollow.World;
 
-namespace StarsHollow.Worlds
+namespace StarsHollow.World
 {
     // The most basic, IEntity. Time is entity's current time in timeline.
     // Actionable entities are looped in the main game loop.
@@ -19,44 +17,38 @@ namespace StarsHollow.Worlds
         bool IsActionable { get; set; }
         uint EntityTime { get; set; }
     }
-    [DataContract]
     public class Entity : IEntity
     {
         // All the components entity has.
-        [DataMember]
         public List<IComponent> EntComponents { get; set; }
-        [DataMember]
-        public SadConsole.Entities.Entity SadEntity { get; set; }
-        [DataMember]
+        public SadConsole.Entities.Entity Sprite { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
-        [DataMember]
         public uint EntityTime { get; set; }
         // name for checking what kind of entity it is.(TODO: make this a enum)
         public string TypeName { get; set; }
         // check if entity blocks movement
-        [DataMember]
         public bool NonBlocking { get; set; }
-        [DataMember]
         public bool IsActionable { get; set; }
 
         public Entity(int width = 1, int height = 1)
         {
-            SadEntity = new SadConsole.Entities.Entity(width, height);
-            SadEntity.Font = Fonts.halfSizeFont;
-            SadEntity.Animation.CurrentFrame[0].Foreground = Color.White;
-            SadEntity.Animation.CurrentFrame[0].Background = Color.Transparent;
-            SadEntity.Animation.CurrentFrame[0].Glyph = 'X';
+            Sprite = new SadConsole.Entities.Entity(width, height);
+            Sprite.Font = Fonts.halfSizeFont;
+            Sprite.Animation.CurrentFrame[0].Foreground = Color.White;
+            Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
+            Sprite.Animation.CurrentFrame[0].Glyph = 'X';
             // Animation is set to invisible in the beginning. FOV calculations will change this.
-            SadEntity.Animation.IsVisible = false;
-            SadEntity.Name = "name";
+            Sprite.Animation.IsVisible = false;
+            Sprite.Name = "name";
+            Sprite.Position = new Point(-1, -1);
+
             TypeName = "type";
             EntityTime = 0;
             IsActionable = false;
             EntComponents = new List<IComponent>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;
-            SadEntity.Position = new Point(-1, -1);
         }
 
         // adds chosen component to the list of components, and makes the entity owner of the component.
@@ -140,6 +132,14 @@ namespace StarsHollow.Worlds
                 if (cmp is T) return true;
 
             return false;
+        }
+        public event EventHandler<EntityMovedEventArgs> Moved;
+        public class EntityMovedEventArgs
+        {
+            public readonly Entity Entity;
+            public readonly Point FromPosition;
+
+            public EntityMovedEventArgs(Entity entity, Point oldPosition) { }
         }
     }
 

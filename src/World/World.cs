@@ -53,7 +53,6 @@ namespace StarsHollow.World
             double[,] tempMap = new double[LocalMap.Width, LocalMap.Height];
             double[,] tempFovMap = new double[LocalMap.Width, LocalMap.Height];
 
-
             foreach (var pos in LocalMap.GoMap.Positions())
             {
 
@@ -77,6 +76,7 @@ namespace StarsHollow.World
             }
             File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(tempMap, Formatting.Indented));
             File.WriteAllText(@"./res/json/saves/mapfov.json", JsonConvert.SerializeObject(tempFovMap, Formatting.Indented));
+            File.WriteAllText(@"./res/json/saves/entities.json", JsonConvert.SerializeObject(CurrentMap.Entities, Formatting.Indented));
         }
         public double[,] LoadCurrentMap()
         {
@@ -134,7 +134,7 @@ namespace StarsHollow.World
         public Entity EntityFactory(string name, string json)
         {
             Entity ent = new Entity();
-            ent.Name = name;
+            ent.Sprite.Name = name;
 
             // get the entity's data from json file and make a JObject represeting the entity
             JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
@@ -146,11 +146,11 @@ namespace StarsHollow.World
                 (string)pair.Value);
 
             // FIXME: get colors from the json even if they are ColorScheme.Color. 
-            ent.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(looksDictionary["glyph"]);
+            ent.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(looksDictionary["glyph"]);
             System.Drawing.Color fg = System.Drawing.Color.FromName(looksDictionary["fg"]);
 
-            ent.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
-            ent.Animation.CurrentFrame[0].Background = Color.Transparent;
+            ent.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
+            ent.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
 
 
             // TODO: create method for component attachments
@@ -165,7 +165,7 @@ namespace StarsHollow.World
                 ent.GetComponent<CmpHP>().CurrentHp = ent.GetComponent<CmpHP>().Hp;
             }
 
-            ent.Components.Add(new EntityViewSyncComponent());
+            ent.Sprite.Components.Add(new EntityViewSyncComponent());
 
             return ent;
         }
@@ -176,8 +176,8 @@ namespace StarsHollow.World
             Player = EntityFactory("player", "player.json");
             Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
             Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
-            Player.Position = LocalMap.GetRandomEmptyPosition();
-            Player.IsVisible = true;
+            Player.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            Player.Sprite.IsVisible = true;
             Player.IsActionable = true;
             LocalMap.Add(Player);
         }
@@ -187,8 +187,8 @@ namespace StarsHollow.World
             for (int i = 0; i < amount; i++)
             {
                 Entity guard = EntityFactory("guard", "level1.json");
-                guard.Position = LocalMap.GetRandomEmptyPosition();
-                guard.IsVisible = false;
+                guard.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+                guard.Sprite.IsVisible = false;
                 guard.IsActionable = true;
                 LocalMap.Add(guard);
             }

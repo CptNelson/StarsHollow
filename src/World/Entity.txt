@@ -9,7 +9,7 @@ using SadConsole.SerializedTypes;
 using GoRogue;
 using StarsHollow.UserInterface;
 
-namespace StarsHollow.World
+namespace StarsHollow.Worlds
 {
     // The most basic, IEntity. Time is entity's current time in timeline.
     // Actionable entities are looped in the main game loop.
