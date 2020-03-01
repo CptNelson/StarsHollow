@@ -1,127 +1,143 @@
 [
   {
     "Item": {
-      "AnimationName": "default",
-      "Animations": [
+      "EntComponents": [
         {
-          "Frames": [
-            {
-              "Width": 1,
-              "Height": 1,
-              "DefaultForeground": {
-                "R": 255,
-                "G": 255,
-                "B": 255,
-                "A": 255
-              },
-              "DefaultBackground": {
-                "R": 0,
-                "G": 0,
-                "B": 0,
-                "A": 0
-              },
-              "Cells": [
-                {
-                  "Decorators": [],
-                  "Foreground": {
-                    "R": 255,
-                    "G": 255,
-                    "B": 255,
-                    "A": 0
-                  },
-                  "Background": {
-                    "R": 0,
-                    "G": 0,
-                    "B": 0,
-                    "A": 0
-                  },
-                  "Glyph": 0,
-                  "Mirror": 0,
-                  "IsVisible": true,
-                  "CellState": null
-                }
-              ]
-            }
-          ],
-          "AnimationDuration": 0.0,
-          "Name": "default",
-          "Repeat": false,
-          "Center": {
-            "X": 0,
-            "Y": 0
-          },
-          "Width": 1,
-          "Height": 1,
-          "IsVisible": false,
-          "IsPaused": false,
-          "UsePixelPositioning": false,
-          "UseMouse": true,
-          "UseKeyboard": true,
-          "Position": {
-            "X": 0,
-            "Y": 0
-          },
-          "Font": {
-            "Name": "Bisasam-24x24",
-            "Size": 1
-          },
-          "Tint": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "DefaultForeground": {
-            "R": 255,
-            "G": 255,
-            "B": 255,
-            "A": 255
-          },
-          "DefaultBackground": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "Cells": null
+          "Components": [],
+          "Turn": 85,
+          "Minute": 25,
+          "Hour": 1,
+          "Day": 0
         }
       ],
-      "IsVisible": false,
-      "Position": {
-        "X": -1,
-        "Y": -1
+      "Sprite": {
+        "AnimationName": "default",
+        "Animations": [
+          {
+            "Frames": [
+              {
+                "Width": 1,
+                "Height": 1,
+                "DefaultForeground": {
+                  "R": 255,
+                  "G": 255,
+                  "B": 255,
+                  "A": 255
+                },
+                "DefaultBackground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": [
+                  {
+                    "Decorators": [],
+                    "Foreground": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "A": 0
+                    },
+                    "Background": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Glyph": 0,
+                    "Mirror": 0,
+                    "IsVisible": true,
+                    "CellState": null
+                  }
+                ]
+              }
+            ],
+            "AnimationDuration": 0.0,
+            "Name": "default",
+            "Repeat": false,
+            "Center": {
+              "X": 0,
+              "Y": 0
+            },
+            "Width": 1,
+            "Height": 1,
+            "IsVisible": false,
+            "IsPaused": false,
+            "UsePixelPositioning": false,
+            "UseMouse": true,
+            "UseKeyboard": true,
+            "Position": {
+              "X": 0,
+              "Y": 0
+            },
+            "Font": {
+              "Name": "Bisasam-24x24",
+              "Size": 1
+            },
+            "Tint": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "DefaultForeground": {
+              "R": 255,
+              "G": 255,
+              "B": 255,
+              "A": 255
+            },
+            "DefaultBackground": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "Cells": null
+          }
+        ],
+        "IsVisible": false,
+        "Position": {
+          "X": -1,
+          "Y": -1
+        },
+        "PositionOffset": {
+          "X": 0,
+          "Y": 0
+        },
+        "UsePixelPositioning": false,
+        "Name": "timer",
+        "Width": 0,
+        "Height": 0,
+        "IsPaused": false,
+        "UseMouse": false,
+        "UseKeyboard": false,
+        "Font": null,
+        "Tint": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultForeground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultBackground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "Cells": null
       },
-      "PositionOffset": {
-        "X": 0,
-        "Y": 0
-      },
-      "UsePixelPositioning": false,
-      "Name": "timer",
-      "Width": 0,
-      "Height": 0,
-      "IsPaused": false,
-      "UseMouse": false,
-      "UseKeyboard": false,
-      "Font": null,
-      "Tint": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultForeground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultBackground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "Cells": null
+      "ID": 0,
+      "EntityTime": 8500,
+      "TypeName": "type",
+      "NonBlocking": false,
+      "IsActionable": true
     },
     "Position": {
       "X": -1,
@@ -130,389 +146,825 @@
   },
   {
     "Item": {
-      "AnimationName": "default",
-      "Animations": [
+      "EntComponents": [
         {
-          "Frames": [
+          "Components": [],
+          "Strength": 11,
+          "Agility": 14,
+          "Vitality": 12,
+          "Looks": 15,
+          "Guts": 13,
+          "Smarts": 12
+        },
+        {
+          "Components": [],
+          "Hp": 20,
+          "CurrentHp": 20,
+          "Alive": false
+        },
+        {
+          "ItemList": [
             {
-              "Width": 1,
-              "Height": 1,
-              "DefaultForeground": {
-                "R": 255,
-                "G": 255,
-                "B": 255,
-                "A": 255
-              },
-              "DefaultBackground": {
-                "R": 0,
-                "G": 0,
-                "B": 0,
-                "A": 0
-              },
-              "Cells": [
+              "EntComponents": [
                 {
-                  "Decorators": [],
-                  "Foreground": {
-                    "R": 0,
-                    "G": 128,
-                    "B": 0,
-                    "A": 255
-                  },
-                  "Background": {
-                    "R": 0,
-                    "G": 0,
-                    "B": 0,
-                    "A": 0
-                  },
-                  "Glyph": 1,
-                  "Mirror": 0,
-                  "IsVisible": true,
-                  "CellState": null
+                  "Weight": 1.0,
+                  "OnMap": false,
+                  "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+                  "Holder": null,
+                  "Components": []
+                },
+                {
+                  "damage": "1d2-1",
+                  "range": 10,
+                  "skillModifier": 5,
+                  "Components": []
+                },
+                {
+                  "damage": "1d2",
+                  "range": 0,
+                  "skillModifier": 0,
+                  "Components": []
+                },
+                {
+                  "Components": [],
+                  "DurationRoll": "1d2+1",
+                  "Duration": 2
                 }
-              ]
+              ],
+              "Sprite": {
+                "AnimationName": "default",
+                "Animations": [
+                  {
+                    "Frames": [
+                      {
+                        "Width": 1,
+                        "Height": 1,
+                        "DefaultForeground": {
+                          "R": 255,
+                          "G": 255,
+                          "B": 255,
+                          "A": 255
+                        },
+                        "DefaultBackground": {
+                          "R": 0,
+                          "G": 0,
+                          "B": 0,
+                          "A": 0
+                        },
+                        "Cells": [
+                          {
+                            "Decorators": [],
+                            "Foreground": {
+                              "R": 0,
+                              "G": 0,
+                              "B": 0,
+                              "A": 0
+                            },
+                            "Background": {
+                              "R": 0,
+                              "G": 0,
+                              "B": 0,
+                              "A": 0
+                            },
+                            "Glyph": 31,
+                            "Mirror": 0,
+                            "IsVisible": true,
+                            "CellState": null
+                          }
+                        ]
+                      }
+                    ],
+                    "AnimationDuration": 0.0,
+                    "Name": "default",
+                    "Repeat": false,
+                    "Center": {
+                      "X": 0,
+                      "Y": 0
+                    },
+                    "Width": 1,
+                    "Height": 1,
+                    "IsVisible": false,
+                    "IsPaused": false,
+                    "UsePixelPositioning": false,
+                    "UseMouse": true,
+                    "UseKeyboard": true,
+                    "Position": {
+                      "X": 0,
+                      "Y": 0
+                    },
+                    "Font": {
+                      "Name": "Bisasam-24x24",
+                      "Size": 1
+                    },
+                    "Tint": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "DefaultForeground": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "A": 255
+                    },
+                    "DefaultBackground": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Cells": null
+                  }
+                ],
+                "IsVisible": true,
+                "Position": {
+                  "X": -1,
+                  "Y": -1
+                },
+                "PositionOffset": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "UsePixelPositioning": false,
+                "Name": "stun gun",
+                "Width": 0,
+                "Height": 0,
+                "IsPaused": false,
+                "UseMouse": false,
+                "UseKeyboard": false,
+                "Font": null,
+                "Tint": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultForeground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultBackground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": null
+              },
+              "ID": 2,
+              "EntityTime": 0,
+              "TypeName": "type",
+              "NonBlocking": false,
+              "IsActionable": false
             }
           ],
-          "AnimationDuration": 0.0,
-          "Name": "default",
-          "Repeat": false,
-          "Center": {
-            "X": 0,
-            "Y": 0
-          },
-          "Width": 1,
-          "Height": 1,
-          "IsVisible": true,
-          "IsPaused": false,
-          "UsePixelPositioning": false,
-          "UseMouse": true,
-          "UseKeyboard": true,
-          "Position": {
-            "X": 0,
-            "Y": 0
-          },
-          "Font": {
-            "Name": "Bisasam-24x24",
-            "Size": 1
-          },
-          "Tint": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "DefaultForeground": {
-            "R": 255,
-            "G": 255,
-            "B": 255,
-            "A": 255
-          },
-          "DefaultBackground": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "Cells": null
+          "ItemCapacity": 2,
+          "Holding": null,
+          "RightHand": [
+            {
+              "EntComponents": [
+                {
+                  "Weight": 1.0,
+                  "OnMap": false,
+                  "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+                  "Holder": null,
+                  "Components": []
+                },
+                {
+                  "damage": "1d2-1",
+                  "range": 10,
+                  "skillModifier": 5,
+                  "Components": []
+                },
+                {
+                  "damage": "1d2",
+                  "range": 0,
+                  "skillModifier": 0,
+                  "Components": []
+                },
+                {
+                  "Components": [],
+                  "DurationRoll": "1d2+1",
+                  "Duration": 2
+                }
+              ],
+              "Sprite": {
+                "AnimationName": "default",
+                "Animations": [
+                  {
+                    "Frames": [
+                      {
+                        "Width": 1,
+                        "Height": 1,
+                        "DefaultForeground": {
+                          "R": 255,
+                          "G": 255,
+                          "B": 255,
+                          "A": 255
+                        },
+                        "DefaultBackground": {
+                          "R": 0,
+                          "G": 0,
+                          "B": 0,
+                          "A": 0
+                        },
+                        "Cells": [
+                          {
+                            "Decorators": [],
+                            "Foreground": {
+                              "R": 0,
+                              "G": 0,
+                              "B": 0,
+                              "A": 0
+                            },
+                            "Background": {
+                              "R": 0,
+                              "G": 0,
+                              "B": 0,
+                              "A": 0
+                            },
+                            "Glyph": 31,
+                            "Mirror": 0,
+                            "IsVisible": true,
+                            "CellState": null
+                          }
+                        ]
+                      }
+                    ],
+                    "AnimationDuration": 0.0,
+                    "Name": "default",
+                    "Repeat": false,
+                    "Center": {
+                      "X": 0,
+                      "Y": 0
+                    },
+                    "Width": 1,
+                    "Height": 1,
+                    "IsVisible": false,
+                    "IsPaused": false,
+                    "UsePixelPositioning": false,
+                    "UseMouse": true,
+                    "UseKeyboard": true,
+                    "Position": {
+                      "X": 0,
+                      "Y": 0
+                    },
+                    "Font": {
+                      "Name": "Bisasam-24x24",
+                      "Size": 1
+                    },
+                    "Tint": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "DefaultForeground": {
+                      "R": 255,
+                      "G": 255,
+                      "B": 255,
+                      "A": 255
+                    },
+                    "DefaultBackground": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Cells": null
+                  }
+                ],
+                "IsVisible": true,
+                "Position": {
+                  "X": -1,
+                  "Y": -1
+                },
+                "PositionOffset": {
+                  "X": 0,
+                  "Y": 0
+                },
+                "UsePixelPositioning": false,
+                "Name": "stun gun",
+                "Width": 0,
+                "Height": 0,
+                "IsPaused": false,
+                "UseMouse": false,
+                "UseKeyboard": false,
+                "Font": null,
+                "Tint": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultForeground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultBackground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": null
+              },
+              "ID": 2,
+              "EntityTime": 0,
+              "TypeName": "type",
+              "NonBlocking": false,
+              "IsActionable": false
+            }
+          ],
+          "LeftHand": [],
+          "Components": []
+        },
+        {
+          "Components": []
+        },
+        {
+          "Components": [],
+          "NextAction": null,
+          "UnableToAct": false
         }
       ],
-      "IsVisible": true,
-      "Position": {
-        "X": 19,
-        "Y": 7
+      "Sprite": {
+        "AnimationName": "default",
+        "Animations": [
+          {
+            "Frames": [
+              {
+                "Width": 1,
+                "Height": 1,
+                "DefaultForeground": {
+                  "R": 255,
+                  "G": 255,
+                  "B": 255,
+                  "A": 255
+                },
+                "DefaultBackground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": [
+                  {
+                    "Decorators": [],
+                    "Foreground": {
+                      "R": 0,
+                      "G": 128,
+                      "B": 0,
+                      "A": 255
+                    },
+                    "Background": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Glyph": 1,
+                    "Mirror": 0,
+                    "IsVisible": true,
+                    "CellState": null
+                  }
+                ]
+              }
+            ],
+            "AnimationDuration": 0.0,
+            "Name": "default",
+            "Repeat": false,
+            "Center": {
+              "X": 0,
+              "Y": 0
+            },
+            "Width": 1,
+            "Height": 1,
+            "IsVisible": true,
+            "IsPaused": false,
+            "UsePixelPositioning": false,
+            "UseMouse": true,
+            "UseKeyboard": true,
+            "Position": {
+              "X": 0,
+              "Y": 0
+            },
+            "Font": {
+              "Name": "Bisasam-24x24",
+              "Size": 1
+            },
+            "Tint": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "DefaultForeground": {
+              "R": 255,
+              "G": 255,
+              "B": 255,
+              "A": 255
+            },
+            "DefaultBackground": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "Cells": null
+          }
+        ],
+        "IsVisible": true,
+        "Position": {
+          "X": 24,
+          "Y": 7
+        },
+        "PositionOffset": {
+          "X": 0,
+          "Y": 0
+        },
+        "UsePixelPositioning": false,
+        "Name": "player",
+        "Width": 0,
+        "Height": 0,
+        "IsPaused": false,
+        "UseMouse": false,
+        "UseKeyboard": false,
+        "Font": null,
+        "Tint": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultForeground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultBackground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "Cells": null
       },
-      "PositionOffset": {
-        "X": 0,
-        "Y": 0
-      },
-      "UsePixelPositioning": false,
-      "Name": "player",
-      "Width": 0,
-      "Height": 0,
-      "IsPaused": false,
-      "UseMouse": false,
-      "UseKeyboard": false,
-      "Font": null,
-      "Tint": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultForeground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultBackground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "Cells": null
+      "ID": 1,
+      "EntityTime": 8484,
+      "TypeName": "type",
+      "NonBlocking": false,
+      "IsActionable": true
     },
     "Position": {
-      "X": 19,
-      "Y": 7
+      "X": 41,
+      "Y": 28
     }
   },
   {
     "Item": {
-      "AnimationName": "default",
-      "Animations": [
+      "EntComponents": [
         {
-          "Frames": [
-            {
-              "Width": 1,
-              "Height": 1,
-              "DefaultForeground": {
-                "R": 255,
-                "G": 255,
-                "B": 255,
-                "A": 255
-              },
-              "DefaultBackground": {
-                "R": 0,
-                "G": 0,
-                "B": 0,
-                "A": 0
-              },
-              "Cells": [
-                {
-                  "Decorators": [],
-                  "Foreground": {
-                    "R": 255,
-                    "G": 0,
-                    "B": 0,
-                    "A": 255
-                  },
-                  "Background": {
-                    "R": 0,
-                    "G": 0,
-                    "B": 0,
-                    "A": 0
-                  },
-                  "Glyph": 2,
-                  "Mirror": 0,
-                  "IsVisible": true,
-                  "CellState": null
-                }
-              ]
-            }
-          ],
-          "AnimationDuration": 0.0,
-          "Name": "default",
-          "Repeat": false,
-          "Center": {
-            "X": 0,
-            "Y": 0
-          },
-          "Width": 1,
-          "Height": 1,
-          "IsVisible": false,
-          "IsPaused": false,
-          "UsePixelPositioning": false,
-          "UseMouse": true,
-          "UseKeyboard": true,
-          "Position": {
-            "X": 0,
-            "Y": 0
-          },
-          "Font": {
-            "Name": "Bisasam-24x24",
-            "Size": 1
-          },
-          "Tint": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "DefaultForeground": {
-            "R": 255,
-            "G": 255,
-            "B": 255,
-            "A": 255
-          },
-          "DefaultBackground": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "Cells": null
+          "Components": [],
+          "Strength": 10,
+          "Agility": 10,
+          "Vitality": 10,
+          "Looks": 10,
+          "Guts": 10,
+          "Smarts": 10
+        },
+        {
+          "Components": [],
+          "Hp": 17,
+          "CurrentHp": 17,
+          "Alive": false
+        },
+        {
+          "ItemList": [],
+          "ItemCapacity": 2,
+          "Holding": null,
+          "RightHand": [],
+          "LeftHand": [],
+          "Components": []
+        },
+        {
+          "Components": [],
+          "NextAction": null,
+          "UnableToAct": false
+        },
+        {
+          "Components": [],
+          "Aggression": 3
         }
       ],
-      "IsVisible": true,
-      "Position": {
-        "X": 43,
-        "Y": 31
+      "Sprite": {
+        "AnimationName": "default",
+        "Animations": [
+          {
+            "Frames": [
+              {
+                "Width": 1,
+                "Height": 1,
+                "DefaultForeground": {
+                  "R": 255,
+                  "G": 255,
+                  "B": 255,
+                  "A": 255
+                },
+                "DefaultBackground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": [
+                  {
+                    "Decorators": [],
+                    "Foreground": {
+                      "R": 255,
+                      "G": 0,
+                      "B": 0,
+                      "A": 255
+                    },
+                    "Background": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Glyph": 2,
+                    "Mirror": 0,
+                    "IsVisible": true,
+                    "CellState": null
+                  }
+                ]
+              }
+            ],
+            "AnimationDuration": 0.0,
+            "Name": "default",
+            "Repeat": false,
+            "Center": {
+              "X": 0,
+              "Y": 0
+            },
+            "Width": 1,
+            "Height": 1,
+            "IsVisible": false,
+            "IsPaused": false,
+            "UsePixelPositioning": false,
+            "UseMouse": true,
+            "UseKeyboard": true,
+            "Position": {
+              "X": 0,
+              "Y": 0
+            },
+            "Font": {
+              "Name": "Bisasam-24x24",
+              "Size": 1
+            },
+            "Tint": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "DefaultForeground": {
+              "R": 255,
+              "G": 255,
+              "B": 255,
+              "A": 255
+            },
+            "DefaultBackground": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "Cells": null
+          }
+        ],
+        "IsVisible": true,
+        "Position": {
+          "X": 28,
+          "Y": 26
+        },
+        "PositionOffset": {
+          "X": 0,
+          "Y": 0
+        },
+        "UsePixelPositioning": false,
+        "Name": "guard",
+        "Width": 0,
+        "Height": 0,
+        "IsPaused": false,
+        "UseMouse": false,
+        "UseKeyboard": false,
+        "Font": null,
+        "Tint": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultForeground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultBackground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "Cells": null
       },
-      "PositionOffset": {
-        "X": 0,
-        "Y": 0
-      },
-      "UsePixelPositioning": false,
-      "Name": "guard",
-      "Width": 0,
-      "Height": 0,
-      "IsPaused": false,
-      "UseMouse": false,
-      "UseKeyboard": false,
-      "Font": null,
-      "Tint": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultForeground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultBackground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "Cells": null
+      "ID": 3,
+      "EntityTime": 8484,
+      "TypeName": "type",
+      "NonBlocking": false,
+      "IsActionable": true
     },
     "Position": {
-      "X": 43,
-      "Y": 31
+      "X": 28,
+      "Y": 26
     }
   },
   {
     "Item": {
-      "AnimationName": "default",
-      "Animations": [
+      "EntComponents": [
         {
-          "Frames": [
-            {
-              "Width": 1,
-              "Height": 1,
-              "DefaultForeground": {
-                "R": 255,
-                "G": 255,
-                "B": 255,
-                "A": 255
-              },
-              "DefaultBackground": {
-                "R": 0,
-                "G": 0,
-                "B": 0,
-                "A": 0
-              },
-              "Cells": [
-                {
-                  "Decorators": [],
-                  "Foreground": {
-                    "R": 255,
-                    "G": 0,
-                    "B": 0,
-                    "A": 255
-                  },
-                  "Background": {
-                    "R": 0,
-                    "G": 0,
-                    "B": 0,
-                    "A": 0
-                  },
-                  "Glyph": 2,
-                  "Mirror": 0,
-                  "IsVisible": true,
-                  "CellState": null
-                }
-              ]
-            }
-          ],
-          "AnimationDuration": 0.0,
-          "Name": "default",
-          "Repeat": false,
-          "Center": {
-            "X": 0,
-            "Y": 0
-          },
-          "Width": 1,
-          "Height": 1,
-          "IsVisible": true,
-          "IsPaused": false,
-          "UsePixelPositioning": false,
-          "UseMouse": true,
-          "UseKeyboard": true,
-          "Position": {
-            "X": 0,
-            "Y": 0
-          },
-          "Font": {
-            "Name": "Bisasam-24x24",
-            "Size": 1
-          },
-          "Tint": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "DefaultForeground": {
-            "R": 255,
-            "G": 255,
-            "B": 255,
-            "A": 255
-          },
-          "DefaultBackground": {
-            "R": 0,
-            "G": 0,
-            "B": 0,
-            "A": 0
-          },
-          "Cells": null
+          "Components": [],
+          "Strength": 10,
+          "Agility": 10,
+          "Vitality": 10,
+          "Looks": 10,
+          "Guts": 10,
+          "Smarts": 10
+        },
+        {
+          "Components": [],
+          "Hp": 17,
+          "CurrentHp": 17,
+          "Alive": false
+        },
+        {
+          "ItemList": [],
+          "ItemCapacity": 2,
+          "Holding": null,
+          "RightHand": [],
+          "LeftHand": [],
+          "Components": []
+        },
+        {
+          "Components": [],
+          "NextAction": null,
+          "UnableToAct": false
+        },
+        {
+          "Components": [],
+          "Aggression": 3
         }
       ],
-      "IsVisible": true,
-      "Position": {
-        "X": 24,
-        "Y": 2
+      "Sprite": {
+        "AnimationName": "default",
+        "Animations": [
+          {
+            "Frames": [
+              {
+                "Width": 1,
+                "Height": 1,
+                "DefaultForeground": {
+                  "R": 255,
+                  "G": 255,
+                  "B": 255,
+                  "A": 255
+                },
+                "DefaultBackground": {
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": [
+                  {
+                    "Decorators": [],
+                    "Foreground": {
+                      "R": 255,
+                      "G": 0,
+                      "B": 0,
+                      "A": 255
+                    },
+                    "Background": {
+                      "R": 0,
+                      "G": 0,
+                      "B": 0,
+                      "A": 0
+                    },
+                    "Glyph": 2,
+                    "Mirror": 0,
+                    "IsVisible": true,
+                    "CellState": null
+                  }
+                ]
+              }
+            ],
+            "AnimationDuration": 0.0,
+            "Name": "default",
+            "Repeat": false,
+            "Center": {
+              "X": 0,
+              "Y": 0
+            },
+            "Width": 1,
+            "Height": 1,
+            "IsVisible": true,
+            "IsPaused": false,
+            "UsePixelPositioning": false,
+            "UseMouse": true,
+            "UseKeyboard": true,
+            "Position": {
+              "X": 0,
+              "Y": 0
+            },
+            "Font": {
+              "Name": "Bisasam-24x24",
+              "Size": 1
+            },
+            "Tint": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "DefaultForeground": {
+              "R": 255,
+              "G": 255,
+              "B": 255,
+              "A": 255
+            },
+            "DefaultBackground": {
+              "R": 0,
+              "G": 0,
+              "B": 0,
+              "A": 0
+            },
+            "Cells": null
+          }
+        ],
+        "IsVisible": true,
+        "Position": {
+          "X": 24,
+          "Y": 1
+        },
+        "PositionOffset": {
+          "X": 0,
+          "Y": 0
+        },
+        "UsePixelPositioning": false,
+        "Name": "guard",
+        "Width": 0,
+        "Height": 0,
+        "IsPaused": false,
+        "UseMouse": false,
+        "UseKeyboard": false,
+        "Font": null,
+        "Tint": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultForeground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "DefaultBackground": {
+          "R": 0,
+          "G": 0,
+          "B": 0,
+          "A": 0
+        },
+        "Cells": null
       },
-      "PositionOffset": {
-        "X": 0,
-        "Y": 0
-      },
-      "UsePixelPositioning": false,
-      "Name": "guard",
-      "Width": 0,
-      "Height": 0,
-      "IsPaused": false,
-      "UseMouse": false,
-      "UseKeyboard": false,
-      "Font": null,
-      "Tint": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultForeground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "DefaultBackground": {
-        "R": 0,
-        "G": 0,
-        "B": 0,
-        "A": 0
-      },
-      "Cells": null
+      "ID": 4,
+      "EntityTime": 8484,
+      "TypeName": "type",
+      "NonBlocking": false,
+      "IsActionable": true
     },
     "Position": {
       "X": 24,
-      "Y": 2
+      "Y": 1
     }
   }
 ]

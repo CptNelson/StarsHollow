@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using GoRogue;
 using StarsHollow.UserInterface;
 using StarsHollow.World;
+using Newtonsoft.Json;
 
 namespace StarsHollow.World
 {
@@ -20,6 +21,7 @@ namespace StarsHollow.World
     public class Entity : IEntity
     {
         // All the components entity has.
+
         public List<IComponent> EntComponents { get; set; }
         public SadConsole.Entities.Entity Sprite { get; set; }
         // Every Entity has unique ID

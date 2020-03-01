@@ -47,6 +47,8 @@ namespace StarsHollow.World
         public void SaveCurrentGame()
         {
             SaveCurrentMap();
+
+            File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, Formatting.Indented));
         }
         public void SaveCurrentMap()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GoRogue.DiceNotation;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using StarsHollow.Engine;
 using Action = StarsHollow.Engine.Action;
 
@@ -10,12 +11,14 @@ namespace StarsHollow.World
 {
     public interface IComponent
     {
+        [JsonIgnore]
         Entity Entity { get; set; }
     }
 
     public abstract class Component : IComponent
     {
         public List<IComponent> Components = new List<IComponent>();
+        [JsonIgnore]
         public Entity Entity { get; set; }
         protected string Name { get; set; }
         //Components are updated every turn. Override this if update is needed.
