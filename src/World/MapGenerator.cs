@@ -48,11 +48,12 @@ namespace StarsHollow.World
             return Tuple.Create(mapLocal, goMapLocal);
         }
 
-        public static Tuple<Map, ArrayMap<double>> GenerateLoadedMap(int mapWidth, int mapHeight, double[,] loadedMap)
+        public static Tuple<Map, ArrayMap<double>> GenerateLoadedMap(int mapWidth, int mapHeight, double[,] loadedMap, double[,] loadedFovMap)
         {
             mapLocal = new Map(mapWidth, mapHeight);
             goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
             ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
+
             foreach (var pos in goMapLocal.Positions())
             {
 
@@ -68,7 +69,17 @@ namespace StarsHollow.World
                     mapLocal.Tiles[pos.ToIndex(mapWidth)] = new TileWall();
                     tempGoMap[pos] = false;
                 }
+
                 mapLocal.Tiles[pos.ToIndex(mapWidth)].FovMap = new FOV(tempGoMap);
+
+                if (loadedFovMap[pos.X, pos.Y] == 0)
+                {
+                    mapLocal.Tiles[pos.ToIndex(mapWidth)].IsVisible = false;
+                }
+                else
+                {
+                    mapLocal.Tiles[pos.ToIndex(mapWidth)].IsVisible = true;
+                }
             }
 
             return Tuple.Create(mapLocal, goMapLocal);
