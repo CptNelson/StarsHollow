@@ -1,32 +1,22 @@
-﻿using GoRogue;
+﻿using System;
 using Microsoft.Xna.Framework;
+using GoRogue;
 using SadConsole;
-using System;
 using StarsHollow.UserInterface;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StarsHollow.World
 {
     public class TileBase : Cell
     {
-        // Movement and Line of Sight Flags
-        private bool isBlockingMove;
-        private bool isBlockingLOS;
-        private bool isExplored;
-        private string name;
-        private string description;
-        private uint moveCostMod;
+        public FOV FovMap { get; set; }
+        public bool IsBlockingMove { get; set; }
+        public bool IsBlockingLOS { get; set; }
+        public bool IsExplored { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public uint MoveCostMod { get; set; }
         private int elavation;
 
-        public FOV fovMap;
-
-        public bool IsBlockingMove { get => isBlockingMove; set => isBlockingMove = value; }
-        public bool IsExplored { get => isExplored; set => isExplored = value; }
-        public bool IsBlockingLOS { get => isBlockingLOS; set => isBlockingLOS = value; }
-        public string Name { get => name; set => name = value; }
-        public string Description { get => description; set => description = value; }
-        public uint MoveCostMod { get => moveCostMod; set => moveCostMod = value; }
 
         public TileBase(Color foreground, Color background, int glyph, bool blockingMove = false,
                          bool BlockingLOS = false, String name = "", String description = "") : base(foreground, background, glyph)
@@ -34,7 +24,7 @@ namespace StarsHollow.World
             IsBlockingMove = blockingMove;
             IsBlockingLOS = BlockingLOS;
             IsVisible = false;
-            isExplored = false;
+            IsExplored = false;
             Name = name;
             Description = description;
             MoveCostMod = 1;
@@ -42,6 +32,7 @@ namespace StarsHollow.World
         }
     }
 
+    // TODO: These should come fron JSON files.
     public class TileNull : TileBase
     {
         public TileNull(bool blocksMovement = true, bool blocksLOS = true) : base(Color.Transparent, Color.Transparent, 'x', blocksMovement, blocksLOS)
@@ -67,7 +58,7 @@ namespace StarsHollow.World
     }
     public class TileWall : TileBase
     {
-        public TileWall(bool blocksMovement = true, bool blocksLOS = true) : base(UserInterface.ColorScheme.Four, new Color( 	23, 23, 23), '.', blocksMovement, blocksLOS)
+        public TileWall(bool blocksMovement = true, bool blocksLOS = true) : base(UserInterface.ColorScheme.Four, new Color(23, 23, 23), '.', blocksMovement, blocksLOS)
         {
             switch (GoRogue.DiceNotation.Dice.Roll("1d8"))
             {

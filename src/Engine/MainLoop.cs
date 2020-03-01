@@ -8,29 +8,13 @@ namespace StarsHollow.Engine
 {
     public class MainLoop
     {
-        private List<IEntity> _levelEntityList;
-        private List<IEntity> _overworldEntityList;
-        private List<IEntity> _eventsList;
+        public bool Playing {get; set;}
 
-        public bool playing;
+        public List<IEntity> LevelEntityList {get; private set;}
 
-        public List<IEntity> LevelEntityList
-        {
-            get => _levelEntityList;
-            set => _levelEntityList = value;
-        }
+        public List<IEntity> OverworldEntityList {get; private set;}
 
-        public List<IEntity> OverworldEntityList
-        {
-            get => _overworldEntityList;
-            set => _overworldEntityList = value;
-        }
-
-        public List<IEntity> EventsList
-        {
-            get => _eventsList;
-            set => _eventsList = value;
-        }
+        public List<IEntity> EventsList {get; private set;}
 
         public MainLoop()
         {
@@ -38,10 +22,10 @@ namespace StarsHollow.Engine
 
         public void Init(Map map)
         {
-            // Game.UI.CenterOnActor(Game.World.player);
-            _levelEntityList = new List<IEntity>();
-            _eventsList = new List<IEntity>();
-            _overworldEntityList = new List<IEntity>();
+            LevelEntityList = new List<IEntity>();
+            EventsList = new List<IEntity>();
+            OverworldEntityList = new List<IEntity>();
+            
             AddEntitiesToLevelList();
 
             void AddEntitiesToLevelList()
@@ -51,24 +35,22 @@ namespace StarsHollow.Engine
                 var entitiesInMap = map.Entities.Items;
                 foreach (Entity ent in entitiesInMap)
                 {
-                    Console.WriteLine("1");
-                    _levelEntityList.Add(ent);
-                    if (ent.isActionable)
+                    LevelEntityList.Add(ent);
+                    if (ent.IsActionable)
                     {
-                        Console.WriteLine("2");
-                        Console.WriteLine(ent.Name);
-                        _eventsList.Add(ent);
+                        EventsList.Add(ent);
                     }
                 }
             }
         }
 
 
-        // foreach doesn't work when adding new components on the run.
+        // FIXME: foreach doesn't work when adding new components on the run.
+
         // TODO: maybe some kind of queue of added elements that adds them when this is not running?
-        private void UpdateEntities2()
+        private void UpdateEntitiesNotWorking()
         {
-            foreach (Entity ent in _levelEntityList)
+            foreach (Entity ent in LevelEntityList)
             {
                 var cmps = ent.GetComponents();
                 foreach (Component cmp in cmps)
@@ -80,13 +62,15 @@ namespace StarsHollow.Engine
 
         private void UpdateEntities()
         {
-            for (int ent = 0; ent < _levelEntityList.Count; ent++)
+            for (int ent = 0; ent < LevelEntityList.Count; ent++)
             {
-                Entity entity = (Entity)_levelEntityList[ent];
-                List<IComponent> cmps = entity.GetComponents();
-                for (int cmp = 0; cmp < cmps.Count; cmp++)
+                Entity entity = (Entity)LevelEntityList[ent];
+                List<IComponent> components = entity.GetComponents();
+
+                for (int cmp = 0; cmp < components.Count; cmp++)
                 {
-                    Component component = (Component)cmps[cmp];
+                    // FIXME: lol
+                    Component component = (Component)components[cmp];
                     component.UpdateComponent();
                 }
             }
@@ -94,29 +78,17 @@ namespace StarsHollow.Engine
 
         public IEnumerable<bool> Loop()
         {
-            playing = true;
-            while (playing)
+            Playing = true;
+            while (Playing)
             {
-                //_levelEntityList.Sort((x, y) => x.Time.CompareTo(y.Time));
+                EventsList.Sort((x, y) => x.EntityTime.CompareTo(y.EntityTime));
 
-                _eventsList.Sort((x, y) => x.entityTime.CompareTo(y.entityTime));
-
-
-                IEntity currentEntity = _eventsList.First();
-
-                foreach (IEntity ent in _eventsList)
-                {
-                    //   Console.WriteLine("entity: " + ent);
-                }
-
-
-                //    Console.WriteLine(currentEntity.Actionable);
+                IEntity currentEntity = EventsList.First();
 
                 if (currentEntity is Animation)
                 {
-                    Console.WriteLine("anim");
                     var animation = (Animation)currentEntity;
-                    _eventsList.Remove(animation);
+                    EventsList.Remove(animation);
                     animation.Execute();
                     Game.UI.MainWindow.GameState = States.Animation;
                     yield return true;
@@ -126,46 +98,30 @@ namespace StarsHollow.Engine
                 {
                     var ent = (Entity)currentEntity;
 
-                    /*foreach (var component in ent.GetComponents())
-                    {
-                        var comp = (Component) component;
-                        Console.WriteLine(comp.Name);
-                    }*/
-
                     // if the currentEvent is player, exit the loop and wait for input
                     // after input Gameloop is continued.
-                    // player's turn
                     if (ent.HasComponent<CmpInput>())
                     {
-                        // System.Console.WriteLine("Player turn");
                         onTurnChange(States.Input);
-                        //  Game.UI.gameState = States.player;
                         yield return true;
                     }
 
-                    if (!currentEntity.isActionable)
+                    if (!currentEntity.IsActionable)
                     {
-                        // this is to pass time on non-action entities. Change it later
-                        currentEntity.entityTime += 100;
+                        // this is to pass time on non-actionable entities.
+                        currentEntity.EntityTime += 100;
                     }
                     else
                     {
                         // if currentEvent is timer, advance the turn.
                         if (ent.HasComponent<CmpTimer>())
                         {
-                            //     System.Console.WriteLine("Timer turn");
-                            //currentEntity.GetComponent<CmpTimer>().UpdateComponent();
                             UpdateEntities();
                         }
 
                         if (ent.HasComponent<CmpAI>())
                         {
-                            System.Console.WriteLine("AI turn");
                             ent.GetComponent<CmpAI>().GetGoal();
-                            //       Console.WriteLine(ent.Time);
-                            //   ent.GetComponent<CmpAction>().NextAction
-                            // currentEntity.GetComponent<CmpAction>().
-                            // currentEntity.GetComponent<CmpAI>().GetGoal();
                         }
                     }
                 }
@@ -173,10 +129,7 @@ namespace StarsHollow.Engine
                 // execute the action and remove it from the loop.
                 else if (currentEntity is Action)
                 {
-
                     var action = (Action)currentEntity;
-                    //System.Console.WriteLine("event: " + action);
-
                     action.Execute();
                     EventsList.Remove(action);
                 }

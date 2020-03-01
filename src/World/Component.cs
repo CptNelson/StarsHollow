@@ -11,79 +11,80 @@ namespace StarsHollow.World
     public interface IComponent
     {
         Entity Entity { get; set; }
-        // string Name { get; set; }
     }
 
     public abstract class Component : IComponent
     {
         public List<IComponent> Components = new List<IComponent>();
         public Entity Entity { get; set; }
-
         protected string Name { get; set; }
         //Components are updated every turn. Override this if update is needed.
         public abstract void UpdateComponent();
-
-        public void GetComponentByName()
-        {
-
-        }
     }
+
     public class CmpTimer : Component
     {
-        private int _turn = 0;
+        public int Turn { get; private set; }
 
-        private int _minute = 0;
-        private int _hour = 6;
-        private int _day = 1;
+        public int Minute { get; private set; }
+        public int Hour { get; private set; }
+        public int Day { get; private set; }
 
-        public int Minute => _minute;
-        public int Hour => _hour;
-        public int Day => _day;
-
-        public int Turn { get => _turn; }
         public CmpTimer()
         {
             Name = "timer";
         }
+
         public override void UpdateComponent()
         {
-            _turn += 1;
+            AdvanceTime();
+        }
 
-            //System.Console.WriteLine("turn: " + _turn.ToString());
-            Entity.entityTime += 100;
+        private void AdvanceTime()
+        {
+            Turn += 1;
 
-            if (Entity.entityTime % 100 == 0)
-                _minute++;
-            if (_minute > 59)
+            Entity.EntityTime += 100;
+
+            if (Entity.EntityTime % 100 == 0)
+                Minute++;
+            if (Minute > 59)
             {
-                _hour++;
-                _minute = 0;
+                Hour++;
+                Minute = 0;
             }
 
-            if (_hour > 23)
+            if (Hour > 23)
             {
-                _hour = 0;
-                _day++;
+                Hour = 0;
+                Day++;
             }
-            //Tools.StatusWindowUpdate(Game.World.player);
         }
     }
+
     public class CmpHP : Component
     {
-        private int _hp = 10;
-        private int _currentHp = 10;
-        private bool _alive = true;
+        public int Hp { get; set; }
+        public int CurrentHp { get; set; }
+        public bool Alive { get; set; }
 
         public CmpHP(params object[] args)
         {
-            _hp = Convert.ToInt32(args[0]);// + ; 
+            Hp = Convert.ToInt32(args[0]);
         }
-        public int Hp { get => _hp; set => _hp = value; }
-        public int CurrentHp { get => _currentHp; set => _currentHp = value; }
-        public bool Alive { get => _alive; set => _alive = value; }
 
         public override void UpdateComponent()
         {
+        }
+
+        public void ChangeCurrentHp(int amount)
+        {
+            CurrentHp += amount;
+        }
+
+        public void ChangeMaxHp(int amount)
+        {
+            Hp += amount;
         }
     }
 
@@ -219,7 +220,7 @@ namespace StarsHollow.World
     public class CmpAction : Component
     {
 
-        private Action _currentAction = new WaitAction();
+        private Action _currentAction;
         private Action _nextAction;
         private bool _unableToAct = false;
         public Action NextAction { get => _nextAction; set => _nextAction = value; }
@@ -230,13 +231,9 @@ namespace StarsHollow.World
         public void SetAction(Action action)
         {
             _currentAction = action;
-            _currentAction.actionActor = Entity;
-            _currentAction.entityTime = Entity.entityTime;
-            Entity.entityTime += _currentAction.timeCost + 1;
+            _currentAction.EntityTime = Entity.EntityTime;
+            Entity.EntityTime += _currentAction.TimeCost + 1;
             Game.UI.MainWindow.MainLoop.EventsList.Add(_currentAction);
-            // _currentAction.Time = Entity.Time;
-            //     _currentAction.Execute();
-            //       Game.World.Gameloop.EventsList.Add(_currentAction);
         }
 
         public override void UpdateComponent() { }
@@ -319,7 +316,7 @@ namespace StarsHollow.World
 
         public void GetGoal()
         {
-            Entity.GetComponent<CmpAction>().SetAction(new WaitAction());
+            Entity.GetComponent<CmpAction>().SetAction(new WaitAction(Entity));
 
         }
 
@@ -359,7 +356,7 @@ namespace StarsHollow.World
         public override void UpdateComponent()
         {
             if (!_stunned) return;
-            Entity.isActionable = false;
+            Entity.IsActionable = false;
             _duration -= 1; // TODO: make it so that different entities can have faster recovery.
 
             // check if entity can resist effect 
@@ -372,8 +369,8 @@ namespace StarsHollow.World
             // when duration is 0 or less, change status and remove the component
             if (_duration >= 1) return;
             _stunned = false;
-            Entity.isActionable = true;
-            Entity._components.Remove(this);
+            Entity.IsActionable = true;
+            Entity.EntComponents.Remove(this);
             Game.UI.MainWindow.Message(Entity.Name + " is no longer stunned.");
         }
     }

@@ -1,6 +1,6 @@
 {
   "timer": {
-    "look":{
+    "look": {
       "glyph": 0,
       "fg": "Color.Transparent",
       "bg": "Color.Transparent"
@@ -9,6 +9,16 @@
     "nonBlocking": "false",
     "components": {
       "CmpTimer": {}
+    }
+  },
+  "corpse": {
+    "look": {
+      "glyph": 37,
+      "fg": "Color.IndianRed",
+      "bg": "Color.Transparent"
+    },
+    "components": {
+      "CmpEdibleItem": {}
     }
   }
 }

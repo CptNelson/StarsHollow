@@ -8,43 +8,14 @@ using StarsHollow.UserInterface;
 
 namespace StarsHollow.Engine
 {
-
+    // FIXME: All these need a lot of re-write. 
 
     // All systems are Observers.
-    public abstract class Observer
-    {
-
-        // some helper fields
-        //protected Map  Game.World.CurrentMap = Game.World.CurrentMap;
-        protected object _sender;
-        protected EventArgs _args;
-
-        Subject _subject;
-        // Every time the event is raised
-        // (from eventHandler(this,EventArgs.Empty);), DoSomething(...) is called
-
-
-        public void Subscribe(Subject subject)
-        {
-            subject.eventHandler += DoSomething;
-        }
-        // Now, when the event is raised,
-        // DoSomething(...) is no longer called
-        public void UnSubscribe(Subject subject)
-        {
-            subject.eventHandler -= DoSomething;
-        }
-
-        public virtual void DoSomething(object sender, EventArgs e)
-        {
-
-            Console.WriteLine("Observer " + sender + " e: " + e);
-        }
-
-    }
 
     public class SystemMover : Observer
     {
+        //TODO: this needs to be either the the whole move-command, or somehow make them both 
+        // complement each other.
         private MoveBy _action;
         public override void DoSomething(object sender, System.EventArgs e)
         {
@@ -52,10 +23,7 @@ namespace StarsHollow.Engine
             // If tile is walkable and there is no other entity, move it there.
             // Refresh the Player fov afterwards.
             _action = (MoveBy)sender;
-            Point pos = _action.actionActor.Position + _action.dir;
-            //System.Console.WriteLine("is local: " + ! Game.World.CurrentMap.IsMapWorld + " is walkable: " +  Game.World.CurrentMap.IsTileWalkable(pos));
-            //if map is world
-            //System.Console.WriteLine("World Map");
+            Point pos = _action.position;
 
             // if map is local
             if (Game.UI.world.CurrentMap.IsTileWalkable(pos))
@@ -63,7 +31,7 @@ namespace StarsHollow.Engine
                 if (!Game.UI.world.CurrentMap.IsThereEntityAt(pos))
                 {
                     //System.Console.WriteLine("no one here. mover: " + _action._actor.Name);
-                    _action.actionActor.Position = pos;
+                    _action.ActionActor.Position = pos;
                     //  Game.UI.CenterOnActor(Game.UI.world.Player);
                 }
                 else if (Game.UI.world.CurrentMap.IsThereEntityAt(pos))
@@ -71,16 +39,15 @@ namespace StarsHollow.Engine
                     Entity entity = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(pos);
                     if (!entity.NonBlocking)
                     {
-                        Console.WriteLine("mover: " + _action.actionActor.Name + " blocker: " + entity.Name);
+                        Console.WriteLine("mover: " + _action.ActionActor.Name + " blocker: " + entity.Name);
                         return;
                     }
                     else
-                        _action.actionActor.Position = pos;
+                        _action.ActionActor.Position = pos;
                 }
             }
         }
     }
-
 
     public class SystemDamage : Observer
     {
@@ -88,38 +55,39 @@ namespace StarsHollow.Engine
         // TODO: check for items, resistances etc damage modifiers before decreasing health.
         public override void DoSomething(object sender, EventArgs e)
         {
-            var _event = (DamageEvent)sender;
-            Entity target = _event._target;
-            CmpHP health = target.GetComponent<CmpHP>();
-            int damage = _event._damage;
+            var @event = (DamageEvent)sender;
+            int damage = @event.Damage;
+            Entity target = @event.Target;
+            CmpHP healthCmp = target.GetComponent<CmpHP>();
 
-            health.Hp -= damage;
+            healthCmp.Hp -= damage;
 
             //  Utils.StatusWindowUpdate(target);
 
+            Game.UI.MainWindow.Message(target.Name + " took " + damage + " points of damage.");
 
-            Game.UI.MainWindow.Message(target.Name + " took " + damage + " of damage.");
-
-            if (health.Hp < 0)
+            if (healthCmp.Hp < 0)
             {
-                health.Alive = false;
+                healthCmp.Alive = false;
                 DeathEvent destroyEvent = new DeathEvent(target);
             }
         }
     }
 
-
-
     public class SystemSkills : Observer
     {
-        // Checks what Action raised the event, and chooses the correct method for the skill check.
-        // Skills are usually checked by comparing them to a 1d100 die roll, roll under the skill value is success.
-        // If comparing against other entity, both roll the die, add their value and then compare. One with higher result wins.
-        // Everytime skill check fails, it raises ExperienceEvent, which might rise the skill. 
+        /* ============================================================================================
+         Checks what Action raised the event, and chooses the correct method for the skill check.
+         Skills are usually checked by comparing them to a 1d100 die roll, 
+         roll under the skill value is success.
+         If comparing against other entity, both roll a die, add their value and then compare. 
+         One with higher result wins.
+         Everytime skill check fails, it raises ExperienceEvent, which might rise the skill. 
+         =============================================================================================== */
         public override void DoSomething(object sender, System.EventArgs e)
         {
-            _sender = sender;
-            _args = e;
+            base.sender = sender;
+            args = e;
             if (sender is MeleeAttack)
                 MeleeAttack();
 
@@ -130,12 +98,13 @@ namespace StarsHollow.Engine
         public void MeleeAttack()
         {
             // Compares attacker's Attack skill to target's Defence skill.
-            // If target throws 95+, they get Attack of Opportunity.
-            // If attacker throws 95+, they do Critical Hit.
+            // If target throws >95, they get Attack of Opportunity.
+            // If attacker throws >95, they do Critical Hit.
             // Successfull hit raises DamageEvent.
-            var _action = (MeleeAttack)_sender;
-            Entity attacker = _action.actionActor;
-            Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + _action.Dir);
+            var action = (MeleeAttack)sender;
+            Entity attacker = action.ActionActor;
+            Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(attacker.Position + action.Dir);
+
             if (target != null)
             {
                 CmpAttributes attributes = attacker.GetComponent<CmpAttributes>();
@@ -146,6 +115,7 @@ namespace StarsHollow.Engine
                 int targetWeaponSkill = 0;
                 int targetWeaponDamage = 0;
 
+                //TODO: methods to check for all bonuses
                 if (attacker.GetComponent<CmpBody>().IsHoldingItem())
                 {
                     attackerWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpMelee>().skillModifier;
@@ -153,7 +123,7 @@ namespace StarsHollow.Engine
                 }
                 if (target.GetComponent<CmpBody>().IsHoldingItem())
                 {
-                    targetWeaponSkill = attacker.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpMelee>().skillModifier;
+                    targetWeaponSkill = target.GetComponent<CmpBody>().GetHeldItem().GetComponent<CmpMelee>().skillModifier;
                 }
 
                 int attackSkill = attributes.Agility + attributes.Strength / 4 + attributes.Smarts / 4 + attackerWeaponSkill;
@@ -185,17 +155,15 @@ namespace StarsHollow.Engine
                 {
                     if (defenceRoll >= 95)
                     {
-                        // this needs to be changed
-                        int damage = Dice.Roll("1d4");
-                        Game.UI.MainWindow.Message(target.Name + " evaded " + attacker.Name + "'s attack and executed a counter-attack!");
-                        DamageEvent damageEvent = new DamageEvent(attacker, damage);
-                        Game.UI.world.SystemDamage.Subscribe(damageEvent);
-                        damageEvent.NotifyObservers();
+                        var counterAttack = new MeleeAttack(target, attacker.Position - target.Position);
+                        counterAttack.EntityTime = target.EntityTime - Convert.ToUInt32(Dice.Roll("15d5"));
+                        Game.UI.MainWindow.MainLoop.EventsList.Add(counterAttack);
+                        Game.UI.MainWindow.Message(target.Name + " evaded " + attacker.Name + "'s attack and got a change for counter-attack!");
                     }
                     else
                     {
                         Game.UI.MainWindow.Message(attacker.Name + " tried to hit " + target.Name + " but failed.");
-                        //ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpMelee>()._attackSkill, "attack skill");
+                        // TODO: ExperienceEvent experienceEvent = new ExperienceEvent(attacker, ref attacker.GetComponent<CmpMelee>()._attackSkill, "attack skill");
                     }
                 }
 
@@ -207,17 +175,16 @@ namespace StarsHollow.Engine
 
         public void RangedAttack()
         {
-            Console.WriteLine("shooting");
-            var _action = (Shoot)_sender;
-            Entity attacker = _action.actionActor;
+            // TODO: change it so that projectile creates the attack.
 
-            var line = Lines.Get(attacker.Position, _action.targetPosition, Lines.Algorithm.DDA);
-            //System.Console.WriteLine(_action.position+" P0:"+attacker.Position); 
-            //line.Reverse();
-            //line.RemoveAt(0);
-            foreach (Point pos in line.Skip(1))
+            Console.WriteLine("shooting");
+            var action = (Shoot)sender;
+            Entity attacker = action.ActionActor;
+
+            var projectileLine = Lines.Get(attacker.Position, action.targetPosition, Lines.Algorithm.DDA);
+
+            foreach (Point pos in projectileLine.Skip(1))
             {
-                //System.Console.WriteLine(pos+ " P: " + attacker.Position); 
                 Entity target = Game.UI.world.CurrentMap.GetFirstEntityAt<Entity>(pos);
                 if (target != null)
                 {
@@ -255,7 +222,6 @@ namespace StarsHollow.Engine
                     }
                     else
                     {
-
                         Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position,
                             target.Position));
                         Game.UI.MainWindow.Message(attacker.Name + " missed " + target.Name + ".");
@@ -267,20 +233,17 @@ namespace StarsHollow.Engine
                 if (!Game.UI.world.CurrentMap.IsTileWalkable(pos))
                 {
                     Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
-                    Console.WriteLine("third");
                     Game.UI.MainWindow.Message("You hit a wall!");
                     break;
                 }
 
-                if (pos == _action.targetPosition)
+                if (pos == action.targetPosition)
                 {
                     Game.UI.MainWindow.MainLoop.EventsList.Add(new ProjectileAnimation(attacker.Position, pos));
-                    Console.WriteLine("fourth");
                 }
 
             }
         }
-
 
         void CheckForStatusEffects(Entity attacker, Entity target)
         {

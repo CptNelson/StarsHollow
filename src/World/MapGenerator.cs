@@ -1,15 +1,9 @@
-﻿using GoRogue.MapViews;
-using StarsHollow.Utils;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using SimplexNoise;
+﻿using System;
 using Microsoft.Xna.Framework;
-using GoRogue.DiceNotation;
+using SimplexNoise;
 using GoRogue;
+using GoRogue.MapViews;
+using StarsHollow.Utils;
 
 namespace StarsHollow.World
 {
@@ -26,32 +20,32 @@ namespace StarsHollow.World
             _goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
             var _goMapLocalBool = new ArrayMap<bool>(mapWidth, mapHeight);
 
-            GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(_goMapLocalBool, 8, 6, 12, 8);
-            
+            //GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(_goMapLocalBool, 8, 6, 12, 8);
+            GoRogue.MapGeneration.QuickGenerators.GenerateRectangleMap(_goMapLocalBool);
             ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
-            
+
             foreach (var pos in _goMapLocal.Positions())
             {
                 if (_goMapLocalBool[pos]) // floor
                 {
                     _goMapLocal[pos] = 0;
-                    _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileFloor();
+                    _mapLocal.Tiles[pos.ToIndex(mapWidth)] = new TileFloor();
                     tempGoMap[pos] = true;
                 }
 
                 else
                 {
                     _goMapLocal[pos] = 1;
-                    _mapLocal._tiles[pos.ToIndex(mapWidth)] = new TileWall();
+                    _mapLocal.Tiles[pos.ToIndex(mapWidth)] = new TileWall();
                     tempGoMap[pos] = false;
                 }
-                
-                _mapLocal._tiles[pos.ToIndex(mapWidth)].fovMap = new FOV(tempGoMap);
+
+                _mapLocal.Tiles[pos.ToIndex(mapWidth)].FovMap = new FOV(tempGoMap);
             }
-            
-            return Tuple.Create(_mapLocal, _goMapLocal); 
+
+            return Tuple.Create(_mapLocal, _goMapLocal);
         }
-        
+
         public static Tuple<Map, ArrayMap<double>> GenerateWorld(int mapWidth, int mapHeight)
         {
             _map = new Map(mapWidth, mapHeight);
@@ -205,80 +199,80 @@ namespace StarsHollow.World
                     if (elev > 0.9f)
                         if (moist < 0.2f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileLand();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.Gray * (elev + 0.1f);
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileLand();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.Gray * (elev + 0.1f);
                         }
                         else if (moist < 0.4f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileLand();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DimGray * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileLand();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DimGray * elev;
                         }
                         else if (moist < 0.7f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                         else
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                     else if (elev > 0.8f)
                         if (moist < 0.4f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileLand();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileLand();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                         else if (moist < 0.6f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                         else
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                     else if (elev > 0.5f)
                         if (moist < 0.2f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileLand();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileLand();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                         else if (moist < 0.6f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                         else
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                     else if (elev > 0.2f)
                         if (moist < 0.4f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * (elev);
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileGrass();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * (elev);
                         }
                         else
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileTrees();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                     else if (elev > 0.0f)
                         if (moist > 0.6f)
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileSwamp();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkBlue * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileSwamp();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkBlue * elev;
                         }
                         else
                         {
-                            _map._tiles[_pos.ToIndex(mapWidth)] = new TileSwamp();
-                            _map._tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
+                            _map.Tiles[_pos.ToIndex(mapWidth)] = new TileSwamp();
+                            _map.Tiles[_pos.ToIndex(mapWidth)].Background = Color.DarkOliveGreen * elev;
                         }
                     else if (elev < 0.1f)
-                        _map._tiles[_pos.ToIndex(mapWidth)] = new TileRiver();
+                        _map.Tiles[_pos.ToIndex(mapWidth)] = new TileRiver();
                 }
 
                 // TEHE: floodfill-algoritmi joka etsii metsät, esmes yli 8 puuta vierekkäin sijaiten
@@ -299,7 +293,7 @@ namespace StarsHollow.World
                 //Console.WriteLine(" loc: " + _goMap[location]);
                 foreach (Point pos in _goMap.Positions())
                 {
-                   // Console.WriteLine("loc: "+ elevMap[location.X, location.Y] +  " pos:" + elevMap[pos.X, pos.Y]);
+                    // Console.WriteLine("loc: "+ elevMap[location.X, location.Y] +  " pos:" + elevMap[pos.X, pos.Y]);
                     if (elevMap[pos.X, pos.Y] <= elevMap[location.X, location.Y])
                     {
                         tempGoMap[pos] = true;
@@ -308,13 +302,13 @@ namespace StarsHollow.World
                     //else Console.WriteLine("false");
                 }
 
-                _map._tiles[location.ToIndex(mapWidth)].fovMap = new FOV(tempGoMap);
+                _map.Tiles[location.ToIndex(mapWidth)].FovMap = new FOV(tempGoMap);
 
                 //_map._tiles[location.ToIndex(mapWidth)].fovMap = Fov;
                 //IMapView<double> senseMapView = new LambdaTranslationMap<bool, double>(_world.CurrentMap.goMap, val => val ? 0.0 : 1.0);
             }
 
-//            void GenerateLocalMaps() { }
+            //            void GenerateLocalMaps() { }
             return Tuple.Create(_map, _goMap);
         }
     }
