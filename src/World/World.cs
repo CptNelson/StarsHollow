@@ -47,7 +47,8 @@ namespace StarsHollow.World
         public void SaveCurrentGame()
         {
             //     SaveTiles
-            File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(LocalMap.Fov, Formatting.Indented));
+            //File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(LocalMap.Fov, Formatting.Indented));
+            File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, Formatting.Indented));
         }
 
         public void CreateWorld(int width, int height)

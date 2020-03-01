@@ -18,13 +18,16 @@ namespace StarsHollow.World
         bool IsActionable { get; set; }
         uint EntityTime { get; set; }
     }
-
+    [DataContract]  
     public class Entity : SadConsole.Entities.Entity, IEntity
     {
         // All the components entity has.
+        [JsonProperty]
         public List<IComponent> EntComponents { get; set; }
+        [JsonProperty]
         // Every Entity has unique ID
         public uint ID { get; set; }
+        [JsonProperty]
         public uint EntityTime { get; set; }
         // name for checking what kind of entity it is.(TODO: make this a enum)
         public string TypeName { get; set; }
