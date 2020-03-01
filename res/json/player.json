@@ -2,8 +2,8 @@
   "player": {
     "look": {
       "glyph": 1,
-      "fg": "Color.Green",
-      "bg": "Color.Transparent"
+      "fg": "Green",
+      "bg": "Transparent"
     },
     "components": {
       "CmpAttributes": {
@@ -21,8 +21,6 @@
       "CmpInput": {},
       "CmpAction": {}
     },
-    "items": [
-      "stun gun"
-    ]
+    "items": ["stun gun"]
   }
 }

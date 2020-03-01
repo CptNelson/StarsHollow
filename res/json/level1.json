@@ -2,8 +2,8 @@
   "guard": {
     "look": {
       "glyph": 2,
-      "fg": "ColorScheme.Four",
-      "bg": "Color.Transparent"
+      "fg": "Red",
+      "bg": "Transparent"
     },
     "components": {
       "CmpAttributes": {
@@ -21,10 +21,8 @@
         "ItemCapacity": 2
       },
       "CmpAction": {},
-      "CmpAI": {"aggression": 3}
+      "CmpAI": { "aggression": 3 }
     },
-    "items": [
-      "stun gun"
-    ]
+    "items": ["stun gun"]
   }
 }

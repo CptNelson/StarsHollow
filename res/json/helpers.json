@@ -2,8 +2,8 @@
   "timer": {
     "look": {
       "glyph": 0,
-      "fg": "Color.Transparent",
-      "bg": "Color.Transparent"
+      "fg": "Transparent",
+      "bg": "Transparent"
     },
     "name": "timer",
     "nonBlocking": "false",

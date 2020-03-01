@@ -278,14 +278,14 @@ namespace StarsHollow.UserInterface
             mapWindow.Show();
 
             world.CreateWorld(mapWindow.Width, mapWindow.Height);
-            world.CurrentMap = world.OverworldMap;
-            LoadMapToConsole(world.OverworldMap);
+            world.CurrentMap = world.LocalMap;
+            LoadMapToConsole(world.LocalMap);
             Console.WriteLine(world.TurnTimer);
             statusConsole.WriteInformation();
             GameState = States.Main;
             DisplayFOV();
             CreateTarget();
-            MainLoop.Init(world.OverworldMap);
+            MainLoop.Init(world.LocalMap);
             MainLoop.Loop();
             //SyncMapEntities(_world.OverworldMap);
         }
@@ -367,6 +367,11 @@ namespace StarsHollow.UserInterface
                     {
                         inputState = 2;
                         return;
+                    }
+
+                    if (Global.KeyboardState.IsKeyPressed(Keys.Q))
+                    {
+                        SaveAndQuit();
                     }
 
                     if (Global.KeyboardState.IsKeyPressed(Keys.Up))
@@ -452,9 +457,15 @@ namespace StarsHollow.UserInterface
         private void CheckMouse()
         {
             if (Global.MouseState.LeftClicked)
-                System.Console.WriteLine(world.OverworldMap
+                System.Console.WriteLine(world.LocalMap
                     .GetTileAt(Global.MouseState.ScreenPosition.PixelLocationToConsole(mapWindow.Width,
                         mapWindow.Height)).Name);
+        }
+
+        private void SaveAndQuit()
+        {
+            world.SaveCurrentGame();
+            Console.WriteLine("saved");
         }
     }
 
@@ -474,10 +485,10 @@ namespace StarsHollow.UserInterface
     public static class ColorScheme
     {
         public static Color First = Color.Black;
-        public static Color Second = new Color(138, 247, 228); // Color.AntiqueWhite;  //1,255,255
-        public static Color Three = new Color(157, 114, 255); //Color.ForestGreen;
-        public static Color Four = new Color(255, 179, 253); //Color.LightGoldenrodYellow);Color.LightGoldenrodYellow;
-        public static Color Five = new Color(1, 255, 195); //Color.Aquamarine;
+        public static Color Second = new Color(138, 247, 228);
+        public static Color Three = new Color(157, 114, 255);
+        public static Color Four = new Color(255, 179, 253);
+        public static Color Five = new Color(1, 255, 195);
     }
 
 

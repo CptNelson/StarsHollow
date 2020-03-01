@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using GoRogue;
 using GoRogue.MapViews;
+using System.Runtime.Serialization;
 
 namespace StarsHollow.World
 {
+    [DataContract]
     public class Map
     {
+        [DataMember]
         public readonly int Width;
+        [DataMember]
         public readonly int Height;
+        [DataMember]
         public TileBase[] Tiles { get; set; }
+        [DataMember]
         public FOV Fov { get; set; }
         // Keeps track of all the Entities on the map
         public GoRogue.MultiSpatialMap<Entity> Entities { get; set; }
