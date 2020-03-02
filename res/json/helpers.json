@@ -14,8 +14,8 @@
   "corpse": {
     "look": {
       "glyph": 37,
-      "fg": "Color.IndianRed",
-      "bg": "Color.Transparent"
+      "fg": "Red",
+      "bg": "Transparent"
     },
     "components": {
       "CmpEdibleItem": {}

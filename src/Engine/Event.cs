@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Microsoft.Xna.Framework;
 using StarsHollow.World;
 
@@ -17,24 +18,28 @@ namespace StarsHollow.Engine
 
     public class DeathEvent : Subject
     {
-        public Entity Entity { get; private set; }
+        //public Entity Entity { get; private set; }
         public DeathEvent(Entity entity)
         {
-            Entity = entity;
-            Game.UI.MainWindow.Message(Entity.Sprite.Name + " died!");
-            if (Entity.HasComponent<CmpInput>())
+
+            Game.UI.MainWindow.Message(entity.Sprite.Name + " died!");
+            if (entity.HasComponent<CmpInput>())
             {
                 Game.UI.MainWindow.Message("Game over!");
                 Game.UI.MainWindow.MainLoop.Playing = false;
             }
-            Game.UI.world.CurrentMap.Remove(Entity.Sprite);
-            Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
 
             Entity corpse = Game.UI.world.EntityFactory("corpse", "helpers.json");
-            corpse.Sprite.Name = "The corpse of a " + Entity.Sprite.Name;
+            corpse.Sprite.Name = "The corpse of a " + entity.Sprite.Name;
             corpse.NonBlocking = true;
-            corpse.Sprite.Position = Entity.Sprite.Position;
+            corpse.Sprite.Position = entity.Sprite.Position;
             Game.UI.world.CurrentMap.Add(corpse.Sprite);
+
+            Console.WriteLine(corpse.Sprite.GetGlyph(0, 0));
+
+            Game.UI.world.CurrentMap.Remove(entity.Sprite);
+            Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
+
         }
     }
 
