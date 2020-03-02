@@ -33,12 +33,12 @@ namespace StarsHollow.Engine
                 // Loop all entities in Map's entitylist, and add them to entityLists 
                 // if they are flagged Actionable
                 var entitiesInMap = map.Entities.Items;
-                foreach (Entity ent in entitiesInMap)
+                foreach (Sprite sprite in entitiesInMap)
                 {
-                    LevelEntityList.Add(ent);
-                    if (ent.IsActionable)
+                    LevelEntityList.Add(sprite.owner);
+                    if (sprite.owner.IsActionable)
                     {
-                        EventsList.Add(ent);
+                        EventsList.Add(sprite.owner);
                     }
                 }
             }
@@ -65,7 +65,7 @@ namespace StarsHollow.Engine
             for (int ent = 0; ent < LevelEntityList.Count; ent++)
             {
                 Entity entity = (Entity)LevelEntityList[ent];
-                List<IComponent> components = entity.GetComponents();
+                List<Component> components = entity.GetComponents();
 
                 for (int cmp = 0; cmp < components.Count; cmp++)
                 {

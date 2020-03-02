@@ -34,6 +34,11 @@ namespace StarsHollow.World
 
         public WorldMap()
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.All
+            };
         }
 
         public void InitSystems()
@@ -78,7 +83,13 @@ namespace StarsHollow.World
             }
             File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(tempMap, Formatting.Indented));
             File.WriteAllText(@"./res/json/saves/mapfov.json", JsonConvert.SerializeObject(tempFovMap, Formatting.Indented));
-            File.WriteAllText(@"./res/json/saves/entities.json", JsonConvert.SerializeObject(CurrentMap.Entities, Formatting.Indented));
+            var settings = new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                Formatting = Formatting.Indented
+            };
+            JsonSerializer serializer = new JsonSerializer();
+            File.WriteAllText(@"./res/json/saves/entities.json", JsonConvert.SerializeObject(CurrentMap.Entities, settings));
         }
         public double[,] LoadCurrentMap()
         {
@@ -100,6 +111,21 @@ namespace StarsHollow.World
             }
             return tempFovMap;
         }
+        public Entity LoadPlayer()
+        {
+
+
+            Entity loadedPlayer;
+
+            using (StreamReader file = File.OpenText(@"./res/json/saves/player.json"))
+            {
+                var serializer = new JsonSerializer();
+                loadedPlayer = (Entity)serializer.Deserialize(file, typeof(Entity));
+
+            }
+
+            return loadedPlayer;
+        }
 
         public void CreateWorld(int width, int height)
         {
@@ -108,14 +134,15 @@ namespace StarsHollow.World
 
             LocalMap = new Map(mapWidth, mapHeight);
             // map generator returns both Map and GoRogue's ArrayMap. 
-            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
 
-            double[,] tempMap = LoadCurrentMap();
-            double[,] tempFovMap = LoadCurrentFovMap();
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
+            //double[,] tempMap = LoadCurrentMap();
+            //double[,] tempFovMap = LoadCurrentFovMap();
+            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
 
             LocalMap = maps.Item1;
             LocalMap.GoMap = maps.Item2;
+            // Console.WriteLine(LoadPlayer());
 
             InitSystems();
 
@@ -130,7 +157,7 @@ namespace StarsHollow.World
             TurnTimer = EntityFactory("timer", "helpers.json");
             TurnTimer.GetComponents();
             TurnTimer.IsActionable = true;
-            LocalMap.Add(TurnTimer);
+            LocalMap.Add(TurnTimer.Sprite);
         }
 
         public Entity EntityFactory(string name, string json)
@@ -181,7 +208,7 @@ namespace StarsHollow.World
             Player.Sprite.Position = LocalMap.GetRandomEmptyPosition();
             Player.Sprite.IsVisible = true;
             Player.IsActionable = true;
-            LocalMap.Add(Player);
+            LocalMap.Add(Player.Sprite);
         }
 
         private void CreateGuard(int amount = 2)
@@ -192,7 +219,7 @@ namespace StarsHollow.World
                 guard.Sprite.Position = LocalMap.GetRandomEmptyPosition();
                 guard.Sprite.IsVisible = false;
                 guard.IsActionable = true;
-                LocalMap.Add(guard);
+                LocalMap.Add(guard.Sprite);
             }
         }
     }

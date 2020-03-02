@@ -30,9 +30,7 @@ namespace StarsHollow.Engine
             {
                 if (!Game.UI.world.CurrentMap.IsThereEntityAt(pos))
                 {
-                    //System.Console.WriteLine("no one here. mover: " + _action._actor.Name);
                     _action.ActionActor.Sprite.Position = pos;
-                    //  Game.UI.CenterOnActor(Game.UI.world.Player);
                 }
                 else if (Game.UI.world.CurrentMap.IsThereEntityAt(pos))
                 {
@@ -177,7 +175,6 @@ namespace StarsHollow.Engine
         {
             // TODO: change it so that projectile creates the attack.
 
-            Console.WriteLine("shooting");
             var action = (Shoot)sender;
             Entity attacker = action.ActionActor;
 

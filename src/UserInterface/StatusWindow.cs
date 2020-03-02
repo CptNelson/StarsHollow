@@ -43,7 +43,6 @@ namespace StarsHollow.UserInterface
 
             statusConsole.Clear();
 
-            Console.WriteLine(map.TurnTimer);
             statusConsole.Print(1, 5, (timer.Hour + " : " + timer.Minute), ColorScheme.Second);
             statusConsole.Print(1, 6, ("Turn " + timer.Turn), ColorScheme.Second);
             statusConsole.Print(1, 7, timeOfDay, ColorScheme.Second);

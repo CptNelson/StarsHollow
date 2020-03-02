@@ -15,7 +15,7 @@ namespace StarsHollow.World
         public TileBase[] Tiles { get; set; }
         public FOV Fov { get; set; }
         // Keeps track of all the Entities on the map
-        public GoRogue.MultiSpatialMap<Entity> Entities { get; set; }
+        public GoRogue.MultiSpatialMap<Sprite> Entities { get; set; }
         // Creates unique ID's for all entities
         public static GoRogue.IDGenerator IDGenerator = new GoRogue.IDGenerator();
         //Build a new map with a specified width and height
@@ -26,7 +26,7 @@ namespace StarsHollow.World
             Width = width;
             Height = height;
             Tiles = new TileBase[width * height];
-            Entities = new GoRogue.MultiSpatialMap<Entity>();
+            Entities = new GoRogue.MultiSpatialMap<Sprite>();
         }
 
         // =============MAP METHODS====================================
@@ -50,15 +50,26 @@ namespace StarsHollow.World
             else
                 return new TileNull();
         }
-        public T GetFirstEntityAt<T>(Point location) where T : Entity
+        public Entity GetFirstEntityAt<T>(Point location)
         {
-            return Entities.GetItems(location).OfType<T>().FirstOrDefault();
+            var sprite = Entities.GetItems(location).FirstOrDefault();
+            if (sprite == null)
+            {
+                return null;
+            }
+            return sprite.owner;
         }
         public List<Entity> GetEntitiesAt(Point location)
         {
-            List<Entity> _entities = new List<Entity>();
-            _entities = Entities.GetItems(location).ToList<Entity>();
-            return _entities;
+            // TODO: Check if there is a better way to do this
+            List<Entity> entities = new List<Entity>();
+            List<Sprite> sprites = new List<Sprite>();
+            sprites = Entities.GetItems(location).ToList<Sprite>();
+            foreach (Sprite sprite in sprites)
+            {
+                entities.Add(sprite.owner);
+            }
+            return entities;
         }
         public bool IsThereEntityAt(Point location)
         {
@@ -99,28 +110,28 @@ namespace StarsHollow.World
         }
 
         // Removes an Entity from the MultiSpatialMap
-        public void Remove(Entity entity)
+        public void Remove(Sprite sprite)
         {
             // remove from SpatialMap
-            Entities.Remove(entity);
+            Entities.Remove(sprite);
             // Link up the entity's Moved event to a new handler
-            entity.Moved -= OnEntityMoved;
+            sprite.Moved -= OnEntityMoved;
         }
 
         // Adds an Entity to the MultiSpatialMap
-        public void Add(Entity entity)
+        public void Add(Sprite sprite)
         {
             // add entity to the SpatialMap
-            Entities.Add(entity, entity.Sprite.Position);
+            Entities.Add(sprite, sprite.Position);
             // Link up the entity's Moved event to a new handler
-            entity.Moved += OnEntityMoved;
+            sprite.Moved += OnEntityMoved;
         }
 
         // When the Entity's .Moved value changes, it triggers this event handler
         // which updates the Entity's current position in the SpatialMap
-        private void OnEntityMoved(object sender, Entity.EntityMovedEventArgs args)
+        private void OnEntityMoved(object sender, Sprite.EntityMovedEventArgs args)
         {
-            Entities.Move(args.Entity, args.Entity.Sprite.Position);
+            Entities.Move(args.Entity as Sprite, args.Entity.Position);
         }
     }
     public class OverWorldMap : Map

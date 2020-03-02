@@ -1,443 +1,606 @@
 {
-  "EntComponents": [
-    {
-      "Components": [],
-      "Strength": 11,
-      "Agility": 14,
-      "Vitality": 12,
-      "Looks": 15,
-      "Guts": 13,
-      "Smarts": 12
-    },
-    {
-      "Components": [],
-      "Hp": 20,
-      "CurrentHp": 20,
-      "Alive": false
-    },
-    {
-      "ItemList": [
-        {
-          "EntComponents": [
-            {
-              "Weight": 1.0,
-              "OnMap": false,
-              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
-              "Holder": null,
-              "Components": []
-            },
-            {
-              "damage": "1d2-1",
-              "range": 10,
-              "skillModifier": 5,
-              "Components": []
-            },
-            {
-              "damage": "1d2",
-              "range": 0,
-              "skillModifier": 0,
-              "Components": []
-            },
-            {
-              "Components": [],
-              "DurationRoll": "1d2+1",
-              "Duration": 2
-            }
-          ],
-          "Sprite": {
-            "AnimationName": "default",
-            "Animations": [
-              {
-                "Frames": [
-                  {
-                    "Width": 1,
-                    "Height": 1,
-                    "DefaultForeground": {
-                      "R": 255,
-                      "G": 255,
-                      "B": 255,
-                      "A": 255
-                    },
-                    "DefaultBackground": {
-                      "R": 0,
-                      "G": 0,
-                      "B": 0,
-                      "A": 0
-                    },
-                    "Cells": [
-                      {
-                        "Decorators": [],
-                        "Foreground": {
-                          "R": 0,
-                          "G": 0,
-                          "B": 0,
-                          "A": 0
-                        },
-                        "Background": {
-                          "R": 0,
-                          "G": 0,
-                          "B": 0,
-                          "A": 0
-                        },
-                        "Glyph": 31,
-                        "Mirror": 0,
-                        "IsVisible": true,
-                        "CellState": null
-                      }
-                    ]
-                  }
-                ],
-                "AnimationDuration": 0.0,
-                "Name": "default",
-                "Repeat": false,
-                "Center": {
-                  "X": 0,
-                  "Y": 0
-                },
-                "Width": 1,
-                "Height": 1,
-                "IsVisible": false,
-                "IsPaused": false,
-                "UsePixelPositioning": false,
-                "UseMouse": true,
-                "UseKeyboard": true,
-                "Position": {
-                  "X": 0,
-                  "Y": 0
-                },
-                "Font": {
-                  "Name": "Bisasam-24x24",
-                  "Size": 1
-                },
-                "Tint": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0,
-                  "A": 0
-                },
-                "DefaultForeground": {
-                  "R": 255,
-                  "G": 255,
-                  "B": 255,
-                  "A": 255
-                },
-                "DefaultBackground": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0,
-                  "A": 0
-                },
-                "Cells": null
-              }
-            ],
-            "IsVisible": true,
-            "Position": {
-              "X": -1,
-              "Y": -1
-            },
-            "PositionOffset": {
-              "X": 0,
-              "Y": 0
-            },
-            "UsePixelPositioning": false,
-            "Name": "stun gun",
-            "Width": 0,
-            "Height": 0,
-            "IsPaused": false,
-            "UseMouse": false,
-            "UseKeyboard": false,
-            "Font": null,
-            "Tint": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "DefaultForeground": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "DefaultBackground": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "Cells": null
-          },
-          "ID": 2,
-          "EntityTime": 0,
-          "TypeName": "type",
-          "NonBlocking": false,
-          "IsActionable": false
-        }
-      ],
-      "ItemCapacity": 2,
-      "Holding": null,
-      "RightHand": [
-        {
-          "EntComponents": [
-            {
-              "Weight": 1.0,
-              "OnMap": false,
-              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
-              "Holder": null,
-              "Components": []
-            },
-            {
-              "damage": "1d2-1",
-              "range": 10,
-              "skillModifier": 5,
-              "Components": []
-            },
-            {
-              "damage": "1d2",
-              "range": 0,
-              "skillModifier": 0,
-              "Components": []
-            },
-            {
-              "Components": [],
-              "DurationRoll": "1d2+1",
-              "Duration": 2
-            }
-          ],
-          "Sprite": {
-            "AnimationName": "default",
-            "Animations": [
-              {
-                "Frames": [
-                  {
-                    "Width": 1,
-                    "Height": 1,
-                    "DefaultForeground": {
-                      "R": 255,
-                      "G": 255,
-                      "B": 255,
-                      "A": 255
-                    },
-                    "DefaultBackground": {
-                      "R": 0,
-                      "G": 0,
-                      "B": 0,
-                      "A": 0
-                    },
-                    "Cells": [
-                      {
-                        "Decorators": [],
-                        "Foreground": {
-                          "R": 0,
-                          "G": 0,
-                          "B": 0,
-                          "A": 0
-                        },
-                        "Background": {
-                          "R": 0,
-                          "G": 0,
-                          "B": 0,
-                          "A": 0
-                        },
-                        "Glyph": 31,
-                        "Mirror": 0,
-                        "IsVisible": true,
-                        "CellState": null
-                      }
-                    ]
-                  }
-                ],
-                "AnimationDuration": 0.0,
-                "Name": "default",
-                "Repeat": false,
-                "Center": {
-                  "X": 0,
-                  "Y": 0
-                },
-                "Width": 1,
-                "Height": 1,
-                "IsVisible": false,
-                "IsPaused": false,
-                "UsePixelPositioning": false,
-                "UseMouse": true,
-                "UseKeyboard": true,
-                "Position": {
-                  "X": 0,
-                  "Y": 0
-                },
-                "Font": {
-                  "Name": "Bisasam-24x24",
-                  "Size": 1
-                },
-                "Tint": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0,
-                  "A": 0
-                },
-                "DefaultForeground": {
-                  "R": 255,
-                  "G": 255,
-                  "B": 255,
-                  "A": 255
-                },
-                "DefaultBackground": {
-                  "R": 0,
-                  "G": 0,
-                  "B": 0,
-                  "A": 0
-                },
-                "Cells": null
-              }
-            ],
-            "IsVisible": true,
-            "Position": {
-              "X": -1,
-              "Y": -1
-            },
-            "PositionOffset": {
-              "X": 0,
-              "Y": 0
-            },
-            "UsePixelPositioning": false,
-            "Name": "stun gun",
-            "Width": 0,
-            "Height": 0,
-            "IsPaused": false,
-            "UseMouse": false,
-            "UseKeyboard": false,
-            "Font": null,
-            "Tint": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "DefaultForeground": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "DefaultBackground": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "Cells": null
-          },
-          "ID": 2,
-          "EntityTime": 0,
-          "TypeName": "type",
-          "NonBlocking": false,
-          "IsActionable": false
-        }
-      ],
-      "LeftHand": [],
-      "Components": []
-    },
-    {
-      "Components": []
-    },
-    {
-      "Components": [],
-      "NextAction": null,
-      "UnableToAct": false
-    }
-  ],
-  "Sprite": {
-    "AnimationName": "default",
-    "Animations": [
+  "$type": "StarsHollow.World.Entity, Stars Hollow",
+  "EntComponents": {
+    "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+    "$values": [
       {
-        "Frames": [
-          {
-            "Width": 1,
-            "Height": 1,
-            "DefaultForeground": {
-              "R": 255,
-              "G": 255,
-              "B": 255,
-              "A": 255
-            },
-            "DefaultBackground": {
-              "R": 0,
-              "G": 0,
-              "B": 0,
-              "A": 0
-            },
-            "Cells": [
-              {
-                "Decorators": [],
-                "Foreground": {
-                  "R": 0,
-                  "G": 128,
-                  "B": 0,
-                  "A": 255
+        "$type": "StarsHollow.World.CmpAttributes, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Strength": 11,
+        "Agility": 14,
+        "Vitality": 12,
+        "Looks": 15,
+        "Guts": 13,
+        "Smarts": 12
+      },
+      {
+        "$type": "StarsHollow.World.CmpHP, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Hp": 20,
+        "CurrentHp": 20,
+        "Alive": false
+      },
+      {
+        "$type": "StarsHollow.World.CmpBody, Stars Hollow",
+        "ItemList": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Entity, Stars Hollow]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "StarsHollow.World.Entity, Stars Hollow",
+              "EntComponents": {
+                "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$type": "StarsHollow.World.CmpItem, Stars Hollow",
+                    "Weight": 1.0,
+                    "OnMap": false,
+                    "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+                    "Holder": null,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpRanged, Stars Hollow",
+                    "damage": "1d2-1",
+                    "range": 10,
+                    "skillModifier": 5,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpMelee, Stars Hollow",
+                    "damage": "1d2",
+                    "range": 0,
+                    "skillModifier": 0,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpEffectStun, Stars Hollow",
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    },
+                    "DurationRoll": "1d2+1",
+                    "Duration": 2
+                  }
+                ]
+              },
+              "Sprite": {
+                "$type": "SadConsole.SerializedTypes.EntitySerialized, SadConsole",
+                "AnimationName": "default",
+                "Animations": {
+                  "$type": "System.Collections.Generic.List`1[[SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole]], System.Private.CoreLib",
+                  "$values": [
+                    {
+                      "$type": "SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole",
+                      "Frames": {
+                        "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized[], SadConsole",
+                        "$values": [
+                          {
+                            "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized, SadConsole",
+                            "Width": 1,
+                            "Height": 1,
+                            "DefaultForeground": {
+                              "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                              "R": 255,
+                              "G": 255,
+                              "B": 255,
+                              "A": 255
+                            },
+                            "DefaultBackground": {
+                              "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                              "R": 0,
+                              "G": 0,
+                              "B": 0,
+                              "A": 0
+                            },
+                            "Cells": {
+                              "$type": "SadConsole.SerializedTypes.CellSerialized[], SadConsole",
+                              "$values": [
+                                {
+                                  "$type": "SadConsole.SerializedTypes.CellSerialized, SadConsole",
+                                  "Decorators": {
+                                    "$type": "SadConsole.CellDecorator[], SadConsole",
+                                    "$values": []
+                                  },
+                                  "Foreground": {
+                                    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                                    "R": 0,
+                                    "G": 0,
+                                    "B": 0,
+                                    "A": 0
+                                  },
+                                  "Background": {
+                                    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                                    "R": 0,
+                                    "G": 0,
+                                    "B": 0,
+                                    "A": 0
+                                  },
+                                  "Glyph": 31,
+                                  "Mirror": 0,
+                                  "IsVisible": true,
+                                  "CellState": null
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "AnimationDuration": 0.0,
+                      "Name": "default",
+                      "Repeat": false,
+                      "Center": {
+                        "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Width": 1,
+                      "Height": 1,
+                      "IsVisible": false,
+                      "IsPaused": false,
+                      "UsePixelPositioning": false,
+                      "UseMouse": true,
+                      "UseKeyboard": true,
+                      "Position": {
+                        "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Font": {
+                        "$type": "SadConsole.SerializedTypes.FontSerialized, SadConsole",
+                        "Name": "Bisasam-24x24",
+                        "Size": 1
+                      },
+                      "Tint": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 0
+                      },
+                      "DefaultForeground": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 255,
+                        "G": 255,
+                        "B": 255,
+                        "A": 255
+                      },
+                      "DefaultBackground": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 0
+                      },
+                      "Cells": null
+                    }
+                  ]
                 },
-                "Background": {
+                "IsVisible": true,
+                "Position": {
+                  "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+                  "X": -1,
+                  "Y": -1
+                },
+                "PositionOffset": {
+                  "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+                  "X": 0,
+                  "Y": 0
+                },
+                "UsePixelPositioning": false,
+                "Name": "stun gun",
+                "Width": 0,
+                "Height": 0,
+                "IsPaused": false,
+                "UseMouse": false,
+                "UseKeyboard": false,
+                "Font": null,
+                "Tint": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
                   "R": 0,
                   "G": 0,
                   "B": 0,
                   "A": 0
                 },
-                "Glyph": 1,
-                "Mirror": 0,
+                "DefaultForeground": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultBackground": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": null
+              },
+              "ID": 2,
+              "EntityTime": 0,
+              "TypeName": "type",
+              "NonBlocking": false,
+              "IsActionable": false
+            }
+          ]
+        },
+        "ItemCapacity": 2,
+        "Holding": null,
+        "RightHand": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Entity, Stars Hollow]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "StarsHollow.World.Entity, Stars Hollow",
+              "EntComponents": {
+                "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$type": "StarsHollow.World.CmpItem, Stars Hollow",
+                    "Weight": 1.0,
+                    "OnMap": false,
+                    "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+                    "Holder": null,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpRanged, Stars Hollow",
+                    "damage": "1d2-1",
+                    "range": 10,
+                    "skillModifier": 5,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpMelee, Stars Hollow",
+                    "damage": "1d2",
+                    "range": 0,
+                    "skillModifier": 0,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpEffectStun, Stars Hollow",
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    },
+                    "DurationRoll": "1d2+1",
+                    "Duration": 2
+                  }
+                ]
+              },
+              "Sprite": {
+                "$type": "SadConsole.SerializedTypes.EntitySerialized, SadConsole",
+                "AnimationName": "default",
+                "Animations": {
+                  "$type": "System.Collections.Generic.List`1[[SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole]], System.Private.CoreLib",
+                  "$values": [
+                    {
+                      "$type": "SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole",
+                      "Frames": {
+                        "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized[], SadConsole",
+                        "$values": [
+                          {
+                            "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized, SadConsole",
+                            "Width": 1,
+                            "Height": 1,
+                            "DefaultForeground": {
+                              "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                              "R": 255,
+                              "G": 255,
+                              "B": 255,
+                              "A": 255
+                            },
+                            "DefaultBackground": {
+                              "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                              "R": 0,
+                              "G": 0,
+                              "B": 0,
+                              "A": 0
+                            },
+                            "Cells": {
+                              "$type": "SadConsole.SerializedTypes.CellSerialized[], SadConsole",
+                              "$values": [
+                                {
+                                  "$type": "SadConsole.SerializedTypes.CellSerialized, SadConsole",
+                                  "Decorators": {
+                                    "$type": "SadConsole.CellDecorator[], SadConsole",
+                                    "$values": []
+                                  },
+                                  "Foreground": {
+                                    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                                    "R": 0,
+                                    "G": 0,
+                                    "B": 0,
+                                    "A": 0
+                                  },
+                                  "Background": {
+                                    "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                                    "R": 0,
+                                    "G": 0,
+                                    "B": 0,
+                                    "A": 0
+                                  },
+                                  "Glyph": 31,
+                                  "Mirror": 0,
+                                  "IsVisible": true,
+                                  "CellState": null
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "AnimationDuration": 0.0,
+                      "Name": "default",
+                      "Repeat": false,
+                      "Center": {
+                        "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Width": 1,
+                      "Height": 1,
+                      "IsVisible": false,
+                      "IsPaused": false,
+                      "UsePixelPositioning": false,
+                      "UseMouse": true,
+                      "UseKeyboard": true,
+                      "Position": {
+                        "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+                        "X": 0,
+                        "Y": 0
+                      },
+                      "Font": {
+                        "$type": "SadConsole.SerializedTypes.FontSerialized, SadConsole",
+                        "Name": "Bisasam-24x24",
+                        "Size": 1
+                      },
+                      "Tint": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 0
+                      },
+                      "DefaultForeground": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 255,
+                        "G": 255,
+                        "B": 255,
+                        "A": 255
+                      },
+                      "DefaultBackground": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 0
+                      },
+                      "Cells": null
+                    }
+                  ]
+                },
                 "IsVisible": true,
-                "CellState": null
+                "Position": {
+                  "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+                  "X": -1,
+                  "Y": -1
+                },
+                "PositionOffset": {
+                  "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+                  "X": 0,
+                  "Y": 0
+                },
+                "UsePixelPositioning": false,
+                "Name": "stun gun",
+                "Width": 0,
+                "Height": 0,
+                "IsPaused": false,
+                "UseMouse": false,
+                "UseKeyboard": false,
+                "Font": null,
+                "Tint": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultForeground": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "DefaultBackground": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": null
+              },
+              "ID": 2,
+              "EntityTime": 0,
+              "TypeName": "type",
+              "NonBlocking": false,
+              "IsActionable": false
+            }
+          ]
+        },
+        "LeftHand": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Entity, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "StarsHollow.World.CmpInput, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "StarsHollow.World.CmpAction, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.IComponent, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "NextAction": null,
+        "UnableToAct": false
+      }
+    ]
+  },
+  "Sprite": {
+    "$type": "SadConsole.SerializedTypes.EntitySerialized, SadConsole",
+    "AnimationName": "default",
+    "Animations": {
+      "$type": "System.Collections.Generic.List`1[[SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole]], System.Private.CoreLib",
+      "$values": [
+        {
+          "$type": "SadConsole.SerializedTypes.AnimatedConsoleSerialized, SadConsole",
+          "Frames": {
+            "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized[], SadConsole",
+            "$values": [
+              {
+                "$type": "SadConsole.SerializedTypes.CellSurfaceSerialized, SadConsole",
+                "Width": 1,
+                "Height": 1,
+                "DefaultForeground": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 255,
+                  "G": 255,
+                  "B": 255,
+                  "A": 255
+                },
+                "DefaultBackground": {
+                  "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                  "R": 0,
+                  "G": 0,
+                  "B": 0,
+                  "A": 0
+                },
+                "Cells": {
+                  "$type": "SadConsole.SerializedTypes.CellSerialized[], SadConsole",
+                  "$values": [
+                    {
+                      "$type": "SadConsole.SerializedTypes.CellSerialized, SadConsole",
+                      "Decorators": {
+                        "$type": "SadConsole.CellDecorator[], SadConsole",
+                        "$values": []
+                      },
+                      "Foreground": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 0,
+                        "G": 128,
+                        "B": 0,
+                        "A": 255
+                      },
+                      "Background": {
+                        "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+                        "R": 0,
+                        "G": 0,
+                        "B": 0,
+                        "A": 0
+                      },
+                      "Glyph": 1,
+                      "Mirror": 0,
+                      "IsVisible": true,
+                      "CellState": null
+                    }
+                  ]
+                }
               }
             ]
-          }
-        ],
-        "AnimationDuration": 0.0,
-        "Name": "default",
-        "Repeat": false,
-        "Center": {
-          "X": 0,
-          "Y": 0
-        },
-        "Width": 1,
-        "Height": 1,
-        "IsVisible": true,
-        "IsPaused": false,
-        "UsePixelPositioning": false,
-        "UseMouse": true,
-        "UseKeyboard": true,
-        "Position": {
-          "X": 0,
-          "Y": 0
-        },
-        "Font": {
-          "Name": "Bisasam-24x24",
-          "Size": 1
-        },
-        "Tint": {
-          "R": 0,
-          "G": 0,
-          "B": 0,
-          "A": 0
-        },
-        "DefaultForeground": {
-          "R": 255,
-          "G": 255,
-          "B": 255,
-          "A": 255
-        },
-        "DefaultBackground": {
-          "R": 0,
-          "G": 0,
-          "B": 0,
-          "A": 0
-        },
-        "Cells": null
-      }
-    ],
+          },
+          "AnimationDuration": 0.0,
+          "Name": "default",
+          "Repeat": false,
+          "Center": {
+            "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+            "X": 0,
+            "Y": 0
+          },
+          "Width": 1,
+          "Height": 1,
+          "IsVisible": true,
+          "IsPaused": false,
+          "UsePixelPositioning": false,
+          "UseMouse": true,
+          "UseKeyboard": true,
+          "Position": {
+            "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+            "X": 0,
+            "Y": 0
+          },
+          "Font": {
+            "$type": "SadConsole.SerializedTypes.FontSerialized, SadConsole",
+            "Name": "Bisasam-24x24",
+            "Size": 1
+          },
+          "Tint": {
+            "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+            "R": 0,
+            "G": 0,
+            "B": 0,
+            "A": 0
+          },
+          "DefaultForeground": {
+            "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+            "R": 255,
+            "G": 255,
+            "B": 255,
+            "A": 255
+          },
+          "DefaultBackground": {
+            "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
+            "R": 0,
+            "G": 0,
+            "B": 0,
+            "A": 0
+          },
+          "Cells": null
+        }
+      ]
+    },
     "IsVisible": true,
     "Position": {
-      "X": 24,
-      "Y": 7
+      "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
+      "X": 39,
+      "Y": 29
     },
     "PositionOffset": {
+      "$type": "SadConsole.SerializedTypes.PointSerialized, SadConsole",
       "X": 0,
       "Y": 0
     },
@@ -450,18 +613,21 @@
     "UseKeyboard": false,
     "Font": null,
     "Tint": {
+      "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
       "R": 0,
       "G": 0,
       "B": 0,
       "A": 0
     },
     "DefaultForeground": {
+      "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
       "R": 0,
       "G": 0,
       "B": 0,
       "A": 0
     },
     "DefaultBackground": {
+      "$type": "SadConsole.SerializedTypes.ColorSerialized, SadConsole",
       "R": 0,
       "G": 0,
       "B": 0,
@@ -470,7 +636,7 @@
     "Cells": null
   },
   "ID": 1,
-  "EntityTime": 8484,
+  "EntityTime": 0,
   "TypeName": "type",
   "NonBlocking": false,
   "IsActionable": true

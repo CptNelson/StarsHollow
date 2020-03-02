@@ -27,14 +27,14 @@ namespace StarsHollow.Engine
                 Game.UI.MainWindow.Message("Game over!");
                 Game.UI.MainWindow.MainLoop.Playing = false;
             }
-            Game.UI.world.CurrentMap.Remove(Entity);
+            Game.UI.world.CurrentMap.Remove(Entity.Sprite);
             Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
 
             Entity corpse = Game.UI.world.EntityFactory("corpse", "helpers.json");
             corpse.Sprite.Name = "The corpse of a " + Entity.Sprite.Name;
             corpse.NonBlocking = true;
             corpse.Sprite.Position = Entity.Sprite.Position;
-            Game.UI.world.CurrentMap.Add(corpse);
+            Game.UI.world.CurrentMap.Add(corpse.Sprite);
         }
     }
 

@@ -18,12 +18,17 @@ namespace StarsHollow.World
         bool IsActionable { get; set; }
         uint EntityTime { get; set; }
     }
+    public class Sprite : SadConsole.Entities.Entity, IHasID
+    {
+        public Sprite(int width = 1, int height = 1) : base(width, height) { }
+        public uint ID { get; set; }
+        public Entity owner { get; set; }
+    }
     public class Entity : IEntity
     {
         // All the components entity has.
-
-        public List<IComponent> EntComponents { get; set; }
-        public SadConsole.Entities.Entity Sprite { get; set; }
+        public List<Component> EntComponents { get; set; }
+        public Sprite Sprite { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
         public uint EntityTime { get; set; }
@@ -35,7 +40,7 @@ namespace StarsHollow.World
 
         public Entity(int width = 1, int height = 1)
         {
-            Sprite = new SadConsole.Entities.Entity(width, height);
+            Sprite = new Sprite(width, height);
             Sprite.Font = Fonts.halfSizeFont;
             Sprite.Animation.CurrentFrame[0].Foreground = Color.White;
             Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
@@ -44,17 +49,18 @@ namespace StarsHollow.World
             Sprite.Animation.IsVisible = false;
             Sprite.Name = "name";
             Sprite.Position = new Point(-1, -1);
+            Sprite.owner = this;
 
             TypeName = "type";
             EntityTime = 0;
             IsActionable = false;
-            EntComponents = new List<IComponent>();
+            EntComponents = new List<Component>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;
         }
 
         // adds chosen component to the list of components, and makes the entity owner of the component.
-        public Entity AddComponent(IComponent newComponent)
+        public Entity AddComponent(Component newComponent)
         {
             if (newComponent == null)
             {
@@ -68,9 +74,9 @@ namespace StarsHollow.World
 
 
         // add multiple components at once.
-        public Entity AddComponents(List<IComponent> components)
+        public Entity AddComponents(List<Component> components)
         {
-            foreach (IComponent i in components)
+            foreach (Component i in components)
             {
                 AddComponent(i);
             }
@@ -107,44 +113,33 @@ namespace StarsHollow.World
             return this;
         }
         // get component by referencing its type/class
-        public List<IComponent> GetComponents()
+        public List<Component> GetComponents()
         {
             if (EntComponents.Count > 0)
             {
-                // foreach (Component cmp in _components)
-                // Console.WriteLine(cmp);
                 return EntComponents;
             }
             else
                 return null;
         }
 
-        public new T GetComponent<T>() where T : class, IComponent
+        public T GetComponent<T>() where T : Component
         {
-            foreach (IComponent cmp in EntComponents)
+            foreach (Component cmp in EntComponents)
                 if (cmp is T)
                     return (T)cmp;
 
             return null;
         }
 
-        public bool HasComponent<T>() where T : class, IComponent
+        public bool HasComponent<T>() where T : Component
         {
-            foreach (IComponent cmp in EntComponents)
+            foreach (Component cmp in EntComponents)
                 if (cmp is T) return true;
 
             return false;
         }
-        public event EventHandler<EntityMovedEventArgs> Moved;
-        public class EntityMovedEventArgs
-        {
-            public readonly Entity Entity;
-            public readonly Point FromPosition;
-
-            public EntityMovedEventArgs(Entity entity, Point oldPosition) { }
-        }
     }
-
 }
 
 

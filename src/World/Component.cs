@@ -9,15 +9,17 @@ using Action = StarsHollow.Engine.Action;
 
 namespace StarsHollow.World
 {
+    /*
     public interface IComponent
     {
         [JsonIgnore]
         Entity Entity { get; set; }
     }
+    */
 
-    public abstract class Component : IComponent
+    public abstract class Component// : IComponent
     {
-        public List<IComponent> Components = new List<IComponent>();
+        public List<Component> Components = new List<Component>();
         [JsonIgnore]
         public Entity Entity { get; set; }
         protected string Name { get; set; }
@@ -285,7 +287,6 @@ namespace StarsHollow.World
         public int skillModifier;
         public CmpMelee(params object[] args)
         {
-            Console.WriteLine("  a: " + args.Length);
             damage = Convert.ToString(args[0]);
             range = Convert.ToInt32(args[1]);
             skillModifier = Convert.ToInt32(args[2]);

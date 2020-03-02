@@ -42,7 +42,7 @@ namespace StarsHollow.UserInterface
             projectile.Sprite.Animation.CurrentFrame[0].Foreground = Color.White;
             projectile.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
             projectile.Sprite.Animation.CurrentFrame[0].Glyph = '*';
-            Game.UI.world.CurrentMap.Add(projectile);
+            Game.UI.world.CurrentMap.Add(projectile.Sprite);
         }
         public override void Execute()
         {
@@ -83,7 +83,7 @@ namespace StarsHollow.UserInterface
                 System.Threading.Thread.Sleep(25); // TODO: Find a way to use Timer for this.
                 counter = 0;
                 line = null;
-                Game.UI.world.CurrentMap.Remove(projectile);
+                Game.UI.world.CurrentMap.Remove(projectile.Sprite);
                 Game.UI.MainWindow.GameState = States.Main;
                 timer.Stop();
                 timer.Dispose();

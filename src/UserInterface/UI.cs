@@ -280,7 +280,6 @@ namespace StarsHollow.UserInterface
             world.CreateWorld(mapWindow.Width, mapWindow.Height);
             world.CurrentMap = world.LocalMap;
             LoadMapToConsole(world.LocalMap);
-            Console.WriteLine(world.TurnTimer);
             statusConsole.WriteInformation();
             GameState = States.Main;
             DisplayFOV();
@@ -312,9 +311,9 @@ namespace StarsHollow.UserInterface
             // remove all Entities from the console first
             mapConsole.Children.Clear();
             // Now pull all of the entity sprites into the MapConsole in bulk
-            foreach (Entity entity in map.Entities.Items)
+            foreach (Sprite sprite in map.Entities.Items)
             {
-                mapConsole.Children.Add(entity.Sprite);
+                mapConsole.Children.Add(sprite);
             }
 
             // Subscribe to the Entities ItemAdded listener, so we can keep our MapConsole entities in sync
@@ -325,15 +324,15 @@ namespace StarsHollow.UserInterface
         }
 
         // Remove an Entity from the MapConsole every time the Map's Entity collection changes 
-        private void OnMapEntityRemoved(object sender, ItemEventArgs<Entity> args)
+        private void OnMapEntityRemoved(object sender, ItemEventArgs<Sprite> args)
         {
-            mapConsole.Children.Remove(args.Item.Sprite);
+            mapConsole.Children.Remove(args.Item);
         }
 
         // Add an Entity to the MapConsole every time the Map's Entity collection changes
-        private void OnMapEntityAdded(object sender, ItemEventArgs<Entity> args)
+        private void OnMapEntityAdded(object sender, ItemEventArgs<Sprite> args)
         {
-            mapConsole.Children.Add(args.Item.Sprite);
+            mapConsole.Children.Add(args.Item);
         }
 
         // ============INPUT===================================
