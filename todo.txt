@@ -1,0 +1,22 @@
+- GoRogue SenseMap for light sources
+    - Create the sensemaps and light sources
+    - change fov to work with the light sources
+
+- Animate led lights 
+
+- Create system for AI
+    - Add some basic AI types
+        - Guards
+
+- Status Effects
+    - Sleeping
+    - Enraged
+
+- Interior maps
+
+- Basic Items
+    - Clothes
+    - Few Ranged and Melee weapons
+    - Cybernetics
+
+
