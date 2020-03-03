@@ -83,9 +83,17 @@ namespace StarsHollow.Engine
             ActionActor.IsCrouching = !ActionActor.IsCrouching;
 
             if (ActionActor.IsCrouching)
+            {
                 ActionActor.MoveCostMod += 25;
+                ActionActor.Sprite.Animation.CurrentFrame[0].Foreground.A = 235;
+                ActionActor.Sprite.Animation.IsDirty = true;
+            }
             else
+            {
                 ActionActor.MoveCostMod -= 25;
+                ActionActor.Sprite.Animation.CurrentFrame[0].Foreground.A = 255;
+                ActionActor.Sprite.Animation.IsDirty = true;
+            }
 
             return true;
         }
