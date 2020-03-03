@@ -17,14 +17,14 @@ namespace StarsHollow.World
     }
     */
 
-    public abstract class Component// : IComponent
+    public class Component// : IComponent
     {
         public List<Component> Components = new List<Component>();
         [JsonIgnore]
         public Entity Entity { get; set; }
         protected string Name { get; set; }
         //Components are updated every turn. Override this if update is needed.
-        public abstract void UpdateComponent();
+        public virtual void UpdateComponent() { }
     }
 
     public class CmpTimer : Component

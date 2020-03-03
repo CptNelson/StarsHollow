@@ -15,8 +15,6 @@ namespace StarsHollow.World
 
     /* ============================================================================
         World hosts all the Entities, Tiles and Systems inside it.
-    
-
 
        ============================================================================ */
     public class WorldMap
@@ -37,7 +35,7 @@ namespace StarsHollow.World
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.All
+                // TypeNameHandling = TypeNameHandling.All
             };
         }
 
@@ -89,7 +87,7 @@ namespace StarsHollow.World
                 Formatting = Formatting.Indented
             };
             JsonSerializer serializer = new JsonSerializer();
-            File.WriteAllText(@"./res/json/saves/entities.json", JsonConvert.SerializeObject(CurrentMap.Entities, settings));
+            //File.WriteAllText(@"./res/json/saves/entities.json", JsonConvert.SerializeObject(CurrentMap.Entities, settings));
         }
         public double[,] LoadCurrentMap()
         {
@@ -134,11 +132,11 @@ namespace StarsHollow.World
 
             LocalMap = new Map(mapWidth, mapHeight);
             // map generator returns both Map and GoRogue's ArrayMap. 
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
 
-            //double[,] tempMap = LoadCurrentMap();
-            //double[,] tempFovMap = LoadCurrentFovMap();
-            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
+            double[,] tempMap = LoadCurrentMap();
+            double[,] tempFovMap = LoadCurrentFovMap();
+            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
 
             LocalMap = maps.Item1;
             LocalMap.GoMap = maps.Item2;

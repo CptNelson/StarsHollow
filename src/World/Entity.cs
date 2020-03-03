@@ -28,6 +28,7 @@ namespace StarsHollow.World
     {
         // All the components entity has.
         public List<Component> EntComponents { get; set; }
+
         public Sprite Sprite { get; set; }
         // Every Entity has unique ID
         public uint ID { get; set; }
@@ -38,9 +39,9 @@ namespace StarsHollow.World
         public bool NonBlocking { get; set; }
         public bool IsActionable { get; set; }
 
-        public Entity(int width = 1, int height = 1)
+        public Entity()
         {
-            Sprite = new Sprite(width, height);
+            Sprite = new Sprite(1, 1);
             Sprite.Font = Fonts.halfSizeFont;
             Sprite.Animation.CurrentFrame[0].Foreground = Color.White;
             Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
