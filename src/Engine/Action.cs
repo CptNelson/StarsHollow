@@ -39,6 +39,7 @@ namespace StarsHollow.Engine
 
         public virtual bool Execute()
         {
+            // base always checks if Actor/Entity is unable to act when action is trying to execute.
             if (ActionActor.GetComponent<CmpAction>().UnableToAct && !ActionActor.GetComponent<CmpHP>().Alive)
                 return false;
             return true;
@@ -64,6 +65,29 @@ namespace StarsHollow.Engine
         public WaitAction(Entity actor) : base(actor)
         {
             TimeCost = 100;
+        }
+    }
+
+    public class Crouch : Action
+    {
+        public Crouch(Entity actor) : base(actor)
+        {
+            TimeCost = 20;
+        }
+
+        public override bool Execute()
+        {
+            if (!base.Execute())
+                return false;
+
+            ActionActor.IsCrouching = !ActionActor.IsCrouching;
+
+            if (ActionActor.IsCrouching)
+                ActionActor.MoveCostMod += 25;
+            else
+                ActionActor.MoveCostMod -= 25;
+
+            return true;
         }
     }
 
@@ -113,8 +137,9 @@ namespace StarsHollow.Engine
         public MoveBy(Entity actor, Point dir) : base(actor)
         {
             ActionActor = actor;
-            TimeCost = 100 * Game.UI.world.LocalMap.GetTileAt(actor.Sprite.Position + dir).MoveCostMod;
+            TimeCost = 100 * Game.UI.world.LocalMap.GetTileAt(actor.Sprite.Position + dir).MoveCostMod + actor.MoveCostMod;
             position = actor.Sprite.Position + dir;
+            Console.WriteLine(actor.MoveCostMod);
         }
 
         public override bool Execute()

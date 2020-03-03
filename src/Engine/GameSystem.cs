@@ -188,6 +188,7 @@ namespace StarsHollow.Engine
                     CmpAttributes attributes = attacker.GetComponent<CmpAttributes>();
 
                     int attackRoll = Dice.Roll("1d100");
+                    int attackBonus = 0;
                     int damageBonus = 0;
 
                     int attackerWeaponSkill = 0;
@@ -198,8 +199,11 @@ namespace StarsHollow.Engine
                     attackerWeaponDamage = Dice.Roll(attacker.GetComponent<CmpBody>().GetItemAtRightHand()
                         .GetComponent<CmpRanged>().damage);
 
+                    if (target.IsCrouching)
+                        attackBonus -= 15;
+
                     int attackSkill = attributes.Agility + attributes.Guts / 4 + attributes.Smarts / 4 +
-                                      attackerWeaponSkill;
+                                      attackerWeaponSkill + attackBonus;
 
                     if (attackSkill <= attackRoll)
                     {

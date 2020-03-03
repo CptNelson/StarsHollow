@@ -373,6 +373,11 @@ namespace StarsHollow.UserInterface
                         SaveAndQuit();
                     }
 
+                    if (Global.KeyboardState.IsKeyPressed(Keys.C))
+                    {
+                        Command.Crouch(world.Player);
+                    }
+
                     if (Global.KeyboardState.IsKeyPressed(Keys.Up))
                         Command.Move(world.Player, Tools.Dirs.N);
                     if (Global.KeyboardState.IsKeyPressed(Keys.Down))

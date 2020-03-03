@@ -38,6 +38,8 @@ namespace StarsHollow.World
         // check if entity blocks movement
         public bool NonBlocking { get; set; }
         public bool IsActionable { get; set; }
+        public bool IsCrouching { get; set; }
+        public uint MoveCostMod { get; set; }
 
         public Entity()
         {
@@ -58,6 +60,8 @@ namespace StarsHollow.World
             EntComponents = new List<Component>();
             ID = Map.IDGenerator.UseID();
             NonBlocking = false;
+            IsCrouching = false;
+            MoveCostMod = 0;
         }
 
         // adds chosen component to the list of components, and makes the entity owner of the component.

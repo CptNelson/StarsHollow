@@ -48,5 +48,10 @@ namespace StarsHollow.Engine
         {
             actor.GetComponent<CmpAction>().SetAction(new Shoot(actor, location));
         }
+
+        public static void Crouch(Entity actor)
+        {
+            actor.GetComponent<CmpAction>().SetAction(new Crouch(actor));
+        }
     }
 }
