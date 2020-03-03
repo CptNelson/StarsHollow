@@ -11,6 +11,7 @@ namespace StarsHollow.World
         public FOV FovMap { get; set; }
         public bool IsBlockingMove { get; set; }
         public bool IsBlockingLOS { get; set; }
+        public bool IsBlockingHalfLOS { get; set; }
         public bool IsExplored { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -19,10 +20,11 @@ namespace StarsHollow.World
 
 
         public TileBase(Color foreground, Color background, int glyph, bool blockingMove = false,
-                         bool BlockingLOS = false, String name = "", String description = "") : base(foreground, background, glyph)
+                         bool blockingLOS = false, bool blockingHalfLOS = false, String name = "", String description = "") : base(foreground, background, glyph)
         {
             IsBlockingMove = blockingMove;
-            IsBlockingLOS = BlockingLOS;
+            IsBlockingLOS = blockingLOS;
+            IsBlockingHalfLOS = blockingHalfLOS;
             IsVisible = false;
             IsExplored = false;
             Name = name;
@@ -54,6 +56,14 @@ namespace StarsHollow.World
         {
             Name = "swamp";
             MoveCostMod = 2;
+        }
+    }
+    public class TileStone : TileBase
+    {
+        public TileStone(bool blocksMovement = true, bool blocksLOS = false, bool blocksHalfLOS = true) : base(Color.DarkGray, Color.Transparent, 'O', blocksMovement, blocksLOS, blocksHalfLOS)
+        {
+            Name = "stone";
+            MoveCostMod = 3;
         }
     }
     public class TileWall : TileBase
