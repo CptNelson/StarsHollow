@@ -29,7 +29,7 @@ namespace StarsHollow.Engine
                 Game.UI.MainWindow.MainLoop.Playing = false;
             }
 
-            Entity corpse = Game.UI.world.EntityFactory("corpse", "helpers.json");
+            Entity corpse = Game.UI.world.EntityFactory("corpse", "prefabs/helpers.json");
             corpse.Sprite.Name = "The corpse of a " + entity.Sprite.Name;
             corpse.NonBlocking = true;
             corpse.Sprite.Position = entity.Sprite.Position;

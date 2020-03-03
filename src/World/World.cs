@@ -132,11 +132,11 @@ namespace StarsHollow.World
 
             LocalMap = new Map(mapWidth, mapHeight);
             // map generator returns both Map and GoRogue's ArrayMap. 
-            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
 
-            double[,] tempMap = LoadCurrentMap();
-            double[,] tempFovMap = LoadCurrentFovMap();
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
+            //double[,] tempMap = LoadCurrentMap();
+            //double[,] tempFovMap = LoadCurrentFovMap();
+            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
 
             LocalMap = maps.Item1;
             LocalMap.GoMap = maps.Item2;
@@ -152,7 +152,7 @@ namespace StarsHollow.World
         private void CreateHelperEntities()
         {
             // First create the helper entities and then add them to a game loop.
-            TurnTimer = EntityFactory("timer", "helpers.json");
+            TurnTimer = EntityFactory("timer", "prefabs/helpers.json");
             TurnTimer.GetComponents();
             TurnTimer.IsActionable = true;
             LocalMap.Add(TurnTimer.Sprite);
@@ -200,8 +200,8 @@ namespace StarsHollow.World
         private void AddPlayer()
         {
             if (Player != null) return;
-            Player = EntityFactory("player", "player.json");
-            Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "weapons.json"));
+            Player = EntityFactory("player", "prefabs/player.json");
+            Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "prefabs/weapons.json"));
             Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
             Player.Sprite.Position = LocalMap.GetRandomEmptyPosition();
             Player.Sprite.IsVisible = true;
@@ -213,7 +213,7 @@ namespace StarsHollow.World
         {
             for (int i = 0; i < amount; i++)
             {
-                Entity guard = EntityFactory("guard", "level1.json");
+                Entity guard = EntityFactory("guard", "prefabs/level1.json");
                 guard.Sprite.Position = LocalMap.GetRandomEmptyPosition();
                 guard.Sprite.IsVisible = false;
                 guard.IsActionable = true;
