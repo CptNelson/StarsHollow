@@ -217,6 +217,7 @@ namespace StarsHollow.World
                 guard.Sprite.Position = LocalMap.GetRandomEmptyPosition();
                 guard.Sprite.IsVisible = false;
                 guard.IsActionable = true;
+                guard.GetComponent<CmpAI>().AddAIComponent(new GuardArea(guard));
                 LocalMap.Add(guard.Sprite);
             }
         }

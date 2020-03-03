@@ -4,19 +4,12 @@ using System.Linq;
 using GoRogue.DiceNotation;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StarsHollow.Engine;
 using Action = StarsHollow.Engine.Action;
 
 namespace StarsHollow.World
 {
-    /*
-    public interface IComponent
-    {
-        [JsonIgnore]
-        Entity Entity { get; set; }
-    }
-    */
-
     public class Component// : IComponent
     {
         public List<Component> Components = new List<Component>();
@@ -313,14 +306,32 @@ namespace StarsHollow.World
     {
         public int Aggression { get; }
 
+        public AIComponent CurrentAIComponent { get; set; }
+
         public CmpAI(params object[] args)
         {
+
             Aggression = System.Convert.ToInt32(args[0]);
+            //CurrentAIComponent = (AIComponent)args[1];
+        }
+
+        public void AddAIComponent(AIComponent newComponent)
+        {
+            if (newComponent == null)
+            {
+                Console.WriteLine("Component that you intented to add is null, method will return void");
+                return;
+            }
+
+            Components.Add(newComponent);
+            CurrentAIComponent = newComponent;
         }
 
         public void GetGoal()
         {
-            Entity.GetComponent<CmpAction>().SetAction(new WaitAction(Entity));
+
+
+            CurrentAIComponent.ChooseNextAction();
 
         }
 

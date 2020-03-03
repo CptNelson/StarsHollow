@@ -66,6 +66,13 @@ namespace StarsHollow.Engine
         {
             TimeCost = 100;
         }
+
+        public override bool Execute()
+        {
+            if (!base.Execute())
+                return false;
+            return true;
+        }
     }
 
     public class Crouch : Action

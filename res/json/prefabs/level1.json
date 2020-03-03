@@ -21,7 +21,10 @@
         "ItemCapacity": 2
       },
       "CmpAction": {},
-      "CmpAI": { "aggression": 3 }
+      "CmpAI": {
+        "aggression": 3,
+        "AIComponent": "GuardArea"
+      }
     },
     "items": ["stun gun"]
   }

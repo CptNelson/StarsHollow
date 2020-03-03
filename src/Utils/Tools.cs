@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using GoRogue.DiceNotation;
 using Microsoft.Xna.Framework;
 
@@ -14,6 +15,23 @@ namespace StarsHollow.Utils
             public static int GetRandomInt(int min, int max)
             {
                 return random.Next(min, max);
+            }
+        }
+
+        public static class GetMaxVariable
+        {
+            public static string GetMaxVariableInt(int a, int b, int c)
+            {
+
+                string max =
+                    new[] {
+                        Tuple.Create(a, "a"),
+                        Tuple.Create(b, "b"),
+                        Tuple.Create(c, "c")
+                    }.Max()
+                        .Item2;
+
+                return max;
             }
         }
 
