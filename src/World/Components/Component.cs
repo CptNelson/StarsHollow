@@ -12,7 +12,9 @@ namespace StarsHollow.World
 {
     public class Component// : IComponent
     {
-        public List<Component> Components = new List<Component>();
+        [JsonIgnore]
+        public List<Component> Components;// = new List<Component>();
+
         [JsonIgnore]
         public Entity Entity { get; set; }
         protected string Name { get; set; }
@@ -28,7 +30,7 @@ namespace StarsHollow.World
         public int Hour { get; private set; }
         public int Day { get; private set; }
 
-        public CmpTimer()
+        public CmpTimer(params object[] args)
         {
             Name = "timer";
         }
@@ -69,6 +71,7 @@ namespace StarsHollow.World
         public CmpHP(params object[] args)
         {
             Hp = Convert.ToInt32(args[0]);
+            CurrentHp = Hp;
         }
 
         public override void UpdateComponent()
@@ -89,31 +92,27 @@ namespace StarsHollow.World
     public class CmpAttributes : Component
     {
 
-        private int _strength;
-        private int _agility;
-        private int _vitality;
 
-        private int _looks;
-        private int _guts;
-        private int _smarts;
+        public int Strength { get; set; }
 
-        public int Strength => _strength;
-        public int Agility => _agility;
-        public int Vitality => _vitality;
-        public int Looks => _looks;
-        public int Guts => _guts;
-        public int Smarts => _smarts;
+        public int Agility { get; set; }
+        public int Vitality { get; set; }
+        public int Looks { get; set; }
+        public int Guts { get; set; }
+        public int Smarts { get; set; }
 
 
         public CmpAttributes(params object[] args)
         {
-            _strength = System.Convert.ToInt32(args[0]);
-            _agility = System.Convert.ToInt32(args[1]);
-            _vitality = System.Convert.ToInt32(args[2]);
 
-            _looks = System.Convert.ToInt32(args[3]);
-            _guts = System.Convert.ToInt32(args[4]);
-            _smarts = System.Convert.ToInt32(args[5]);
+            Strength = System.Convert.ToInt32(args[0]);
+            Agility = System.Convert.ToInt32(args[1]);
+            Vitality = System.Convert.ToInt32(args[2]);
+
+            Looks = System.Convert.ToInt32(args[3]);
+            Guts = System.Convert.ToInt32(args[4]);
+            Smarts = System.Convert.ToInt32(args[5]);
+
         }
 
         public override void UpdateComponent()
@@ -123,8 +122,8 @@ namespace StarsHollow.World
 
     public class CmpBody : Component
     {
+        public int ItemCapacity = 3;
         public List<Entity> ItemList;
-        public readonly int ItemCapacity = 3;
         public Entity Holding;
 
         public List<Entity> RightHand;
@@ -213,10 +212,15 @@ namespace StarsHollow.World
     }
     public class CmpInput : Component
     {
+        public CmpInput(params object[] args) { }
         public override void UpdateComponent() { }
     }
     public class CmpAction : Component
     {
+        public CmpAction(params object[] args)
+        {
+
+        }
 
         private Action _currentAction;
         private Action _nextAction;

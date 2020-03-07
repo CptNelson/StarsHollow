@@ -36,7 +36,7 @@ namespace StarsHollow.World
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                // TypeNameHandling = TypeNameHandling.All
+                //TypeNameHandling = TypeNameHandling.All
             };
 
             converter = new EntityConverterJson();
@@ -55,6 +55,7 @@ namespace StarsHollow.World
             SaveCurrentMap();
 
             File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, converter));
+            File.WriteAllText(@"./res/json/saves/timer.json", JsonConvert.SerializeObject(TurnTimer, converter));
 
         }
         public void SaveCurrentMap()
@@ -135,16 +136,68 @@ namespace StarsHollow.World
 
             CreateHelperEntities();
             AddPlayer();
-            CreateGuard();
+            // CreateGuard();
         }
 
         private void CreateHelperEntities()
         {
             // First create the helper entities and then add them to a game loop.
-            TurnTimer = EntityFactory("timer", "prefabs/helpers.json");
-            TurnTimer.GetComponents();
+            //TurnTimer = EntityFactory("timer", "prefabs/helpers.json");
+            TurnTimer = EntityFactory2("saves/timer.json");
+            //TurnTimer.GetComponents();
             TurnTimer.IsActionable = true;
             LocalMap.Add(TurnTimer.Sprite);
+        }
+
+        public Entity EntityFactory2(string json)
+        {
+            //Entity entity = JsonConvert.DeserializeObject<Entity>(json, converter);
+            Entity entity = new Entity();
+
+            Console.WriteLine("fuck: " + entity.Sprite);
+
+            // get the entity's data from json file and make a JObject represeting the entity
+
+            JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
+
+            // TODO: create method for the graphical assingment.
+            // get glyph info from the entityJSON and make a dictionary out of them
+            IDictionary<string, JToken> looks = (JObject)(entityJSON["look"]);
+
+            // FIXME: get colors from the json even if they are ColorScheme.Color. 
+
+            entity.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(entityJSON["Glyph"]);
+
+            //ent.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
+            //ent.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
+
+            JObject components = (JObject)entityJSON["EntComponents"];
+
+
+            entity.AddComponentsFromFile(components);
+
+            // TODO: attribute and stats to their own method/class
+            /*
+            if (entity.HasComponent<CmpHP>())
+            {
+                entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
+                entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
+            }*/
+
+            Console.WriteLine("list: " + entity.ListComponents());
+
+            entity.Sprite.Components.Add(new EntityViewSyncComponent());
+            Object pos = (Object)entityJSON["Position"];
+            Console.WriteLine("asdsada: " + pos.GetType());
+            entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            entity.Sprite.ID = Convert.ToUInt32(entityJSON["ID"]);
+            entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
+            entity.Sprite.owner = entity;
+            entity.IsActionable = true;
+
+            File.WriteAllText(@"./res/json/saves/testing.json", JsonConvert.SerializeObject(entity, converter));
+
+            return entity;
         }
 
         public Entity EntityFactory(string name, string json)
@@ -189,12 +242,14 @@ namespace StarsHollow.World
         private void AddPlayer()
         {
             if (Player != null) return;
-            Player = EntityFactory("player", "prefabs/player.json");
-            Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "prefabs/weapons.json"));
-            Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
-            Player.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-            Player.Sprite.IsVisible = true;
-            Player.IsActionable = true;
+            //Player = EntityFactory("player", "prefabs/player.json");
+            //Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "prefabs/weapons.json"));
+            //Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
+            //Player.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            //Player.Sprite.IsVisible = true;
+            //Player.IsActionable = true;
+            Player = EntityFactory2("saves/player.json");
+
             LocalMap.Add(Player.Sprite);
         }
 

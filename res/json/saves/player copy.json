@@ -1,0 +1,250 @@
+{
+  "$type": "StarsHollow.World.EntitySerialized, Stars Hollow",
+  "FgColor": {
+    "$type": "Microsoft.Xna.Framework.Color, MonoGame.Framework",
+    "B": 0,
+    "G": 128,
+    "R": 0,
+    "A": 255
+  },
+  "BgColor": {
+    "$type": "Microsoft.Xna.Framework.Color, MonoGame.Framework",
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 1,
+  "IsVisible": true,
+  "Position": {
+    "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+    "X": 13,
+    "Y": 35
+  },
+  "Name": "player",
+  "EntComponents": {
+    "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+    "$values": [
+      {
+        "$type": "StarsHollow.World.CmpAttributes, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Strength": 11,
+        "Agility": 14,
+        "Vitality": 12,
+        "Looks": 15,
+        "Guts": 13,
+        "Smarts": 12
+      },
+      {
+        "$type": "StarsHollow.World.CmpHP, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Hp": 20,
+        "CurrentHp": 20,
+        "Alive": false
+      },
+      {
+        "$type": "StarsHollow.World.CmpBody, Stars Hollow",
+        "ItemList": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Entity, Stars Hollow]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "StarsHollow.World.EntitySerialized, Stars Hollow",
+              "FgColor": {
+                "$type": "Microsoft.Xna.Framework.Color, MonoGame.Framework",
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "A": 0
+              },
+              "BgColor": {
+                "$type": "Microsoft.Xna.Framework.Color, MonoGame.Framework",
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "A": 0
+              },
+              "Glyph": 31,
+              "IsVisible": true,
+              "Position": {
+                "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+                "X": -1,
+                "Y": -1
+              },
+              "Name": "stun gun",
+              "EntComponents": {
+                "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$type": "StarsHollow.World.CmpItem, Stars Hollow",
+                    "Weight": 1.0,
+                    "OnMap": false,
+                    "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+                    "Holder": null,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpRanged, Stars Hollow",
+                    "damage": "1d2-1",
+                    "range": 10,
+                    "skillModifier": 5,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpMelee, Stars Hollow",
+                    "damage": "1d2",
+                    "range": 0,
+                    "skillModifier": 0,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpEffectStun, Stars Hollow",
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    },
+                    "DurationRoll": "1d2+1",
+                    "Duration": 2
+                  }
+                ]
+              },
+              "ID": 0,
+              "EntityTime": 0,
+              "NonBlocking": false,
+              "IsActionable": false,
+              "IsCrouching": false,
+              "MoveCostMod": 0
+            }
+          ]
+        },
+        "ItemCapacity": 2,
+        "Holding": null,
+        "RightHand": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Entity, Stars Hollow]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "StarsHollow.World.EntitySerialized, Stars Hollow",
+              "FgColor": {
+                "$type": "Microsoft.Xna.Framework.Color, MonoGame.Framework",
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "A": 0
+              },
+              "BgColor": {
+                "$type": "Microsoft.Xna.Framework.Color, MonoGame.Framework",
+                "B": 0,
+                "G": 0,
+                "R": 0,
+                "A": 0
+              },
+              "Glyph": 31,
+              "IsVisible": true,
+              "Position": {
+                "$type": "Microsoft.Xna.Framework.Point, MonoGame.Framework",
+                "X": -1,
+                "Y": -1
+              },
+              "Name": "stun gun",
+              "EntComponents": {
+                "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$type": "StarsHollow.World.CmpItem, Stars Hollow",
+                    "Weight": 1.0,
+                    "OnMap": false,
+                    "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+                    "Holder": null,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpRanged, Stars Hollow",
+                    "damage": "1d2-1",
+                    "range": 10,
+                    "skillModifier": 5,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpMelee, Stars Hollow",
+                    "damage": "1d2",
+                    "range": 0,
+                    "skillModifier": 0,
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    }
+                  },
+                  {
+                    "$type": "StarsHollow.World.CmpEffectStun, Stars Hollow",
+                    "Components": {
+                      "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+                      "$values": []
+                    },
+                    "DurationRoll": "1d2+1",
+                    "Duration": 2
+                  }
+                ]
+              },
+              "ID": 0,
+              "EntityTime": 0,
+              "NonBlocking": false,
+              "IsActionable": false,
+              "IsCrouching": false,
+              "MoveCostMod": 0
+            }
+          ]
+        },
+        "LeftHand": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Entity, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "StarsHollow.World.CmpInput, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        }
+      },
+      {
+        "$type": "StarsHollow.World.CmpAction, Stars Hollow",
+        "Components": {
+          "$type": "System.Collections.Generic.List`1[[StarsHollow.World.Component, Stars Hollow]], System.Private.CoreLib",
+          "$values": []
+        },
+        "NextAction": null,
+        "UnableToAct": false
+      }
+    ]
+  },
+  "ID": 0,
+  "EntityTime": 0,
+  "NonBlocking": false,
+  "IsActionable": false,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+}

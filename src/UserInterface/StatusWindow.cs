@@ -49,6 +49,8 @@ namespace StarsHollow.UserInterface
             statusConsole.Print(1, 9, ("Midsummer"), ColorScheme.Five);
             statusConsole.Print(1, 10, ("* Sunny *"), Color.Yellow);
 
+            Console.WriteLine(map.Player.Sprite.Name);
+
             statusConsole.Print(1, 12, "Strength: ", ColorScheme.Three);
             statusConsole.Print(11, 12, attributes.Strength.ToString(), ColorScheme.Second);
             statusConsole.Print(1, 13, "Agility: ", ColorScheme.Three);

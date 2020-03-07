@@ -17,7 +17,7 @@ namespace StarsHollow.World
     }
     public class Sprite : SadConsole.Entities.Entity, IHasID
     {
-        public Sprite(Color fg, Color bg, int glyph, Point pos, string name, int width = 1, int height = 1) : base(width, height) { }
+        public Sprite(Color fg, Color bg, int glyph, Point pos, string name, bool isVisible, int width = 1, int height = 1) : base(width, height) { }
         public uint ID { get; set; }
         public Entity owner { get; set; }
     }
@@ -40,13 +40,16 @@ namespace StarsHollow.World
 
         public Entity()
         {
-            Sprite = new Sprite(Color.White, Color.Transparent, 1, new Point(-1, -1), "name", 1, 1);
+            Sprite = new Sprite(Color.White, Color.Transparent, 1, new Point(-1, -1), "name", false, 1, 1);
             Sprite.Font = Fonts.halfSizeFont;
             Sprite.Animation.CurrentFrame[0].Glyph = 'X';
             // Animation is set to invisible in the beginning. FOV calculations will change this.
             Sprite.Animation.IsVisible = false;
             Sprite.Position = new Point(-1, -1);
             Sprite.owner = this;
+            Sprite.ID = Map.IDGenerator.UseID();
+
+
 
             TypeName = "type";
             EntityTime = 0;
@@ -86,18 +89,40 @@ namespace StarsHollow.World
             return this;
         }
 
+        public static void AddComponentsFromFile2(EntitySerialized entity)
+        {
+            /*
+            List<Component> components = entity.EntComponents;
+            foreach (Component cmp in components)
+            {
+                Console.WriteLine(cmp.GetType());
+            }
+            */
+
+
+
+        }
+
         public Entity AddComponentsFromFile(JObject components)
         {
+
+            //Console.WriteLine(components.Count);
             // Get the name of the Component
             foreach (KeyValuePair<string, JToken> tag in components)
             {
+
+                //Console.WriteLine("A: " + tag + " B: " + tag.Key);
                 var property = tag.Key;
                 var args = new object[tag.Value.Count()];
+                Console.WriteLine("prop: " + property);
                 for (int i = 0; i < tag.Value.Count(); i++)
                 {
                     args[i] = tag.Value.ElementAt(i).First;
+                    Console.WriteLine("args: " + args[i]);
                 }
-                Type cmpType = Type.GetType("StarsHollow.World." + property);
+                //Type cmpType = Type.GetType("StarsHollow.World." + property);
+                Type cmpType = Type.GetType(property);
+                //Console.WriteLine(cmpType);
                 var newComponent = (Component)Activator.CreateInstance(cmpType, args);
 
                 if (newComponent == null)
@@ -120,13 +145,20 @@ namespace StarsHollow.World
             else
                 return null;
         }
+        public bool ListComponents()
+        {
+            foreach (Component cmp in EntComponents)
+            {
+                Console.WriteLine(cmp.GetType().ToString());
+            }
+            return true;
+        }
 
         public T GetComponent<T>() where T : Component
         {
             foreach (Component cmp in EntComponents)
                 if (cmp is T)
                     return (T)cmp;
-
             return null;
         }
 

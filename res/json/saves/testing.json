@@ -14,8 +14,8 @@
   "Glyph": 1,
   "IsVisible": true,
   "Position": {
-    "X": 10,
-    "Y": 31
+    "X": 50,
+    "Y": 21
   },
   "Name": "Player",
   "EntComponents": {
@@ -29,7 +29,7 @@
     },
     "StarsHollow.World.CmpHP": {
       "Hp": 20,
-      "CurrentHp": 0,
+      "CurrentHp": 20,
       "Alive": false
     },
     "StarsHollow.World.CmpBody": {
@@ -46,7 +46,7 @@
     }
   },
   "ID": 1,
-  "EntityTime": 1111,
+  "EntityTime": 0,
   "NonBlocking": false,
   "IsActionable": true,
   "IsCrouching": false,

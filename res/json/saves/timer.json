@@ -1,0 +1,35 @@
+{
+  "FgColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 255
+  },
+  "BgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 0,
+  "IsVisible": true,
+  "Position": {
+    "X": 41,
+    "Y": 26
+  },
+  "Name": "Timer",
+  "EntComponents": {
+    "StarsHollow.World.CmpTimer": {
+      "Turn": 12,
+      "Minute": 12,
+      "Hour": 0,
+      "Day": 0
+    }
+  },
+  "ID": 0,
+  "EntityTime": 1200,
+  "NonBlocking": false,
+  "IsActionable": true,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+}
