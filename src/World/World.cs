@@ -29,6 +29,7 @@ namespace StarsHollow.World
         public Entity Player { get; set; }
 
         private int mapWidth, mapHeight;
+        private EntityConverterJson converter;
 
         public WorldMap()
         {
@@ -37,6 +38,8 @@ namespace StarsHollow.World
                 Formatting = Formatting.Indented,
                 // TypeNameHandling = TypeNameHandling.All
             };
+
+            converter = new EntityConverterJson();
         }
 
         public void InitSystems()
@@ -51,7 +54,8 @@ namespace StarsHollow.World
         {
             SaveCurrentMap();
 
-            File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, Formatting.Indented));
+            File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, converter));
+
         }
         public void SaveCurrentMap()
         {
@@ -108,21 +112,6 @@ namespace StarsHollow.World
                 tempFovMap = (double[,])serializer.Deserialize(file, typeof(double[,]));
             }
             return tempFovMap;
-        }
-        public Entity LoadPlayer()
-        {
-
-
-            Entity loadedPlayer;
-
-            using (StreamReader file = File.OpenText(@"./res/json/saves/player.json"))
-            {
-                var serializer = new JsonSerializer();
-                loadedPlayer = (Entity)serializer.Deserialize(file, typeof(Entity));
-
-            }
-
-            return loadedPlayer;
         }
 
         public void CreateWorld(int width, int height)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
 namespace StarsHollow.World
@@ -17,7 +18,14 @@ namespace StarsHollow.World
     [DataContract]
     public class EntitySerialized
     {
-        [DataMember] public Sprite Sprite;
+        // Sprite fields
+        [DataMember] public Color FgColor;
+        [DataMember] public Color BgColor;
+        [DataMember] public int Glyph;
+        [DataMember] public bool IsVisible;
+        [DataMember] public Point Position;
+        [DataMember] public string Name;
+
         [DataMember] public List<Component> EntComponents;
         [DataMember] public uint ID;
         [DataMember] public uint EntityTime;
@@ -28,9 +36,15 @@ namespace StarsHollow.World
 
         public static implicit operator EntitySerialized(Entity entity) => new EntitySerialized()
         {
-            Sprite = entity.Sprite,
+            FgColor = entity.Sprite.Animation.CurrentFrame[0].Foreground,
+            BgColor = entity.Sprite.Animation.CurrentFrame[0].Background,
+            Glyph = entity.Sprite.Animation.CurrentFrame[0].Glyph,
+            IsVisible = entity.Sprite.IsVisible,
+            Position = entity.Sprite.Position,
+            Name = entity.Sprite.Name,
+            ID = entity.Sprite.ID,
+
             EntComponents = entity.EntComponents,
-            ID = entity.ID,
             EntityTime = entity.EntityTime,
             NonBlocking = entity.NonBlocking,
             IsActionable = entity.IsCrouching,
@@ -41,10 +55,9 @@ namespace StarsHollow.World
 
         public static implicit operator Entity(EntitySerialized serializedObject) => new Entity()
         {
-
-            Sprite = serializedObject.Sprite,
+            //FIXME: how to set Owner and ID here?
+            Sprite = new Sprite(serializedObject.FgColor, serializedObject.BgColor, serializedObject.Glyph, serializedObject.Position, serializedObject.Name, 1, 1),
             EntComponents = serializedObject.EntComponents,
-            ID = serializedObject.ID,
             EntityTime = serializedObject.EntityTime,
             NonBlocking = serializedObject.NonBlocking,
             IsActionable = serializedObject.IsCrouching,

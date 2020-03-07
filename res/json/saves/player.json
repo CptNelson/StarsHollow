@@ -1,0 +1,168 @@
+{
+  "FgColor": {
+    "B": 0,
+    "G": 128,
+    "R": 0,
+    "A": 255
+  },
+  "BgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 1,
+  "IsVisible": true,
+  "Position": {
+    "X": 27,
+    "Y": 8
+  },
+  "Name": "player",
+  "EntComponents": [
+    {
+      "Components": [],
+      "Strength": 11,
+      "Agility": 14,
+      "Vitality": 12,
+      "Looks": 15,
+      "Guts": 13,
+      "Smarts": 12
+    },
+    {
+      "Components": [],
+      "Hp": 20,
+      "CurrentHp": 20,
+      "Alive": false
+    },
+    {
+      "ItemList": [
+        {
+          "FgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "BgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "Glyph": 31,
+          "IsVisible": true,
+          "Position": {
+            "X": -1,
+            "Y": -1
+          },
+          "Name": "stun gun",
+          "EntComponents": [
+            {
+              "Weight": 1.0,
+              "OnMap": false,
+              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+              "Holder": null,
+              "Components": []
+            },
+            {
+              "damage": "1d2-1",
+              "range": 10,
+              "skillModifier": 5,
+              "Components": []
+            },
+            {
+              "damage": "1d2",
+              "range": 0,
+              "skillModifier": 0,
+              "Components": []
+            },
+            {
+              "Components": [],
+              "DurationRoll": "1d2+1",
+              "Duration": 2
+            }
+          ],
+          "ID": 0,
+          "EntityTime": 0,
+          "NonBlocking": false,
+          "IsActionable": false,
+          "IsCrouching": false,
+          "MoveCostMod": 0
+        }
+      ],
+      "ItemCapacity": 2,
+      "Holding": null,
+      "RightHand": [
+        {
+          "FgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "BgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "Glyph": 31,
+          "IsVisible": true,
+          "Position": {
+            "X": -1,
+            "Y": -1
+          },
+          "Name": "stun gun",
+          "EntComponents": [
+            {
+              "Weight": 1.0,
+              "OnMap": false,
+              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+              "Holder": null,
+              "Components": []
+            },
+            {
+              "damage": "1d2-1",
+              "range": 10,
+              "skillModifier": 5,
+              "Components": []
+            },
+            {
+              "damage": "1d2",
+              "range": 0,
+              "skillModifier": 0,
+              "Components": []
+            },
+            {
+              "Components": [],
+              "DurationRoll": "1d2+1",
+              "Duration": 2
+            }
+          ],
+          "ID": 0,
+          "EntityTime": 0,
+          "NonBlocking": false,
+          "IsActionable": false,
+          "IsCrouching": false,
+          "MoveCostMod": 0
+        }
+      ],
+      "LeftHand": [],
+      "Components": []
+    },
+    {
+      "Components": []
+    },
+    {
+      "Components": [],
+      "NextAction": null,
+      "UnableToAct": false
+    }
+  ],
+  "ID": 0,
+  "EntityTime": 0,
+  "NonBlocking": false,
+  "IsActionable": false,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+}

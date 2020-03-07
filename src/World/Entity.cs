@@ -17,7 +17,7 @@ namespace StarsHollow.World
     }
     public class Sprite : SadConsole.Entities.Entity, IHasID
     {
-        public Sprite(int width = 1, int height = 1) : base(width, height) { }
+        public Sprite(Color fg, Color bg, int glyph, Point pos, string name, int width = 1, int height = 1) : base(width, height) { }
         public uint ID { get; set; }
         public Entity owner { get; set; }
     }
@@ -40,14 +40,11 @@ namespace StarsHollow.World
 
         public Entity()
         {
-            Sprite = new Sprite(1, 1);
+            Sprite = new Sprite(Color.White, Color.Transparent, 1, new Point(-1, -1), "name", 1, 1);
             Sprite.Font = Fonts.halfSizeFont;
-            Sprite.Animation.CurrentFrame[0].Foreground = Color.White;
-            Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
             Sprite.Animation.CurrentFrame[0].Glyph = 'X';
             // Animation is set to invisible in the beginning. FOV calculations will change this.
             Sprite.Animation.IsVisible = false;
-            Sprite.Name = "name";
             Sprite.Position = new Point(-1, -1);
             Sprite.owner = this;
 
@@ -55,7 +52,6 @@ namespace StarsHollow.World
             EntityTime = 0;
             IsActionable = false;
             EntComponents = new List<Component>();
-            ID = Map.IDGenerator.UseID();
             NonBlocking = false;
             IsCrouching = false;
             MoveCostMod = 0;
