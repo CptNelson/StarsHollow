@@ -1,0 +1,17 @@
+Considerations
+    -Evaluate the situation and determine how good this     option is. Store result in weights. 
+
+Actions
+
+
+JSON FILES for behaviour
+
+Factories to create different behaviours, considers etc
+-templates & macros
+    consistent naming => automated factory specification
+-Why
+    every factory works the same way
+    adding new type of object is dead simple
+
+
+
