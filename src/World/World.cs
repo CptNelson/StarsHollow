@@ -55,6 +55,7 @@ namespace StarsHollow.World
         {
             SaveCurrentMap();
 
+            Console.WriteLine(Player.GetComponent<CmpHP>().Alive);
             File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, converter));
             File.WriteAllText(@"./res/json/saves/timer.json", JsonConvert.SerializeObject(TurnTimer, converter));
 
@@ -210,15 +211,6 @@ namespace StarsHollow.World
                 entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
             }
 
-            if (entity.HasComponent<CmpBody>())
-            {
-                List<Entity> items = new List<Entity>();
-                foreach (var item in entityJSON["EntComponents"]["StarsHollow.World.CmpBody"]["ItemList"])
-                {
-                    entity.GetComponent<CmpBody>().ItemList.Add(EntityFactory("weapons", item.ToString()));
-                }
-                entity.GetComponent<CmpBody>().ShowItems();
-            }
 
             // If new game is started
             if (IsNew)
@@ -238,10 +230,78 @@ namespace StarsHollow.World
             entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
             entity.Sprite.Components.Add(new EntityViewSyncComponent());
 
+            if (entity.HasComponent<CmpBody>())
+            {
+                List<Entity> items = new List<Entity>();
+                foreach (var Jitem in entityJSON["EntComponents"]["StarsHollow.World.CmpBody"]["ItemList"])
+                {
+                    var item = ItemFactory(Jitem);
+                    item.GetComponent<CmpItem>().Holder = entity;
+                    item.Sprite.Position = entity.Sprite.Position;
+                    item.Sprite.IsVisible = false;
+                    entity.GetComponent<CmpBody>().ItemList.Add(item);
+                }
+                entity.GetComponent<CmpBody>().ShowItems();
+            }
+
             LocalMap.Add(entity.Sprite);
             return entity;
         }
 
+        public Entity ItemFactory(JToken Jitem)
+        {
+
+            Entity item = new Entity();
+
+            // get the entity's data from json file and make a JObject represeting the entity
+            //JObject fullJSON = JObject.Parse(Tools.LoadJson(json));
+            //JObject entityJSON = (JObject)fullJSON[name];
+
+            // TODO: create method for the graphical assingment.
+            // FIXME: get colors from the json even if they are ColorScheme.Color. 
+            Console.WriteLine("item fac: " + Jitem);
+            JObject itemJSON;
+
+            if (IsNew)
+            {
+                JObject fullJSON = JObject.Parse(Tools.LoadJson("prefabs/weapons"));
+                itemJSON = (JObject)fullJSON[Jitem.ToString()];
+
+                item.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(itemJSON["Glyph"]);
+                System.Drawing.Color fg = System.Drawing.Color.FromName(itemJSON["FgColor"].ToString());
+                item.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
+                item.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
+
+                JObject components = (JObject)itemJSON["EntComponents"];
+
+                item.AddComponentsFromFile(components);
+
+
+                if (IsNew)
+                {
+                    item.Sprite.ID = Map.IDGenerator.UseID();
+                    item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+                }
+                else
+                {
+                    item.Sprite.ID = Convert.ToUInt32(itemJSON["ID"]);
+                    Object pos = (Object)itemJSON["Position"];
+                    item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+                }
+
+                item.IsActionable = Convert.ToBoolean(itemJSON["IsActionable"]);
+                item.Sprite.owner = item;
+                item.Sprite.Name = Convert.ToString(itemJSON["Name"]);
+                item.Sprite.Components.Add(new EntityViewSyncComponent());
+            }
+
+
+
+
+
+            LocalMap.Add(item.Sprite);
+            return item;
+        }
 
     }
 }

@@ -14,8 +14,8 @@
   "Glyph": 0,
   "IsVisible": true,
   "Position": {
-    "X": 60,
-    "Y": 18
+    "X": 9,
+    "Y": 25
   },
   "Name": "Timer",
   "EntComponents": {

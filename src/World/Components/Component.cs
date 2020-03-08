@@ -72,6 +72,7 @@ namespace StarsHollow.World
         {
             Hp = Convert.ToInt32(args[0]);
             CurrentHp = Hp;
+            Alive = true;
         }
 
         public override void UpdateComponent()
@@ -253,6 +254,7 @@ namespace StarsHollow.World
         public decimal Weight;
         public bool OnMap;
         public string Description;
+        [JsonIgnore]
         public Entity Holder;
 
         public CmpItem(params object[] args)
