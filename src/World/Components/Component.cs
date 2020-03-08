@@ -189,6 +189,14 @@ namespace StarsHollow.World
             item.Sprite.Position = Entity.Sprite.Position;
         }
 
+        public void ShowItems()
+        {
+            foreach (Entity item in ItemList)
+            {
+                Console.WriteLine("Item: " + item.Sprite.Name);
+            }
+        }
+
         public override void UpdateComponent()
         {
         }

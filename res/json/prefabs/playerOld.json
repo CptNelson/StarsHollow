@@ -1,0 +1,26 @@
+﻿{
+  "player": {
+    "look": {
+      "glyph": 1,
+      "fg": "Green",
+      "bg": "Transparent"
+    },
+    "components": {
+      "CmpAttributes": {
+        "strength": 11,
+        "agility": 14,
+        "vitality": 12,
+        "looks": 15,
+        "guts": 13,
+        "smarts": 12
+      },
+      "CmpHP": { "hp": "2" },
+      "CmpBody": {
+        "itemCapacity": 2
+      },
+      "CmpInput": {},
+      "CmpAction": {}
+    },
+    "items": ["stun gun"]
+  }
+}

@@ -37,7 +37,7 @@ namespace StarsHollow.Utils
 
         public static string LoadJson(string file)
         {
-            using (StreamReader r = new StreamReader(@"./res/json/" + file))
+            using (StreamReader r = new StreamReader(@"./res/json/" + file + ".json"))
             {
                 string json = r.ReadToEnd();
                 return json;

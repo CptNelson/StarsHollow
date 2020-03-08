@@ -1,26 +1,46 @@
 ﻿{
   "player": {
-    "look": {
-      "glyph": 1,
-      "fg": "Green",
-      "bg": "Transparent"
+    "FgColor": "Green",
+    "BgColor": "Transparent",
+    "Glyph": 1,
+    "IsVisible": true,
+    "Position": {
+      "X": -1,
+      "Y": -1
     },
-    "components": {
-      "CmpAttributes": {
-        "strength": 11,
-        "agility": 14,
-        "vitality": 12,
-        "looks": 15,
-        "guts": 13,
-        "smarts": 12
+    "Name": "Player",
+    "EntComponents": {
+      "StarsHollow.World.CmpAttributes": {
+        "Strength": 11,
+        "Agility": 14,
+        "Vitality": 12,
+        "Looks": 15,
+        "Guts": 13,
+        "Smarts": 12
       },
-      "CmpHP": { "hp": "2" },
-      "CmpBody": {
-        "itemCapacity": 2
+      "StarsHollow.World.CmpHP": {
+        "Hp": 2,
+        "CurrentHp": 0,
+        "Alive": true
       },
-      "CmpInput": {},
-      "CmpAction": {}
+      "StarsHollow.World.CmpBody": {
+        "ItemCapacity": 2,
+        "ItemList": ["stun gun"],
+        "Holding": null,
+        "RightHand": [],
+        "LeftHand": []
+      },
+      "StarsHollow.World.CmpInput": {},
+      "StarsHollow.World.CmpAction": {
+        "NextAction": null,
+        "UnableToAct": false
+      }
     },
-    "items": ["stun gun"]
+    "ID": 0,
+    "EntityTime": 0,
+    "NonBlocking": false,
+    "IsActionable": true,
+    "IsCrouching": false,
+    "MoveCostMod": 0
   }
 }

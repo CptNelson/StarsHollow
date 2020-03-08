@@ -1,8 +1,8 @@
 {
   "FgColor": {
-    "B": 255,
-    "G": 255,
-    "R": 255,
+    "B": 0,
+    "G": 128,
+    "R": 0,
     "A": 255
   },
   "BgColor": {
@@ -14,8 +14,8 @@
   "Glyph": 1,
   "IsVisible": true,
   "Position": {
-    "X": 50,
-    "Y": 21
+    "X": 49,
+    "Y": 18
   },
   "Name": "Player",
   "EntComponents": {
@@ -28,8 +28,8 @@
       "Smarts": 12
     },
     "StarsHollow.World.CmpHP": {
-      "Hp": 20,
-      "CurrentHp": 20,
+      "Hp": 2,
+      "CurrentHp": 2,
       "Alive": false
     },
     "StarsHollow.World.CmpBody": {
@@ -45,7 +45,7 @@
       "UnableToAct": false
     }
   },
-  "ID": 1,
+  "ID": 0,
   "EntityTime": 0,
   "NonBlocking": false,
   "IsActionable": true,

@@ -1,24 +1,38 @@
 {
   "timer": {
-    "look": {
-      "glyph": 0,
-      "fg": "Transparent",
-      "bg": "Transparent"
+    "FgColor": "Transparent",
+    "BgColor": "Transparent",
+    "Glyph": 0,
+    "IsVisible": false,
+    "Position": {
+      "X": -1,
+      "Y": 1
     },
-    "name": "timer",
-    "nonBlocking": "false",
-    "components": {
-      "CmpTimer": {}
-    }
+    "Name": "Timer",
+    "EntComponents": {
+      "StarsHollow.World.CmpTimer": {}
+    },
+
+    "ID": 0,
+    "EntityTime": 0,
+    "NonBlocking": true,
+    "IsActionable": false,
+    "IsCrouching": false,
+    "MoveCostMod": 0
   },
   "corpse": {
-    "look": {
-      "glyph": 37,
-      "fg": "Red",
-      "bg": "Transparent"
+    "Glyph": 37,
+    "FgColor": "Red",
+    "BgColor": "Transparent",
+    "Name": "Corpse",
+    "EntCmponents": {
+      "StarsHollow.World.CmpEdibleItem": {}
     },
-    "components": {
-      "CmpEdibleItem": {}
-    }
+    "ID": 0,
+    "EntityTime": 0,
+    "NonBlocking": true,
+    "IsActionable": false,
+    "IsCrouching": false,
+    "MoveCostMod": 0
   }
 }

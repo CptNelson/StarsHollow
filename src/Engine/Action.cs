@@ -154,7 +154,6 @@ namespace StarsHollow.Engine
             ActionActor = actor;
             TimeCost = 100 * Game.UI.world.LocalMap.GetTileAt(actor.Sprite.Position + dir).MoveCostMod + actor.MoveCostMod;
             position = actor.Sprite.Position + dir;
-            Console.WriteLine(actor.MoveCostMod);
         }
 
         public override bool Execute()

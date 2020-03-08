@@ -1,8 +1,8 @@
 {
   "FgColor": {
-    "B": 255,
-    "G": 255,
-    "R": 255,
+    "B": 0,
+    "G": 128,
+    "R": 0,
     "A": 255
   },
   "BgColor": {
@@ -14,7 +14,7 @@
   "Glyph": 1,
   "IsVisible": true,
   "Position": {
-    "X": 10,
+    "X": 26,
     "Y": 31
   },
   "Name": "Player",
@@ -29,12 +29,62 @@
     },
     "StarsHollow.World.CmpHP": {
       "Hp": 20,
-      "CurrentHp": 0,
+      "CurrentHp": 20,
       "Alive": false
     },
     "StarsHollow.World.CmpBody": {
       "ItemCapacity": 2,
-      "ItemList": [],
+      "ItemList": [
+        {
+          "FgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 255
+          },
+          "BgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "Glyph": 31,
+          "IsVisible": true,
+          "Position": {
+            "X": 54,
+            "Y": 27
+          },
+          "Name": "Stun gun",
+          "EntComponents": {
+            "StarsHollow.World.CmpItem": {
+              "Weight": 1.0,
+              "OnMap": false,
+              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act.",
+              "Holder": null
+            },
+            "StarsHollow.World.CmpRanged": {
+              "damage": "1d2-1",
+              "range": 10,
+              "skillModifier": 5
+            },
+            "StarsHollow.World.CmpMelee": {
+              "damage": "1d2",
+              "range": 0,
+              "skillModifier": 0
+            },
+            "StarsHollow.World.CmpEffectStun": {
+              "DurationRoll": "1d2+1",
+              "Duration": 2
+            }
+          },
+          "ID": 4,
+          "EntityTime": 0,
+          "NonBlocking": false,
+          "IsActionable": false,
+          "IsCrouching": false,
+          "MoveCostMod": 0
+        }
+      ],
       "Holding": null,
       "RightHand": [],
       "LeftHand": []
@@ -45,8 +95,8 @@
       "UnableToAct": false
     }
   },
-  "ID": 1,
-  "EntityTime": 1111,
+  "ID": 5,
+  "EntityTime": 0,
   "NonBlocking": false,
   "IsActionable": true,
   "IsCrouching": false,

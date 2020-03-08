@@ -89,25 +89,8 @@ namespace StarsHollow.World
             return this;
         }
 
-        public static void AddComponentsFromFile2(EntitySerialized entity)
-        {
-            /*
-            List<Component> components = entity.EntComponents;
-            foreach (Component cmp in components)
-            {
-                Console.WriteLine(cmp.GetType());
-            }
-            */
-
-
-
-        }
-
         public Entity AddComponentsFromFile(JObject components)
         {
-
-            //Console.WriteLine(components.Count);
-            // Get the name of the Component
             foreach (KeyValuePair<string, JToken> tag in components)
             {
 

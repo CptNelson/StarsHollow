@@ -1,12 +1,17 @@
 ﻿{
   "guard": {
-    "look": {
-      "glyph": 2,
-      "fg": "Red",
-      "bg": "Transparent"
+    "Glyph": 2,
+    "FgColor": "Red",
+    "BgColor": "Transparent",
+
+    "IsVisible": true,
+    "Position": {
+      "X": -1,
+      "Y": -1
     },
-    "components": {
-      "CmpAttributes": {
+    "Name": "Guard",
+    "EntComponents": {
+      "StarsHollow.World.CmpAttributes": {
         "strength": 10,
         "agility": 10,
         "vitality": 10,
@@ -14,18 +19,28 @@
         "guts": 10,
         "smarts": 10
       },
-      "CmpHP": {
+      "StarsHollow.World.CmpHP": {
         "HP": "2"
       },
-      "CmpBody": {
-        "ItemCapacity": 2
+      "StarsHollow.World.CmpBody": {
+        "ItemCapacity": 2,
+        "ItemList": ["stun gun"],
+        "Holding": null,
+        "RightHand": [],
+        "LeftHand": []
       },
-      "CmpAction": {},
-      "CmpAI": {
+      "StarsHollow.World.CmpAction": {},
+      "StarsHollow.World.CmpAI": {
         "aggression": 3,
         "AIComponent": "GuardArea"
       }
     },
-    "items": ["stun gun"]
+
+    "ID": 0,
+    "EntityTime": 0,
+    "NonBlocking": false,
+    "IsActionable": true,
+    "IsCrouching": false,
+    "MoveCostMod": 0
   }
 }

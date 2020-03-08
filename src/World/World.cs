@@ -30,6 +30,7 @@ namespace StarsHollow.World
 
         private int mapWidth, mapHeight;
         private EntityConverterJson converter;
+        private bool IsNew { get; set; }
 
         public WorldMap()
         {
@@ -115,155 +116,132 @@ namespace StarsHollow.World
             return tempFovMap;
         }
 
-        public void CreateWorld(int width, int height)
+        public void CreateWorld(int width, int height, bool isNew = true)
         {
+            IsNew = isNew;
+
             mapWidth = width;
             mapHeight = height;
 
             LocalMap = new Map(mapWidth, mapHeight);
             // map generator returns both Map and GoRogue's ArrayMap. 
-            Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            Tuple<Map, ArrayMap<double>> maps;
 
-            //double[,] tempMap = LoadCurrentMap();
-            //double[,] tempFovMap = LoadCurrentFovMap();
-            //Tuple<Map, ArrayMap<double>> maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
+            // If new game is started
+            if (IsNew)
+            {
+                maps = MapGenerator.GenerateLocalMap(mapWidth, mapHeight);
+            }
+            else
+            {
+                double[,] tempMap = LoadCurrentMap();
+                double[,] tempFovMap = LoadCurrentFovMap();
+                maps = MapGenerator.GenerateLoadedMap(mapWidth, mapHeight, tempMap, tempFovMap);
+            }
 
             LocalMap = maps.Item1;
             LocalMap.GoMap = maps.Item2;
-            // Console.WriteLine(LoadPlayer());
 
             InitSystems();
 
             CreateHelperEntities();
-            AddPlayer();
+            CreatePlayer();
             // CreateGuard();
         }
 
         private void CreateHelperEntities()
         {
             // First create the helper entities and then add them to a game loop.
-            //TurnTimer = EntityFactory("timer", "prefabs/helpers.json");
-            TurnTimer = EntityFactory2("saves/timer.json");
+            TurnTimer = EntityFactory("helpers", "timer");
+            //TurnTimer = EntityFactory2("saves/timer.json");
             //TurnTimer.GetComponents();
             TurnTimer.IsActionable = true;
             LocalMap.Add(TurnTimer.Sprite);
         }
-
-        public Entity EntityFactory2(string json)
-        {
-            //Entity entity = JsonConvert.DeserializeObject<Entity>(json, converter);
-            Entity entity = new Entity();
-
-            Console.WriteLine("fuck: " + entity.Sprite);
-
-            // get the entity's data from json file and make a JObject represeting the entity
-
-            JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
-
-            // TODO: create method for the graphical assingment.
-            // get glyph info from the entityJSON and make a dictionary out of them
-            IDictionary<string, JToken> looks = (JObject)(entityJSON["look"]);
-
-            // FIXME: get colors from the json even if they are ColorScheme.Color. 
-
-            entity.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(entityJSON["Glyph"]);
-
-            //ent.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
-            //ent.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
-
-            JObject components = (JObject)entityJSON["EntComponents"];
-
-
-            entity.AddComponentsFromFile(components);
-
-            // TODO: attribute and stats to their own method/class
-            /*
-            if (entity.HasComponent<CmpHP>())
-            {
-                entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
-                entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
-            }*/
-
-            Console.WriteLine("list: " + entity.ListComponents());
-
-            entity.Sprite.Components.Add(new EntityViewSyncComponent());
-            Object pos = (Object)entityJSON["Position"];
-            Console.WriteLine("asdsada: " + pos.GetType());
-            entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-            entity.Sprite.ID = Convert.ToUInt32(entityJSON["ID"]);
-            entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
-            entity.Sprite.owner = entity;
-            entity.IsActionable = true;
-
-            File.WriteAllText(@"./res/json/saves/testing.json", JsonConvert.SerializeObject(entity, converter));
-
-            return entity;
-        }
-
-        public Entity EntityFactory(string name, string json)
-        {
-            Entity ent = new Entity();
-            ent.Sprite.Name = name;
-
-            // get the entity's data from json file and make a JObject represeting the entity
-            JObject entityJSON = JObject.Parse(Tools.LoadJson(json));
-
-            // TODO: create method for the graphical assingment.
-            // get glyph info from the entityJSON and make a dictionary out of them
-            IDictionary<string, JToken> looks = (JObject)(entityJSON[name]["look"]);
-            Dictionary<string, string> looksDictionary = looks.ToDictionary(pair => pair.Key, pair =>
-                (string)pair.Value);
-
-            // FIXME: get colors from the json even if they are ColorScheme.Color. 
-            ent.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(looksDictionary["glyph"]);
-            System.Drawing.Color fg = System.Drawing.Color.FromName(looksDictionary["fg"]);
-
-            ent.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
-            ent.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
-
-
-            // TODO: create method for component attachments
-            JObject components = (JObject)entityJSON[name]["components"];
-
-            ent.AddComponentsFromFile(components);
-
-            // TODO: attribute and stats to their own method/class
-            if (ent.HasComponent<CmpHP>())
-            {
-                ent.GetComponent<CmpHP>().Hp += ent.GetComponent<CmpAttributes>().Guts / 2 + ent.GetComponent<CmpAttributes>().Vitality;
-                ent.GetComponent<CmpHP>().CurrentHp = ent.GetComponent<CmpHP>().Hp;
-            }
-
-            ent.Sprite.Components.Add(new EntityViewSyncComponent());
-
-            return ent;
-        }
-
-        private void AddPlayer()
+        private void CreatePlayer()
         {
             if (Player != null) return;
-            //Player = EntityFactory("player", "prefabs/player.json");
-            //Player.GetComponent<CmpBody>().ItemList.Add(EntityFactory("stun gun", "prefabs/weapons.json"));
-            //Player.GetComponent<CmpBody>().RightHand.Add(Player.GetComponent<CmpBody>().ItemList.First());
-            //Player.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-            //Player.Sprite.IsVisible = true;
-            //Player.IsActionable = true;
-            Player = EntityFactory2("saves/player.json");
-
-            LocalMap.Add(Player.Sprite);
+            Player = EntityFactory("player", "player");
         }
 
         private void CreateGuard(int amount = 2)
         {
             for (int i = 0; i < amount; i++)
             {
-                Entity guard = EntityFactory("guard", "prefabs/level1.json");
-                guard.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-                guard.Sprite.IsVisible = false;
-                guard.IsActionable = true;
-                guard.GetComponent<CmpAI>().AddAIComponent(new GuardArea(guard));
-                LocalMap.Add(guard.Sprite);
+                Entity guard = EntityFactory("level1", "guard");
+                //guard.GetComponent<CmpAI>().AddAIComponent(new GuardArea(guard));
             }
         }
+
+        public Entity EntityFactory(string file, string name)
+        {
+            string json;
+            if (IsNew)
+                json = "prefabs/" + file;
+            else
+                json = "saves/" + file;
+
+            Console.WriteLine(json);
+
+            //Entity entity = JsonConvert.DeserializeObject<Entity>(json, converter);
+            Entity entity = new Entity();
+
+            // get the entity's data from json file and make a JObject represeting the entity
+            JObject fullJSON = JObject.Parse(Tools.LoadJson(json));
+            JObject entityJSON = (JObject)fullJSON[name];
+
+            // TODO: create method for the graphical assingment.
+            // FIXME: get colors from the json even if they are ColorScheme.Color. 
+
+            entity.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(entityJSON["Glyph"]);
+            System.Drawing.Color fg = System.Drawing.Color.FromName(entityJSON["FgColor"].ToString());
+            entity.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
+            entity.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
+
+            JObject components = (JObject)entityJSON["EntComponents"];
+
+            entity.AddComponentsFromFile(components);
+
+            // TODO: attribute and stats to their own method/class
+            if (entity.HasComponent<CmpHP>())
+            {
+
+                entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
+                entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
+            }
+
+            if (entity.HasComponent<CmpBody>())
+            {
+                List<Entity> items = new List<Entity>();
+                foreach (var item in entityJSON["EntComponents"]["StarsHollow.World.CmpBody"]["ItemList"])
+                {
+                    entity.GetComponent<CmpBody>().ItemList.Add(EntityFactory("weapons", item.ToString()));
+                }
+                entity.GetComponent<CmpBody>().ShowItems();
+            }
+
+            // If new game is started
+            if (IsNew)
+            {
+                entity.Sprite.ID = Map.IDGenerator.UseID();
+                entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            }
+            else
+            {
+                entity.Sprite.ID = Convert.ToUInt32(entityJSON["ID"]);
+                Object pos = (Object)entityJSON["Position"];
+                entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            }
+
+            entity.Sprite.owner = entity;
+            entity.IsActionable = Convert.ToBoolean(entityJSON["IsActionable"]);
+            entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
+            entity.Sprite.Components.Add(new EntityViewSyncComponent());
+
+            LocalMap.Add(entity.Sprite);
+            return entity;
+        }
+
+
     }
 }
