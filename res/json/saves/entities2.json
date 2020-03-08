@@ -1,7 +1,7 @@
 [{
   "FgColor": {
     "B": 0,
-    "G": 128,
+    "G": 255,
     "R": 0,
     "A": 255
   },
@@ -14,8 +14,8 @@
   "Glyph": 1,
   "IsVisible": true,
   "Position": {
-    "X": 12,
-    "Y": 21
+    "X": 58,
+    "Y": 28
   },
   "Name": "player",
   "EntComponents": {
@@ -49,16 +49,16 @@
             "A": 0
           },
           "Glyph": 31,
-          "IsVisible": true,
+          "IsVisible": false,
           "Position": {
-            "X": 12,
-            "Y": 21
+            "X": 58,
+            "Y": 28
           },
           "Name": "stun gun",
           "EntComponents": {
             "StarsHollow.World.CmpItem": {
-              "Weight": 1.0,
-              "OnMap": false,
+              "Weight": 0.0,
+              "OnMap": true,
               "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
             },
             "StarsHollow.World.CmpRanged": {
@@ -73,6 +73,7 @@
             },
             "StarsHollow.World.CmpEffectStun": {
               "DurationRoll": "1d2+1",
+              "Stunned": false,
               "Duration": 2
             }
           },
@@ -115,10 +116,10 @@
     "A": 0
   },
   "Glyph": 0,
-  "IsVisible": true,
+  "IsVisible": false,
   "Position": {
-    "X": 14,
-    "Y": 15
+    "X": -2,
+    "Y": -2
   },
   "Name": "timer",
   "EntComponents": {

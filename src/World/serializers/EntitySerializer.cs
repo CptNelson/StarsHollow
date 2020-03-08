@@ -49,6 +49,7 @@ namespace StarsHollow.World
             {
                 compDic.Add(cmp.ToString(), cmp);
             }
+            Console.WriteLine("Ser" + entity.Sprite.Animation.CurrentFrame[0].Foreground);
 
             var entitySerialized = new EntitySerialized()
             {

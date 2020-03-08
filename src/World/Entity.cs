@@ -97,15 +97,12 @@ namespace StarsHollow.World
                 //Console.WriteLine("A: " + tag + " B: " + tag.Key);
                 var property = tag.Key;
                 var args = new object[tag.Value.Count()];
-                Console.WriteLine("prop: " + property);
                 for (int i = 0; i < tag.Value.Count(); i++)
                 {
                     args[i] = tag.Value.ElementAt(i).First;
-                    Console.WriteLine("args: " + args[i]);
                 }
                 //Type cmpType = Type.GetType("StarsHollow.World." + property);
                 Type cmpType = Type.GetType(property);
-                //Console.WriteLine(cmpType);
                 var newComponent = (Component)Activator.CreateInstance(cmpType, args);
 
                 if (newComponent == null)

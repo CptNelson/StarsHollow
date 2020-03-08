@@ -358,46 +358,34 @@ namespace StarsHollow.World
 
     public class CmpEffectStun : Component
     {
-        private string _durationRoll;
+        public string DurationRoll { get; set; }
+        public bool Stunned { get; set; }
+        public int Duration { get; set; }
 
-        public string DurationRoll
-        {
-            get => _durationRoll;
-            set => _durationRoll = value;
-        }
-
-        private bool _stunned;
-        private int _duration;
-
-        public int Duration
-        {
-            get => _duration;
-            set => _duration = value;
-        }
 
         public CmpEffectStun(params object[] args)
         {
-            _durationRoll = Convert.ToString(args[0]);
-            _stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.// when the item is used to attack and the target receives this effect, then it will be true.
-            _duration = Convert.ToInt32(args[2]);
+            DurationRoll = Convert.ToString(args[0]);
+            Stunned = Convert.ToBoolean(args[1]); // if this component is in in Item, then this should be false.// when the item is used to attack and the target receives this effect, then it will be true.
+            Duration = Convert.ToInt32(args[2]);
         }
 
         public override void UpdateComponent()
         {
-            if (!_stunned) return;
+            if (!Stunned) return;
             Entity.IsActionable = false;
-            _duration -= 1; // TODO: make it so that different entities can have faster recovery.
+            Duration -= 1; // TODO: make it so that different entities can have faster recovery.
 
             // check if entity can resist effect 
             if (Entity.GetComponent<CmpAttributes>().Guts + Entity.GetComponent<CmpAttributes>().Vitality >=
                 Dice.Roll("1d100"))
             {
-                _duration -= 1;
+                Duration -= 1;
             }
 
             // when duration is 0 or less, change status and remove the component
-            if (_duration >= 1) return;
-            _stunned = false;
+            if (Duration >= 1) return;
+            Stunned = false;
             Entity.IsActionable = true;
             Entity.EntComponents.Remove(this);
             Game.UI.MainWindow.Message(Entity.Sprite.Name + " is no longer stunned.");
