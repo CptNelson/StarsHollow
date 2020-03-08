@@ -55,9 +55,22 @@ namespace StarsHollow.World
         {
             SaveCurrentMap();
 
-            Console.WriteLine(Player.GetComponent<CmpHP>().Alive);
-            File.WriteAllText(@"./res/json/saves/player.json", JsonConvert.SerializeObject(Player, converter));
-            File.WriteAllText(@"./res/json/saves/timer.json", JsonConvert.SerializeObject(TurnTimer, converter));
+            List<string> savedEntityList = new List<string>();
+
+            savedEntityList.Add(JsonConvert.SerializeObject(Player, converter));
+            savedEntityList.Add(JsonConvert.SerializeObject(TurnTimer, converter));
+
+            File.WriteAllText(@"./res/json/saves/entities2.json", String.Empty);
+            File.WriteAllText(@"./res/json/saves/entities2.json", "[");
+            foreach (var ent in savedEntityList)
+            {
+                File.AppendAllText(@"./res/json/saves/entities2.json", ent + "," + Environment.NewLine);
+            }
+            string fileContent = File.ReadAllText(@"./res/json/saves/entities2.json");
+            // Remove the last to characters
+            fileContent = fileContent.Remove(fileContent.Length - 2) + "]";
+            // Write content back to the file
+            File.WriteAllText(@"./res/json/saves/entities2.json", fileContent);
 
         }
         public void SaveCurrentMap()
@@ -174,13 +187,15 @@ namespace StarsHollow.World
             }
         }
 
-        public Entity EntityFactory(string file, string name)
+        public Entity EntityFactory(string file, string nameOfEntity)
         {
             string json;
+            string name = nameOfEntity;
             if (IsNew)
                 json = "prefabs/" + file;
             else
                 json = "saves/" + file;
+
 
             Console.WriteLine(json);
 
@@ -188,8 +203,18 @@ namespace StarsHollow.World
             Entity entity = new Entity();
 
             // get the entity's data from json file and make a JObject represeting the entity
-            JObject fullJSON = JObject.Parse(Tools.LoadJson(json));
-            JObject entityJSON = (JObject)fullJSON[name];
+
+            JArray arrayJSON = JArray.Parse(Tools.LoadJson(json));
+
+
+
+
+
+
+            //helper(name, fullJSON);
+            JObject entityJSON = helper(name, arrayJSON);
+
+
 
             // TODO: create method for the graphical assingment.
             // FIXME: get colors from the json even if they are ColorScheme.Color. 
@@ -202,15 +227,6 @@ namespace StarsHollow.World
             JObject components = (JObject)entityJSON["EntComponents"];
 
             entity.AddComponentsFromFile(components);
-
-            // TODO: attribute and stats to their own method/class
-            if (entity.HasComponent<CmpHP>())
-            {
-
-                entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
-                entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
-            }
-
 
             // If new game is started
             if (IsNew)
@@ -229,6 +245,14 @@ namespace StarsHollow.World
             entity.IsActionable = Convert.ToBoolean(entityJSON["IsActionable"]);
             entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
             entity.Sprite.Components.Add(new EntityViewSyncComponent());
+
+            // TODO: attribute and stats to their own method/class
+            if (entity.HasComponent<CmpHP>())
+            {
+
+                entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
+                entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
+            }
 
             if (entity.HasComponent<CmpBody>())
             {
@@ -253,55 +277,78 @@ namespace StarsHollow.World
 
             Entity item = new Entity();
 
-            // get the entity's data from json file and make a JObject represeting the entity
-            //JObject fullJSON = JObject.Parse(Tools.LoadJson(json));
-            //JObject entityJSON = (JObject)fullJSON[name];
-
-            // TODO: create method for the graphical assingment.
-            // FIXME: get colors from the json even if they are ColorScheme.Color. 
             Console.WriteLine("item fac: " + Jitem);
+            JObject fullJSON;
             JObject itemJSON;
 
             if (IsNew)
             {
-                JObject fullJSON = JObject.Parse(Tools.LoadJson("prefabs/weapons"));
+                fullJSON = JObject.Parse(Tools.LoadJson("prefabs/weapons"));
                 itemJSON = (JObject)fullJSON[Jitem.ToString()];
-
-                item.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(itemJSON["Glyph"]);
-                System.Drawing.Color fg = System.Drawing.Color.FromName(itemJSON["FgColor"].ToString());
-                item.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
-                item.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
-
-                JObject components = (JObject)itemJSON["EntComponents"];
-
-                item.AddComponentsFromFile(components);
-
-
-                if (IsNew)
-                {
-                    item.Sprite.ID = Map.IDGenerator.UseID();
-                    item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-                }
-                else
-                {
-                    item.Sprite.ID = Convert.ToUInt32(itemJSON["ID"]);
-                    Object pos = (Object)itemJSON["Position"];
-                    item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-                }
-
-                item.IsActionable = Convert.ToBoolean(itemJSON["IsActionable"]);
-                item.Sprite.owner = item;
-                item.Sprite.Name = Convert.ToString(itemJSON["Name"]);
-                item.Sprite.Components.Add(new EntityViewSyncComponent());
+            }
+            else
+            {
+                itemJSON = (JObject)Jitem;
             }
 
+            // TODO: create method for the graphical assingment.
+            // FIXME: get colors from the json even if they are ColorScheme.Color. 
+            item.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(itemJSON["Glyph"]);
+            System.Drawing.Color fg = System.Drawing.Color.FromName(itemJSON["FgColor"].ToString());
+            item.Sprite.Animation.CurrentFrame[0].Foreground = new Color(fg.R, fg.G, fg.B, fg.A);
+            item.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
 
+            JObject components = (JObject)itemJSON["EntComponents"];
 
+            item.AddComponentsFromFile(components);
 
+            if (IsNew)
+            {
+                item.Sprite.ID = Map.IDGenerator.UseID();
+                item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            }
+            else
+            {
+                item.Sprite.ID = Convert.ToUInt32(itemJSON["ID"]);
+                Object pos = (Object)itemJSON["Position"];
+                item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+            }
+
+            item.IsActionable = Convert.ToBoolean(itemJSON["IsActionable"]);
+            item.Sprite.owner = item;
+            item.Sprite.Name = Convert.ToString(itemJSON["Name"]);
+            item.Sprite.Components.Add(new EntityViewSyncComponent());
 
             LocalMap.Add(item.Sprite);
             return item;
         }
 
+        public JObject helper(string name, JArray array)
+        {
+            string matchIdToFind = name;
+
+
+            JObject match;
+
+            match = array.Values<JObject>()
+            .Where(m => m["Name"].Value<string>() == matchIdToFind)
+            .FirstOrDefault();
+
+            /*
+            if (array.SelectToken("$.Name").Value<string>() == name)
+            
+                match = (JObject)array.SelectToken("$.Name").Parent.Parent;
+               */
+            if (match != null)
+            {
+                Console.WriteLine("found!");
+                return match;
+            }
+            else
+            {
+                Console.WriteLine("match not found");
+                return null;
+            }
+        }
     }
 }

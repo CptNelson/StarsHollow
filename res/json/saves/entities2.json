@@ -1,0 +1,138 @@
+[{
+  "FgColor": {
+    "B": 0,
+    "G": 128,
+    "R": 0,
+    "A": 255
+  },
+  "BgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 1,
+  "IsVisible": true,
+  "Position": {
+    "X": 12,
+    "Y": 21
+  },
+  "Name": "player",
+  "EntComponents": {
+    "StarsHollow.World.CmpAttributes": {
+      "Strength": 11,
+      "Agility": 14,
+      "Vitality": 12,
+      "Looks": 15,
+      "Guts": 13,
+      "Smarts": 12
+    },
+    "StarsHollow.World.CmpHP": {
+      "Hp": 20,
+      "CurrentHp": 20,
+      "Alive": true
+    },
+    "StarsHollow.World.CmpBody": {
+      "ItemCapacity": 2,
+      "ItemList": [
+        {
+          "FgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 255
+          },
+          "BgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "Glyph": 31,
+          "IsVisible": true,
+          "Position": {
+            "X": 12,
+            "Y": 21
+          },
+          "Name": "stun gun",
+          "EntComponents": {
+            "StarsHollow.World.CmpItem": {
+              "Weight": 1.0,
+              "OnMap": false,
+              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
+            },
+            "StarsHollow.World.CmpRanged": {
+              "damage": "1d2-1",
+              "range": 10,
+              "skillModifier": 5
+            },
+            "StarsHollow.World.CmpMelee": {
+              "damage": "1d2",
+              "range": 0,
+              "skillModifier": 0
+            },
+            "StarsHollow.World.CmpEffectStun": {
+              "DurationRoll": "1d2+1",
+              "Duration": 2
+            }
+          },
+          "ID": 5,
+          "EntityTime": 0,
+          "NonBlocking": false,
+          "IsActionable": false,
+          "IsCrouching": false,
+          "MoveCostMod": 0
+        }
+      ],
+      "Holding": null,
+      "RightHand": [],
+      "LeftHand": []
+    },
+    "StarsHollow.World.CmpInput": {},
+    "StarsHollow.World.CmpAction": {
+      "NextAction": null,
+      "UnableToAct": false
+    }
+  },
+  "ID": 3,
+  "EntityTime": 0,
+  "NonBlocking": false,
+  "IsActionable": true,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+},
+{
+  "FgColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 0
+  },
+  "BgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 0,
+  "IsVisible": true,
+  "Position": {
+    "X": 14,
+    "Y": 15
+  },
+  "Name": "timer",
+  "EntComponents": {
+    "StarsHollow.World.CmpTimer": {
+      "Turn": 1,
+      "Minute": 1,
+      "Hour": 0,
+      "Day": 0
+    }
+  },
+  "ID": 1,
+  "EntityTime": 100,
+  "NonBlocking": false,
+  "IsActionable": true,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+}]

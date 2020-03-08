@@ -44,10 +44,12 @@ namespace StarsHollow.World
         {
 
             Dictionary<string, dynamic> compDic = new Dictionary<string, dynamic>();
+
             foreach (var cmp in entity.GetComponents())
             {
                 compDic.Add(cmp.ToString(), cmp);
             }
+
             var entitySerialized = new EntitySerialized()
             {
                 FgColor = entity.Sprite.Animation.CurrentFrame[0].Foreground,
@@ -63,7 +65,7 @@ namespace StarsHollow.World
                 NonBlocking = entity.NonBlocking,
                 IsActionable = entity.IsActionable,
                 IsCrouching = entity.IsCrouching,
-                MoveCostMod = entity.MoveCostMod,
+                MoveCostMod = entity.MoveCostMod
 
             };
 

@@ -9,7 +9,7 @@
       "X": -1,
       "Y": -1
     },
-    "Name": "Guard",
+    "Name": "guard",
     "EntComponents": {
       "StarsHollow.World.CmpAttributes": {
         "strength": 10,

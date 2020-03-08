@@ -8,7 +8,7 @@
       "X": -1,
       "Y": -1
     },
-    "Name": "Stun gun",
+    "Name": "stun gun",
     "EntComponents": {
       "StarsHollow.World.CmpItem": {
         "OnMap": "false",

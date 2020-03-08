@@ -14,20 +14,20 @@
   "Glyph": 0,
   "IsVisible": true,
   "Position": {
-    "X": 13,
-    "Y": 15
+    "X": 62,
+    "Y": 31
   },
-  "Name": "Timer",
+  "Name": "timer",
   "EntComponents": {
     "StarsHollow.World.CmpTimer": {
-      "Turn": 2,
-      "Minute": 2,
+      "Turn": 1,
+      "Minute": 1,
       "Hour": 0,
       "Day": 0
     }
   },
   "ID": 1,
-  "EntityTime": 200,
+  "EntityTime": 100,
   "NonBlocking": false,
   "IsActionable": true,
   "IsCrouching": false,
