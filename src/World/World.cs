@@ -233,8 +233,8 @@ namespace StarsHollow.World
             else
             {
                 entity.Sprite.ID = Convert.ToUInt32(entityJSON["ID"]);
-                Object pos = (Object)entityJSON["Position"];
-                entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+                var pos = entityJSON["Position"];
+                entity.Sprite.Position = new Point((int)pos["X"], (int)pos["Y"]);
             }
             entity.Sprite.IsVisible = Convert.ToBoolean(entityJSON["IsVisible"]);
             entity.Sprite.owner = entity;
