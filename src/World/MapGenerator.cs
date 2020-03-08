@@ -22,8 +22,8 @@ namespace StarsHollow.World
             goMapLocal = new ArrayMap<double>(mapWidth, mapHeight);
             var goMapLocalBool = new ArrayMap<bool>(mapWidth, mapHeight);
 
-            GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(goMapLocalBool, 8, 6, 12, 8);
-            //GoRogue.MapGeneration.QuickGenerators.GenerateRectangleMap(goMapLocalBool);
+            //GoRogue.MapGeneration.QuickGenerators.GenerateRandomRoomsMap(goMapLocalBool, 8, 6, 12, 8);
+            GoRogue.MapGeneration.QuickGenerators.GenerateRectangleMap(goMapLocalBool);
             ArrayMap<bool> tempGoMap = new ArrayMap<bool>(mapWidth, mapHeight);
 
             foreach (var pos in goMapLocal.Positions())

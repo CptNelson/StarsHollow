@@ -343,10 +343,8 @@ namespace StarsHollow.World
 
         public void GetGoal()
         {
-
-
-            CurrentAIComponent.ChooseNextAction();
-
+            Entity.GetComponent<CmpAction>().SetAction(new WaitAction(Entity));
+            //CurrentAIComponent.ChooseNextAction();
         }
 
 

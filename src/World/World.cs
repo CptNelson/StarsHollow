@@ -57,9 +57,14 @@ namespace StarsHollow.World
 
             List<string> savedEntityList = new List<string>();
 
-            savedEntityList.Add(JsonConvert.SerializeObject(Player, converter));
-            savedEntityList.Add(JsonConvert.SerializeObject(TurnTimer, converter));
+            //savedEntityList.Add(JsonConvert.SerializeObject(Player, converter));
+            //savedEntityList.Add(JsonConvert.SerializeObject(TurnTimer, converter));
+            foreach (Sprite ent in LocalMap.Entities.Items)
+            {
+                savedEntityList.Add(JsonConvert.SerializeObject(ent.owner, converter));
+            }
 
+            // Clear old save, add [] and write the entities.
             File.WriteAllText(@"./res/json/saves/entities.json", String.Empty);
             File.WriteAllText(@"./res/json/saves/entities.json", "[");
             foreach (var ent in savedEntityList)
@@ -130,7 +135,7 @@ namespace StarsHollow.World
             return tempFovMap;
         }
 
-        public void CreateWorld(int width, int height, bool isNew = false)
+        public void CreateWorld(int width, int height, bool isNew = true)
         {
             IsNew = isNew;
 
@@ -160,11 +165,7 @@ namespace StarsHollow.World
 
             CreateHelperEntities();
             CreatePlayer();
-            foreach (var ent in LocalMap.Entities)
-            {
-                Console.WriteLine(ent);
-            }
-            // CreateGuard();
+            CreateGuard();
         }
 
         private void CreateHelperEntities()
@@ -185,7 +186,7 @@ namespace StarsHollow.World
         {
             for (int i = 0; i < amount; i++)
             {
-                Entity guard = EntityFactory("level1", "guard");
+                EntityFactory("entities", "guard");
                 //guard.GetComponent<CmpAI>().AddAIComponent(new GuardArea(guard));
             }
         }
@@ -204,7 +205,7 @@ namespace StarsHollow.World
 
             // get the entity's data from json file and make a JObject represeting the entity
             JArray arrayJSON = JArray.Parse(Tools.LoadJson(json));
-            JObject entityJSON = helper(name, arrayJSON);
+            JObject entityJSON = GetJObjectByName(name, arrayJSON);
 
             // TODO: create method for the graphical assingment.
             // FIXME: get colors from the json even if they are ColorScheme.Color. 
@@ -258,6 +259,7 @@ namespace StarsHollow.World
 
             entity.Sprite.Components.Add(new EntityViewSyncComponent());
 
+            Console.WriteLine(entity.Sprite.Position);
             LocalMap.Add(entity.Sprite);
             return entity;
         }
@@ -277,7 +279,6 @@ namespace StarsHollow.World
 
             JObject components = (JObject)itemJSON["EntComponents"];
 
-
             item.AddComponentsFromFile(components);
 
             if (IsNew)
@@ -288,8 +289,8 @@ namespace StarsHollow.World
             else
             {
                 item.Sprite.ID = Convert.ToUInt32(itemJSON["ID"]);
-                Object pos = (Object)itemJSON["Position"];
-                item.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+                var pos = itemJSON["Position"];
+                item.Sprite.Position = new Point((int)pos["X"], (int)pos["Y"]);
             }
 
             item.IsActionable = Convert.ToBoolean(itemJSON["IsActionable"]);
@@ -301,26 +302,19 @@ namespace StarsHollow.World
             return item;
         }
 
-        public JObject helper(string name, JArray array)
+        public JObject GetJObjectByName(string name, JArray array)
         {
-            string matchIdToFind = name;
+            string entityNameToFind = name;
 
+            JObject entity;
 
-            JObject match;
-
-            match = array.Values<JObject>()
-            .Where(m => m["Name"].Value<string>() == matchIdToFind)
+            entity = array.Values<JObject>()
+            .Where(m => m["Name"].Value<string>() == entityNameToFind)
             .FirstOrDefault();
 
-            /*
-            if (array.SelectToken("$.Name").Value<string>() == name)
-            
-                match = (JObject)array.SelectToken("$.Name").Parent.Parent;
-               */
-            if (match != null)
+            if (entity != null)
             {
-                Console.WriteLine("found!");
-                return match;
+                return entity;
             }
             else
             {

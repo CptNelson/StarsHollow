@@ -1,5 +1,40 @@
 [{
   "FgColor": {
+    "B": 255,
+    "G": 255,
+    "R": 255,
+    "A": 0
+  },
+  "BgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 0,
+  "IsVisible": false,
+  "Position": {
+    "X": -2,
+    "Y": -2
+  },
+  "Name": "timer",
+  "EntComponents": {
+    "StarsHollow.World.CmpTimer": {
+      "Turn": 1,
+      "Minute": 1,
+      "Hour": 0,
+      "Day": 0
+    }
+  },
+  "ID": 1,
+  "EntityTime": 100,
+  "NonBlocking": false,
+  "IsActionable": true,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+},
+{
+  "FgColor": {
     "B": 0,
     "G": 255,
     "R": 0,
@@ -14,8 +49,8 @@
   "Glyph": 1,
   "IsVisible": true,
   "Position": {
-    "X": 28,
-    "Y": 31
+    "X": 49,
+    "Y": 27
   },
   "Name": "player",
   "EntComponents": {
@@ -51,8 +86,8 @@
           "Glyph": 31,
           "IsVisible": false,
           "Position": {
-            "X": 28,
-            "Y": 31
+            "X": 49,
+            "Y": 27
           },
           "Name": "stun gun",
           "EntComponents": {
@@ -104,10 +139,10 @@
 },
 {
   "FgColor": {
-    "B": 255,
-    "G": 255,
+    "B": 0,
+    "G": 0,
     "R": 255,
-    "A": 0
+    "A": 255
   },
   "BgColor": {
     "B": 0,
@@ -115,23 +150,202 @@
     "R": 0,
     "A": 0
   },
-  "Glyph": 0,
-  "IsVisible": false,
+  "Glyph": 2,
+  "IsVisible": true,
   "Position": {
-    "X": -2,
-    "Y": -2
+    "X": 13,
+    "Y": 23
   },
-  "Name": "timer",
+  "Name": "guard",
   "EntComponents": {
-    "StarsHollow.World.CmpTimer": {
-      "Turn": 1,
-      "Minute": 1,
-      "Hour": 0,
-      "Day": 0
+    "StarsHollow.World.CmpAttributes": {
+      "Strength": 10,
+      "Agility": 10,
+      "Vitality": 10,
+      "Looks": 10,
+      "Guts": 10,
+      "Smarts": 10
+    },
+    "StarsHollow.World.CmpHP": {
+      "Hp": 17,
+      "CurrentHp": 17,
+      "Alive": true
+    },
+    "StarsHollow.World.CmpBody": {
+      "ItemCapacity": 2,
+      "ItemList": [
+        {
+          "FgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 255
+          },
+          "BgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "Glyph": 31,
+          "IsVisible": false,
+          "Position": {
+            "X": 13,
+            "Y": 23
+          },
+          "Name": "stun gun",
+          "EntComponents": {
+            "StarsHollow.World.CmpItem": {
+              "Weight": 0.0,
+              "OnMap": true,
+              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
+            },
+            "StarsHollow.World.CmpRanged": {
+              "damage": "1d2-1",
+              "range": 10,
+              "skillModifier": 5
+            },
+            "StarsHollow.World.CmpMelee": {
+              "damage": "1d2",
+              "range": 0,
+              "skillModifier": 0
+            },
+            "StarsHollow.World.CmpEffectStun": {
+              "DurationRoll": "1d2+1",
+              "Stunned": false,
+              "Duration": 2
+            }
+          },
+          "ID": 9,
+          "EntityTime": 0,
+          "NonBlocking": false,
+          "IsActionable": false,
+          "IsCrouching": false,
+          "MoveCostMod": 0
+        }
+      ],
+      "Holding": null,
+      "RightHand": [],
+      "LeftHand": []
+    },
+    "StarsHollow.World.CmpAction": {
+      "NextAction": null,
+      "UnableToAct": false
+    },
+    "StarsHollow.World.CmpAI": {
+      "Aggression": 3,
+      "CurrentAIComponent": null
     }
   },
-  "ID": 1,
-  "EntityTime": 100,
+  "ID": 7,
+  "EntityTime": 0,
+  "NonBlocking": false,
+  "IsActionable": true,
+  "IsCrouching": false,
+  "MoveCostMod": 0
+},
+{
+  "FgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 255,
+    "A": 255
+  },
+  "BgColor": {
+    "B": 0,
+    "G": 0,
+    "R": 0,
+    "A": 0
+  },
+  "Glyph": 2,
+  "IsVisible": true,
+  "Position": {
+    "X": 64,
+    "Y": 8
+  },
+  "Name": "guard",
+  "EntComponents": {
+    "StarsHollow.World.CmpAttributes": {
+      "Strength": 10,
+      "Agility": 10,
+      "Vitality": 10,
+      "Looks": 10,
+      "Guts": 10,
+      "Smarts": 10
+    },
+    "StarsHollow.World.CmpHP": {
+      "Hp": 17,
+      "CurrentHp": 17,
+      "Alive": true
+    },
+    "StarsHollow.World.CmpBody": {
+      "ItemCapacity": 2,
+      "ItemList": [
+        {
+          "FgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 255
+          },
+          "BgColor": {
+            "B": 0,
+            "G": 0,
+            "R": 0,
+            "A": 0
+          },
+          "Glyph": 31,
+          "IsVisible": false,
+          "Position": {
+            "X": 64,
+            "Y": 8
+          },
+          "Name": "stun gun",
+          "EntComponents": {
+            "StarsHollow.World.CmpItem": {
+              "Weight": 0.0,
+              "OnMap": true,
+              "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
+            },
+            "StarsHollow.World.CmpRanged": {
+              "damage": "1d2-1",
+              "range": 10,
+              "skillModifier": 5
+            },
+            "StarsHollow.World.CmpMelee": {
+              "damage": "1d2",
+              "range": 0,
+              "skillModifier": 0
+            },
+            "StarsHollow.World.CmpEffectStun": {
+              "DurationRoll": "1d2+1",
+              "Stunned": false,
+              "Duration": 2
+            }
+          },
+          "ID": 13,
+          "EntityTime": 0,
+          "NonBlocking": false,
+          "IsActionable": false,
+          "IsCrouching": false,
+          "MoveCostMod": 0
+        }
+      ],
+      "Holding": null,
+      "RightHand": [],
+      "LeftHand": []
+    },
+    "StarsHollow.World.CmpAction": {
+      "NextAction": null,
+      "UnableToAct": false
+    },
+    "StarsHollow.World.CmpAI": {
+      "Aggression": 3,
+      "CurrentAIComponent": null
+    }
+  },
+  "ID": 11,
+  "EntityTime": 0,
   "NonBlocking": false,
   "IsActionable": true,
   "IsCrouching": false,
