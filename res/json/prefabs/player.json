@@ -1,7 +1,17 @@
 ﻿[
   {
-    "FgColor": "Green",
-    "BgColor": "Transparent",
+    "FgColor": {
+      "B": 0,
+      "G": 128,
+      "R": 0,
+      "A": 255
+    },
+    "BgColor": {
+      "B": 0,
+      "G": 0,
+      "R": 0,
+      "A": 0
+    },
     "Glyph": 1,
     "IsVisible": true,
     "Position": {
@@ -25,7 +35,57 @@
       },
       "StarsHollow.World.CmpBody": {
         "ItemCapacity": 2,
-        "ItemList": ["stun gun"],
+        "ItemList": [
+          {
+            "FgColor": {
+              "B": 0,
+              "G": 0,
+              "R": 0,
+              "A": 255
+            },
+            "BgColor": {
+              "B": 0,
+              "G": 0,
+              "R": 0,
+              "A": 0
+            },
+            "Glyph": 31,
+            "IsVisible": true,
+            "Position": {
+              "X": 47,
+              "Y": 21
+            },
+            "Name": "stun gun",
+            "EntComponents": {
+              "StarsHollow.World.CmpItem": {
+                "Weight": 1.0,
+                "OnMap": false,
+                "Description": "This sleek looking gun is finished with black chrome paint. Pull the trigger and make your enemies unable to act."
+              },
+              "StarsHollow.World.CmpRanged": {
+                "damage": "1d2-1",
+                "range": 10,
+                "skillModifier": 5
+              },
+              "StarsHollow.World.CmpMelee": {
+                "damage": "1d2",
+                "range": 0,
+                "skillModifier": 0
+              },
+              "StarsHollow.World.CmpEffectStun": {
+                "DurationRoll": "1d2+1",
+                "Stunned": false,
+                "Duration": 2
+              }
+            },
+            "ID": 0,
+            "EntityTime": 0,
+            "NonBlocking": false,
+            "IsActionable": false,
+            "IsCrouching": false,
+            "MoveCostMod": 0
+          }
+        ],
         "Holding": null,
         "RightHand": [],
         "LeftHand": []

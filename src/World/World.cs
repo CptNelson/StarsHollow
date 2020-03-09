@@ -54,31 +54,44 @@ namespace StarsHollow.World
         public void SaveCurrentGame()
         {
             SaveCurrentMap();
+            SaveMapEntities();
 
-            List<string> savedEntityList = new List<string>();
+        }
 
-            //savedEntityList.Add(JsonConvert.SerializeObject(Player, converter));
-            //savedEntityList.Add(JsonConvert.SerializeObject(TurnTimer, converter));
+        private void SaveMapEntities()
+        {
+            // First create save files for Player and TurnTimer
+            SaveEntity(@"./res/json/saves/timer.json", new List<string> { JsonConvert.SerializeObject(TurnTimer, converter) });
+            SaveEntity(@"./res/json/saves/player.json", new List<string> { JsonConvert.SerializeObject(Player, converter) });
+
+            // Then for the other entities in the Map, excluding already saved entities.
+            List<string> entList = new List<string>();
             foreach (Sprite ent in LocalMap.Entities.Items)
             {
-                savedEntityList.Add(JsonConvert.SerializeObject(ent.owner, converter));
+                if (!String.Equals(ent.Name, "player") && !String.Equals(ent.Name, "timer"))
+                {
+                    entList.Add(JsonConvert.SerializeObject(ent.owner, converter));
+                }
             }
+            SaveEntity(@"./res/json/saves/entities.json", entList);
+        }
 
+        private void SaveEntity(string filepath, List<string> savedEntityList)
+        {
             // Clear old save, add [] and write the entities.
-            File.WriteAllText(@"./res/json/saves/entities.json", String.Empty);
-            File.WriteAllText(@"./res/json/saves/entities.json", "[");
+            File.WriteAllText(filepath, String.Empty);
+            File.WriteAllText(filepath, "[");
             foreach (var ent in savedEntityList)
             {
-                File.AppendAllText(@"./res/json/saves/entities.json", ent + "," + Environment.NewLine);
+                File.AppendAllText(filepath, ent + "," + Environment.NewLine);
             }
-            string fileContent = File.ReadAllText(@"./res/json/saves/entities.json");
+            string fileContent = File.ReadAllText(filepath);
             // Remove the last to characters
             fileContent = fileContent.Remove(fileContent.Length - 2) + "]";
             // Write content back to the file
-            File.WriteAllText(@"./res/json/saves/entities.json", fileContent);
-
+            File.WriteAllText(filepath, fileContent);
         }
-        public void SaveCurrentMap()
+        private void SaveCurrentMap()
         {
             double[,] tempMap = new double[LocalMap.Width, LocalMap.Height];
             double[,] tempFovMap = new double[LocalMap.Width, LocalMap.Height];
@@ -106,13 +119,6 @@ namespace StarsHollow.World
             }
             File.WriteAllText(@"./res/json/saves/map.json", JsonConvert.SerializeObject(tempMap, Formatting.Indented));
             File.WriteAllText(@"./res/json/saves/mapfov.json", JsonConvert.SerializeObject(tempFovMap, Formatting.Indented));
-            var settings = new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                Formatting = Formatting.Indented
-            };
-            JsonSerializer serializer = new JsonSerializer();
-            //File.WriteAllText(@"./res/json/saves/entities.json", JsonConvert.SerializeObject(CurrentMap.Entities, settings));
         }
         public double[,] LoadCurrentMap()
         {
@@ -168,10 +174,15 @@ namespace StarsHollow.World
             CreateGuard();
         }
 
+        private void LoadEntities()
+        {
+            List<int> entityIDList = new List<int>();
+        }
+
         private void CreateHelperEntities()
         {
             // First create the helper entities and then add them to a game loop.
-            TurnTimer = EntityFactory("entities", "timer");
+            TurnTimer = EntityFactory("timer", "timer");
             TurnTimer.IsActionable = true;
             TurnTimer.Sprite.Position = new Point(-2, -2);
             LocalMap.Add(TurnTimer.Sprite);
@@ -179,16 +190,12 @@ namespace StarsHollow.World
         private void CreatePlayer()
         {
             if (Player != null) return;
-            Player = EntityFactory("entities", "player");
+            Player = EntityFactory("player", "player");
         }
 
         private void CreateGuard(int amount = 2)
         {
-            for (int i = 0; i < amount; i++)
-            {
-                EntityFactory("entities", "guard");
-                //guard.GetComponent<CmpAI>().AddAIComponent(new GuardArea(guard));
-            }
+            EntityFactory("entities", "guard");
         }
 
         public Entity EntityFactory(string file, string nameOfEntity)
@@ -200,67 +207,72 @@ namespace StarsHollow.World
             else
                 json = "saves/" + file;
 
-            //Entity entity = JsonConvert.DeserializeObject<Entity>(json, converter);
-            Entity entity = new Entity();
+            Entity entity = null;
 
             // get the entity's data from json file and make a JObject represeting the entity
+            // TODO: HOW TO GET MULTIPLE ENTITIES WITH SAME NAME
             JArray arrayJSON = JArray.Parse(Tools.LoadJson(json));
-            JObject entityJSON = GetJObjectByName(name, arrayJSON);
+            //JObject entityJSON = GetJObjectByName(name, arrayJSON);
 
-            // TODO: create method for the graphical assingment.
-            // FIXME: get colors from the json even if they are ColorScheme.Color. 
-            entity.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(entityJSON["Glyph"]);
-
-            var fg = entityJSON["FgColor"];
-            entity.Sprite.Animation.CurrentFrame[0].Foreground = new Color((float)fg["R"], (float)fg["G"], (float)fg["B"], (float)fg["A"]);
-            entity.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
-
-            JObject components = (JObject)entityJSON["EntComponents"];
-
-            entity.AddComponentsFromFile(components);
-
-            // If new game is started
-            if (IsNew)
+            foreach (var result in arrayJSON)
             {
-                if (entity.HasComponent<CmpHP>())
+                entity = new Entity();
+                JObject entityJSON = (JObject)result;
+
+                // TODO: create method for the graphical assingment.
+                // FIXME: get colors from the json even if they are ColorScheme.Color. 
+                entity.Sprite.Animation.CurrentFrame[0].Glyph = Convert.ToInt32(entityJSON["Glyph"]);
+
+                var fg = entityJSON["FgColor"];
+                entity.Sprite.Animation.CurrentFrame[0].Foreground = new Color((float)fg["R"], (float)fg["G"], (float)fg["B"], (float)fg["A"]);
+                entity.Sprite.Animation.CurrentFrame[0].Background = Color.Transparent;
+
+                JObject components = (JObject)entityJSON["EntComponents"];
+
+                entity.AddComponentsFromFile(components);
+
+                // If new game is started
+                if (IsNew)
                 {
-                    entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
-                    entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
+                    if (entity.HasComponent<CmpHP>())
+                    {
+                        entity.GetComponent<CmpHP>().Hp += entity.GetComponent<CmpAttributes>().Guts / 2 + entity.GetComponent<CmpAttributes>().Vitality;
+                        entity.GetComponent<CmpHP>().CurrentHp = entity.GetComponent<CmpHP>().Hp;
+                    }
+
+                    entity.Sprite.ID = Map.IDGenerator.UseID();
+                    entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
+                }
+                else
+                {
+                    entity.Sprite.ID = Convert.ToUInt32(entityJSON["ID"]);
+                    var pos = entityJSON["Position"];
+                    entity.Sprite.Position = new Point((int)pos["X"], (int)pos["Y"]);
+                }
+                entity.Sprite.IsVisible = Convert.ToBoolean(entityJSON["IsVisible"]);
+                entity.Sprite.owner = entity;
+                entity.IsActionable = Convert.ToBoolean(entityJSON["IsActionable"]);
+                entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
+
+                // TODO: attribute and stats to their own method/class
+                if (entity.HasComponent<CmpBody>())
+                {
+                    List<Entity> items = new List<Entity>();
+                    foreach (var Jitem in entityJSON["EntComponents"]["StarsHollow.World.CmpBody"]["ItemList"])
+                    {
+                        var item = ItemFactory(Jitem);
+                        item.GetComponent<CmpItem>().Holder = entity;
+                        item.Sprite.Position = entity.Sprite.Position;
+                        item.Sprite.IsVisible = false;
+                        entity.GetComponent<CmpBody>().ItemList.Add(item);
+                    }
+                    entity.GetComponent<CmpBody>().ShowItems();
                 }
 
-                entity.Sprite.ID = Map.IDGenerator.UseID();
-                entity.Sprite.Position = LocalMap.GetRandomEmptyPosition();
-            }
-            else
-            {
-                entity.Sprite.ID = Convert.ToUInt32(entityJSON["ID"]);
-                var pos = entityJSON["Position"];
-                entity.Sprite.Position = new Point((int)pos["X"], (int)pos["Y"]);
-            }
-            entity.Sprite.IsVisible = Convert.ToBoolean(entityJSON["IsVisible"]);
-            entity.Sprite.owner = entity;
-            entity.IsActionable = Convert.ToBoolean(entityJSON["IsActionable"]);
-            entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
+                entity.Sprite.Components.Add(new EntityViewSyncComponent());
 
-            // TODO: attribute and stats to their own method/class
-            if (entity.HasComponent<CmpBody>())
-            {
-                List<Entity> items = new List<Entity>();
-                foreach (var Jitem in entityJSON["EntComponents"]["StarsHollow.World.CmpBody"]["ItemList"])
-                {
-                    var item = ItemFactory(Jitem);
-                    item.GetComponent<CmpItem>().Holder = entity;
-                    item.Sprite.Position = entity.Sprite.Position;
-                    item.Sprite.IsVisible = false;
-                    entity.GetComponent<CmpBody>().ItemList.Add(item);
-                }
-                entity.GetComponent<CmpBody>().ShowItems();
+                LocalMap.Add(entity.Sprite);
             }
-
-            entity.Sprite.Components.Add(new EntityViewSyncComponent());
-
-            Console.WriteLine(entity.Sprite.Position);
-            LocalMap.Add(entity.Sprite);
             return entity;
         }
 
@@ -302,6 +314,11 @@ namespace StarsHollow.World
             return item;
         }
 
+        private JToken[] getAllID(JArray array)
+        {
+            return array.Children().Select(a => a["ID"]).ToArray();
+        }
+
         public JObject GetJObjectByName(string name, JArray array)
         {
             string entityNameToFind = name;
@@ -321,6 +338,20 @@ namespace StarsHollow.World
                 Console.WriteLine("match not found");
                 return null;
             }
+        }
+    }
+    public static partial class JTokenExtensions
+    {
+        public static JObject[] FilterObjectsByValue<T>(this JObject root, string someProp, T someValue)
+        {
+            var comparer = new JTokenEqualityComparer();
+            var someValueToken = JToken.FromObject(someValue);
+            var objs = root.DescendantsAndSelf()
+                .OfType<JObject>()
+                .Where(t => comparer.Equals(t[someProp], someValueToken))
+                .ToArray();
+
+            return objs;
         }
     }
 }

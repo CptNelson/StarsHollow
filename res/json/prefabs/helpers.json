@@ -1,26 +1,5 @@
 [
   {
-    "FgColor": "Transparent",
-    "BgColor": "Transparent",
-    "Glyph": 0,
-    "IsVisible": false,
-    "Position": {
-      "X": -1,
-      "Y": 1
-    },
-    "Name": "timer",
-    "EntComponents": {
-      "StarsHollow.World.CmpTimer": {}
-    },
-
-    "ID": 0,
-    "EntityTime": 0,
-    "NonBlocking": true,
-    "IsActionable": false,
-    "IsCrouching": false,
-    "MoveCostMod": 0
-  },
-  {
     "Glyph": 37,
     "FgColor": "Red",
     "BgColor": "Transparent",
