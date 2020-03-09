@@ -1,10 +1,20 @@
 [
   {
+    "FgColor": {
+      "B": 0,
+      "G": 0,
+      "R": 255,
+      "A": 255
+    },
+    "BgColor": {
+      "B": 0,
+      "G": 0,
+      "R": 0,
+      "A": 0
+    },
     "Glyph": 37,
-    "FgColor": "Red",
-    "BgColor": "Transparent",
     "Name": "corpse",
-    "EntCmponents": {
+    "EntComponents": {
       "StarsHollow.World.CmpEdibleItem": {}
     },
     "ID": 0,

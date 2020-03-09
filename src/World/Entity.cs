@@ -91,6 +91,7 @@ namespace StarsHollow.World
 
         public Entity AddComponentsFromFile(JObject components)
         {
+            Console.WriteLine(components.Count);
             foreach (KeyValuePair<string, JToken> tag in components)
             {
 

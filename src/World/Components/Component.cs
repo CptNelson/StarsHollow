@@ -271,6 +271,9 @@ namespace StarsHollow.World
     public class CmpEdibleItem : Component
     {
 
+        public CmpEdibleItem(params object[] args)
+        {
+        }
         public override void UpdateComponent()
         {
 

@@ -37,7 +37,7 @@ namespace StarsHollow.World
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                //TypeNameHandling = TypeNameHandling.All
+                NullValueHandling = NullValueHandling.Include
             };
 
             converter = new EntityConverterJson();
@@ -169,55 +169,55 @@ namespace StarsHollow.World
 
             InitSystems();
 
-            CreateHelperEntities();
-            CreatePlayer();
-            CreateGuard();
+            if (IsNew)
+            {
+                CreateHelperEntities("prefabs/timer");
+                CreatePlayer("prefabs/player");
+                CreateGuard();
+            }
+
         }
 
-        private void LoadEntities()
-        {
-            List<int> entityIDList = new List<int>();
-        }
-
-        private void CreateHelperEntities()
+        private void CreateHelperEntities(string file)
         {
             // First create the helper entities and then add them to a game loop.
-            TurnTimer = EntityFactory("timer", "timer");
+            TurnTimer = EntityFactory(file, null);
             TurnTimer.IsActionable = true;
             TurnTimer.Sprite.Position = new Point(-2, -2);
             LocalMap.Add(TurnTimer.Sprite);
         }
-        private void CreatePlayer()
+        private void CreatePlayer(string file)
         {
             if (Player != null) return;
-            Player = EntityFactory("player", "player");
+            Player = EntityFactory(file, null);
+            LocalMap.Add(Player.Sprite);
         }
 
         private void CreateGuard(int amount = 2)
         {
-            EntityFactory("entities", "guard");
+            Entity Guard = EntityFactory("prefabs/entities", null);
+            LocalMap.Add(Guard.Sprite);
         }
 
-        public Entity EntityFactory(string file, string nameOfEntity)
+        public Entity EntityFactory(string json, string nameOfEntity)
         {
-            string json;
             string name = nameOfEntity;
-            if (IsNew)
-                json = "prefabs/" + file;
-            else
-                json = "saves/" + file;
 
             Entity entity = null;
 
             // get the entity's data from json file and make a JObject represeting the entity
             // TODO: HOW TO GET MULTIPLE ENTITIES WITH SAME NAME
             JArray arrayJSON = JArray.Parse(Tools.LoadJson(json));
-            //JObject entityJSON = GetJObjectByName(name, arrayJSON);
 
             foreach (var result in arrayJSON)
             {
                 entity = new Entity();
                 JObject entityJSON = (JObject)result;
+
+                if (name != null)
+                {
+                    entityJSON = GetJObjectByName(name, arrayJSON);
+                }
 
                 // TODO: create method for the graphical assingment.
                 // FIXME: get colors from the json even if they are ColorScheme.Color. 
@@ -229,6 +229,8 @@ namespace StarsHollow.World
 
                 JObject components = (JObject)entityJSON["EntComponents"];
 
+
+                Console.WriteLine(components);
                 entity.AddComponentsFromFile(components);
 
                 // If new game is started
@@ -252,6 +254,7 @@ namespace StarsHollow.World
                 entity.Sprite.IsVisible = Convert.ToBoolean(entityJSON["IsVisible"]);
                 entity.Sprite.owner = entity;
                 entity.IsActionable = Convert.ToBoolean(entityJSON["IsActionable"]);
+                entity.NonBlocking = Convert.ToBoolean(entityJSON["NonBlocking"]);
                 entity.Sprite.Name = Convert.ToString(entityJSON["Name"]);
 
                 // TODO: attribute and stats to their own method/class
@@ -270,8 +273,8 @@ namespace StarsHollow.World
                 }
 
                 entity.Sprite.Components.Add(new EntityViewSyncComponent());
-
-                LocalMap.Add(entity.Sprite);
+                Console.WriteLine(entity.Sprite.Position);
+                //LocalMap.Add(entity.Sprite);
             }
             return entity;
         }

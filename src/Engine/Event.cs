@@ -29,13 +29,11 @@ namespace StarsHollow.Engine
                 Game.UI.MainWindow.MainLoop.Playing = false;
             }
 
-            Entity corpse = Game.UI.world.EntityFactory("corpse", "prefabs/helpers.json");
+            Entity corpse = Game.UI.world.EntityFactory("prefabs/helpers", "corpse");
+
             corpse.Sprite.Name = "The corpse of a " + entity.Sprite.Name;
-            corpse.NonBlocking = true;
             corpse.Sprite.Position = entity.Sprite.Position;
             Game.UI.world.CurrentMap.Add(corpse.Sprite);
-
-            Console.WriteLine(corpse.Sprite.GetGlyph(0, 0));
 
             Game.UI.world.CurrentMap.Remove(entity.Sprite);
             Game.UI.MainWindow.MainLoop.EventsList.Remove(entity);
